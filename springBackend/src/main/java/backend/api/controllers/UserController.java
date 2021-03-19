@@ -37,7 +37,10 @@ public class UserController {
     @Autowired
     public UserController(UserRepository userRepository,
                           UserCoursePartRoleRepository userCoursePartRoleRepository,
-                          UserCourseRoleRepository userCourseRoleRepository, UserGroupRoleRepository userGroupRoleRepository, UserToPartitionRepository userToPartitionRepository, UserWorkRepository userWorkRepository) {
+                          UserCourseRoleRepository userCourseRoleRepository,
+                          UserGroupRoleRepository userGroupRoleRepository,
+                          UserToPartitionRepository userToPartitionRepository,
+                          UserWorkRepository userWorkRepository) {
         this.userRepository = userRepository;
         this.userCoursePartRoleRepository = userCoursePartRoleRepository;
         this.userCourseRoleRepository = userCourseRoleRepository;

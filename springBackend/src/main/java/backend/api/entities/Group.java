@@ -18,6 +18,12 @@ public class Group {
 
     private String name;
 
+    public Group() {}
+
+    public Group(String name) {
+        this.name = name;
+    }
+
     @OneToMany(mappedBy = "group")
     private Set<UserGroupRole> userGroupRoleSet = new HashSet<>();
 
