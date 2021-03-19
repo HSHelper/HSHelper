@@ -7,18 +7,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.Set;
 
-
 @Entity
-public class User {
+public class Partition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String firstName;
-    private String LastName;
 
-    @OneToMany(mappedBy = "user")
-    private Set<UserGroupRole> groups;
+    private String name;
 
-    @OneToMany(mappedBy = "user")
-    private  Set<UserToPartition> partitions;
+    @OneToMany(mappedBy = "partition")
+    private Set<UserToPartition> users;
 }
