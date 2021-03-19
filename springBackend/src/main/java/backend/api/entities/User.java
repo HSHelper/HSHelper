@@ -29,23 +29,23 @@ public class User {
     }
 
     @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.JOIN)
     private Set<UserGroupRole> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.JOIN)
     private  Set<UserToPartition> partitions = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.JOIN)
     private Set<UserCourseRole> courses = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.JOIN)
     private Set<UserCoursePartRole> courseParts = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.JOIN)
     private Set<UserWork> userWorks = new HashSet<>();
 
     public long getId() {
