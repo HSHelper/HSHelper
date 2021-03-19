@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.Set;
 
 @Entity
 public class CoursePart {
@@ -18,4 +20,7 @@ public class CoursePart {
     @ManyToOne
     @JoinColumn(name = "partition_id", nullable = false)
     private Partition partition;
+
+    @OneToMany(mappedBy = "coursePart")
+    private Set<UserCoursePartRole> users;
 }
