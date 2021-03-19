@@ -7,15 +7,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.Set;
 
-
 @Entity
-public class User {
+public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String firstName;
-    private String LastName;
 
-    @OneToMany(mappedBy = "user")
+    private String name;
+
+    @OneToMany(mappedBy = "group")
     private Set<UserGroupRole> userGroupRoleSet;
 }

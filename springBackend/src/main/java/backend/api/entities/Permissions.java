@@ -25,4 +25,28 @@ public class Permissions {
 
     @OneToMany(mappedBy = "permissions")
     private Set<Role> roles;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public PermissionType getPermissionType() {
+        return permissionType;
+    }
+
+    public void setPermissionType(PermissionType permissionType) {
+        this.permissionType = permissionType;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }
