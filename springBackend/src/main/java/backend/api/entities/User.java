@@ -24,4 +24,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<UserCourseRole> courses;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserCoursePartRole> courseParts;
 }
