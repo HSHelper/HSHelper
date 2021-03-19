@@ -4,6 +4,7 @@ import backend.api.entities.Group;
 import backend.api.repositories.GroupRepository;
 import backend.api.requests.create.GroupCreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class GroupController {
         this.groupRepository = groupRepository;
     }
 
-    @PutMapping({"", "/"})
+    @PostMapping ({"", "/"})
     public Group createGroup(@RequestBody @Valid GroupCreateRequest request) {
         return groupRepository.save(new Group(request.getName()));
     }
