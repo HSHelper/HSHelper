@@ -1,5 +1,8 @@
 package backend.api.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,12 +28,15 @@ public class Group {
     }
 
     @OneToMany(mappedBy = "group")
+    @Fetch(FetchMode.JOIN)
     private Set<UserGroupRole> userGroupRoleSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", orphanRemoval = true)
+    @Fetch(FetchMode.SELECT)
     private Set<Partition> partitions = new HashSet<>();
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", orphanRemoval = true)
+    @Fetch(FetchMode.SELECT)
     private Set<Course> courses = new HashSet<>();
 
     public long getId() {
