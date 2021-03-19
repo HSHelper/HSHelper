@@ -23,4 +23,11 @@ public class CoursePart {
 
     @OneToMany(mappedBy = "coursePart")
     private Set<UserCoursePartRole> users;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
+
+    private double weight;
+    private double block;
 }
