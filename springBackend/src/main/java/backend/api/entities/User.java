@@ -1,6 +1,10 @@
 package backend.api.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,19 +21,31 @@ public class User {
     private String firstName;
     private String LastName;
 
+    public User() {}
+
+    public User(String firstName, String lastName) {
+        this.firstName = firstName;
+        LastName = lastName;
+    }
+
     @OneToMany(mappedBy = "user")
+    @Fetch(FetchMode.SELECT)
     private Set<UserGroupRole> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
+    @Fetch(FetchMode.SELECT)
     private  Set<UserToPartition> partitions = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
+    @Fetch(FetchMode.SELECT)
     private Set<UserCourseRole> courses = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
+    @Fetch(FetchMode.SELECT)
     private Set<UserCoursePartRole> courseParts = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
+    @Fetch(FetchMode.SELECT)
     private Set<UserWork> userWorks = new HashSet<>();
 
     public long getId() {
