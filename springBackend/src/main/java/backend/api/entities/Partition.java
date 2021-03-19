@@ -25,5 +25,8 @@ public class Partition {
     private Group group;
 
     @OneToMany(mappedBy = "defaultPartition")
-    Set<Course> coursesWithThisDefaultPartition;
+    private Set<Course> coursesWithThisDefaultPartition;
+
+    @OneToMany(mappedBy = "partition")
+    private Set<CoursePart> courseParts;
 }
