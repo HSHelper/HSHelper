@@ -22,4 +22,36 @@ public class Group {
 
     @OneToMany(mappedBy = "group")
     private Set<Partition> partitions;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<UserGroupRole> getUserGroupRoleSet() {
+        return userGroupRoleSet;
+    }
+
+    public void setUserGroupRoleSet(Set<UserGroupRole> userGroupRoleSet) {
+        this.userGroupRoleSet = userGroupRoleSet;
+    }
+
+    public Set<Partition> getPartitions() {
+        return partitions;
+    }
+
+    public void setPartitions(Set<Partition> partitions) {
+        this.partitions = partitions;
+    }
 }

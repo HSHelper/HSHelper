@@ -26,4 +26,44 @@ public class Course {
 
     @OneToMany(mappedBy = "course")
     private Set<CoursePart> courseParts;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Partition getDefaultPartition() {
+        return defaultPartition;
+    }
+
+    public void setDefaultPartition(Partition defaultPartition) {
+        this.defaultPartition = defaultPartition;
+    }
+
+    public Set<UserCourseRole> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<UserCourseRole> users) {
+        this.users = users;
+    }
+
+    public Set<CoursePart> getCourseParts() {
+        return courseParts;
+    }
+
+    public void setCourseParts(Set<CoursePart> courseParts) {
+        this.courseParts = courseParts;
+    }
 }
