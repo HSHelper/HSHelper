@@ -27,6 +27,10 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private Set<CoursePart> courseParts;
 
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Group group;
+
     public long getId() {
         return id;
     }
@@ -65,5 +69,13 @@ public class Course {
 
     public void setCourseParts(Set<CoursePart> courseParts) {
         this.courseParts = courseParts;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

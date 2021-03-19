@@ -23,6 +23,9 @@ public class Group {
     @OneToMany(mappedBy = "group")
     private Set<Partition> partitions;
 
+    @OneToMany(mappedBy = "group")
+    private Set<Course> courses;
+
     public long getId() {
         return id;
     }
@@ -53,5 +56,13 @@ public class Group {
 
     public void setPartitions(Set<Partition> partitions) {
         this.partitions = partitions;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 }
