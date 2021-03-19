@@ -31,4 +31,7 @@ public class Role {
 
     @OneToMany(mappedBy = "role")
     private Set<UserGroupRole> userGroupRoles;
+
+    @OneToMany(mappedBy = "role")
+    private Set<UserCourseRole> userCourseRoles;
 }

@@ -21,4 +21,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private  Set<UserToPartition> partitions;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserCourseRole> courses;
 }

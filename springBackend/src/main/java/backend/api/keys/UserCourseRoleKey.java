@@ -6,12 +6,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class UserGroupRoleKey implements Serializable {
+public class UserCourseRoleKey implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "group_id")
-    private Long groupId;
+    @Column(name = "course_id")
+    private Long courseId;
 
     public Long getUserId() {
         return userId;
@@ -21,24 +21,24 @@ public class UserGroupRoleKey implements Serializable {
         this.userId = userId;
     }
 
-    public Long getGroupId() {
-        return groupId;
+    public Long getCourseId() {
+        return courseId;
     }
 
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserGroupRoleKey that = (UserGroupRoleKey) o;
-        return userId.equals(that.userId) && groupId.equals(that.groupId);
+        UserCourseRoleKey that = (UserCourseRoleKey) o;
+        return userId.equals(that.userId) && courseId.equals(that.courseId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, groupId);
+        return Objects.hash(userId, courseId);
     }
 }
