@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.Set;
 
 @Entity
 public class Role {
@@ -26,4 +28,7 @@ public class Role {
     @ManyToOne
     @JoinColumn(name = "permission_id", nullable = false)
     private Permissions permissions;
+
+    @OneToMany(mappedBy = "role")
+    Set<UserGroupRole> userGroupRoles;
 }
