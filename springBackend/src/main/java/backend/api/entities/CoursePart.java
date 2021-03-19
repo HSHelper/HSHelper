@@ -33,4 +33,68 @@ public class CoursePart {
 
     private double weight;
     private double block;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Partition getPartition() {
+        return partition;
+    }
+
+    public void setPartition(Partition partition) {
+        this.partition = partition;
+    }
+
+    public Set<UserCoursePartRole> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<UserCoursePartRole> users) {
+        this.users = users;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Set<Work> getWorks() {
+        return works;
+    }
+
+    public void setWorks(Set<Work> works) {
+        this.works = works;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getBlock() {
+        return block;
+    }
+
+    public void setBlock(double block) {
+        this.block = block;
+    }
 }

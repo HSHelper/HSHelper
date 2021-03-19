@@ -33,4 +33,76 @@ public class Work {
 
     @OneToMany(mappedBy = "work")
     private Set<UserWork> users;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getBlock() {
+        return block;
+    }
+
+    public void setBlock(double block) {
+        this.block = block;
+    }
+
+    public WorkType getWorkType() {
+        return workType;
+    }
+
+    public void setWorkType(WorkType workType) {
+        this.workType = workType;
+    }
+
+    public CoursePart getCoursePart() {
+        return coursePart;
+    }
+
+    public void setCoursePart(CoursePart coursePart) {
+        this.coursePart = coursePart;
+    }
+
+    public Set<UserWork> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<UserWork> users) {
+        this.users = users;
+    }
 }
