@@ -13,19 +13,6 @@ public class UserToPartitionKey implements Serializable {
     @Column(name = "partition_id")
     private Long partitionId;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserToPartitionKey that = (UserToPartitionKey) o;
-        return userId.equals(that.userId) && partitionId.equals(that.partitionId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, partitionId);
-    }
-
     public Long getUserId() {
         return userId;
     }
@@ -40,5 +27,18 @@ public class UserToPartitionKey implements Serializable {
 
     public void setPartitionId(Long partitionId) {
         this.partitionId = partitionId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserToPartitionKey that = (UserToPartitionKey) o;
+        return userId.equals(that.userId) && partitionId.equals(that.partitionId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, partitionId);
     }
 }
