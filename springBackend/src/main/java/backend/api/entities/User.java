@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -17,19 +18,19 @@ public class User {
     private String LastName;
 
     @OneToMany(mappedBy = "user")
-    private Set<UserGroupRole> groups;
+    private Set<UserGroupRole> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private  Set<UserToPartition> partitions;
+    private  Set<UserToPartition> partitions = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private Set<UserCourseRole> courses;
+    private Set<UserCourseRole> courses = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private Set<UserCoursePartRole> courseParts;
+    private Set<UserCoursePartRole> courseParts = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private Set<UserWork> userWorks;
+    private Set<UserWork> userWorks = new HashSet<>();
 
     public long getId() {
         return id;
