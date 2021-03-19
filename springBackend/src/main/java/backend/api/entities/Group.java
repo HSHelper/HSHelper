@@ -19,4 +19,7 @@ public class Group {
 
     @OneToMany(mappedBy = "group")
     private Set<UserGroupRole> userGroupRoleSet;
+
+    @OneToMany(mappedBy = "group")
+    private Set<Partition> partitions;
 }
