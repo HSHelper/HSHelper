@@ -28,6 +28,9 @@ public class CoursePart {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
+    @OneToMany(mappedBy = "coursePart")
+    private Set<Work> works;
+
     private double weight;
     private double block;
 }
