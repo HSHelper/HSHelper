@@ -11,6 +11,8 @@ public class UserCreateRequest implements Serializable {
     @NotEmpty
     private String lastName;
 
+    public UserCreateRequest() {}
+
     public UserCreateRequest(@NotEmpty String firstName, @NotEmpty String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;

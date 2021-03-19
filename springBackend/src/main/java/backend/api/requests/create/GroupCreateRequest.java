@@ -7,6 +7,8 @@ public class GroupCreateRequest implements Serializable {
     @NotEmpty
     private String name;
 
+    public GroupCreateRequest() {}
+
     public GroupCreateRequest(@NotEmpty String name) {
         this.name = name;
     }
