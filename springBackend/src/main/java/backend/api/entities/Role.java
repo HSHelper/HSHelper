@@ -30,5 +30,5 @@ public class Role {
     private Permissions permissions;
 
     @OneToMany(mappedBy = "role")
-    Set<UserGroupRole> userGroupRoles;
+    private Set<UserGroupRole> userGroupRoles;
 }
