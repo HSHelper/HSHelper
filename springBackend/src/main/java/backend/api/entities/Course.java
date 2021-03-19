@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,10 +23,10 @@ public class Course {
     private Partition defaultPartition;
 
     @OneToMany(mappedBy = "course")
-    private Set<UserCourseRole> users;
+    private Set<UserCourseRole> users = new HashSet<>();
 
     @OneToMany(mappedBy = "course")
-    private Set<CoursePart> courseParts;
+    private Set<CoursePart> courseParts = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "group_id")

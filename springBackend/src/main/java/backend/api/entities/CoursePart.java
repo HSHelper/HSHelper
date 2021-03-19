@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,14 +23,14 @@ public class CoursePart {
     private Partition partition;
 
     @OneToMany(mappedBy = "coursePart")
-    private Set<UserCoursePartRole> users;
+    private Set<UserCoursePartRole> users = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
     @OneToMany(mappedBy = "coursePart")
-    private Set<Work> works;
+    private Set<Work> works = new HashSet<>();
 
     private double weight;
     private double block;

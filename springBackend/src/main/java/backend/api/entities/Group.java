@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,13 +19,13 @@ public class Group {
     private String name;
 
     @OneToMany(mappedBy = "group")
-    private Set<UserGroupRole> userGroupRoleSet;
+    private Set<UserGroupRole> userGroupRoleSet = new HashSet<>();
 
     @OneToMany(mappedBy = "group")
-    private Set<Partition> partitions;
+    private Set<Partition> partitions = new HashSet<>();
 
     @OneToMany(mappedBy = "group")
-    private Set<Course> courses;
+    private Set<Course> courses = new HashSet<>();
 
     public long getId() {
         return id;

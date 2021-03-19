@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -32,7 +33,7 @@ public class Work {
     private CoursePart coursePart;
 
     @OneToMany(mappedBy = "work")
-    private Set<UserWork> users;
+    private Set<UserWork> users = new HashSet<>();
 
     public long getId() {
         return id;
