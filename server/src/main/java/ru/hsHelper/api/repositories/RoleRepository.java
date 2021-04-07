@@ -7,4 +7,5 @@ import java.util.Set;
 
 public interface RoleRepository extends CrudRepository<Role, Long> {
     Set<Role> findAllByRoleType(Role.RoleType roleType);
+    Set<Role> findAll();
 }
