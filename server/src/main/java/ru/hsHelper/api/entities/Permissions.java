@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,5 +54,12 @@ public class Permissions {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @PreRemove
+    private void removePermissionsFromRoles() {
+        for (Role role : roles) {
+            role.getPermissions().remove(this);
+        }
     }
 }
