@@ -1,5 +1,8 @@
 package ru.hsHelper.api.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,6 +36,7 @@ public class Role {
         name = "role_permission",
         joinColumns = @JoinColumn(name = "role_id"),
         inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    @Fetch(FetchMode.JOIN)
     private Set<Permissions> permissions = new HashSet<>();
 
     @ManyToMany(mappedBy = "roles")
