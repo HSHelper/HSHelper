@@ -3,6 +3,7 @@ package ru.hsHelper.api.entities;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +29,7 @@ public class Permissions {
     @Column(unique = true)
     private PermissionType permissionType;
 
-    @ManyToMany(mappedBy = "permissions")
+    @ManyToMany(mappedBy = "permissions", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.JOIN)
     private Set<Role> roles = new HashSet<>();
 
