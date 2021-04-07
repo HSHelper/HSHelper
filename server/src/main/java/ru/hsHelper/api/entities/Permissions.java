@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PreRemove;
+import javax.swing.text.View;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,6 +33,11 @@ public class Permissions {
     @ManyToMany(mappedBy = "permissions", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.JOIN)
     private Set<Role> roles = new HashSet<>();
+
+
+    public Permissions() {
+        this.permissionType = PermissionType.VIEW;
+    }
 
     public Permissions(PermissionType permissionType) {
         this.permissionType = permissionType;
