@@ -33,6 +33,10 @@ public class Permissions {
     @Fetch(FetchMode.JOIN)
     private Set<Role> roles = new HashSet<>();
 
+    public Permissions(PermissionType permissionType) {
+        this.permissionType = permissionType;
+    }
+
     public long getId() {
         return id;
     }
