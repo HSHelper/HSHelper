@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -103,5 +104,12 @@ public class Role {
 
     public void setUserCoursePartRoles(Set<UserCoursePartRole> userCoursePartRoles) {
         this.userCoursePartRoles = userCoursePartRoles;
+    }
+
+    @PreRemove
+    private void removeRolesFromPermissions() {
+        for (Permissions p : permissions) {
+            p.getRoles().remove(this);
+        }
     }
 }
