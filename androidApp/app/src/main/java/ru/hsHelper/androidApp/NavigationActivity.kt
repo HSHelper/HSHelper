@@ -35,7 +35,6 @@ class NavigationActivity : AppCompatActivity() {
 
         }
 
-        
         setButtons(data.mainButtons)
     }
 
