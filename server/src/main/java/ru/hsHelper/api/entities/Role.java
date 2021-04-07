@@ -49,6 +49,10 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private Set<UserCoursePartRole> userCoursePartRoles = new HashSet<>();
 
+    public Role(RoleType roleType) {
+        this.roleType = roleType;
+    }
+
     public long getId() {
         return id;
     }
