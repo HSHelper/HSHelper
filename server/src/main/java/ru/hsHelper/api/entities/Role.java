@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
@@ -26,17 +28,20 @@ public class Role {
     @Column(unique = true)
     private RoleType roleType;
 
-    @ManyToOne
-    @JoinColumn(name = "permission_id", nullable = false)
-    private Permissions permissions;
+    @ManyToMany
+    @JoinTable(
+        name = "role_permission",
+        joinColumns = @JoinColumn(name = "role_id"),
+        inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    private Set<Permissions> permissions = new HashSet<>();
 
-    @OneToMany(mappedBy = "role")
+    @ManyToMany(mappedBy = "roles")
     private Set<UserGroupRole> userGroupRoles = new HashSet<>();
 
-    @OneToMany(mappedBy = "role")
+    @ManyToMany(mappedBy = "roles")
     private Set<UserCourseRole> userCourseRoles = new HashSet<>();
 
-    @OneToMany(mappedBy = "role")
+    @ManyToMany(mappedBy = "roles")
     private Set<UserCoursePartRole> userCoursePartRoles = new HashSet<>();
 
     public long getId() {
@@ -55,11 +60,11 @@ public class Role {
         this.roleType = roleType;
     }
 
-    public Permissions getPermissions() {
+    public Set<Permissions> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(Permissions permissions) {
+    public void setPermissions(Set<Permissions> permissions) {
         this.permissions = permissions;
     }
 

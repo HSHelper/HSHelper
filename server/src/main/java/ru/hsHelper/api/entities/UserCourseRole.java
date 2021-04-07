@@ -5,8 +5,10 @@ import ru.hsHelper.api.keys.UserCourseRoleKey;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import java.util.Set;
 
 @Entity
 public class UserCourseRole {
@@ -23,9 +25,8 @@ public class UserCourseRole {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @ManyToMany
+    private Set<Role> roles;
 
     public UserCourseRoleKey getId() {
         return id;
@@ -51,11 +52,11 @@ public class UserCourseRole {
         this.course = course;
     }
 
-    public Role getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

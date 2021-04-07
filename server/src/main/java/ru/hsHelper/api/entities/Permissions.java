@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +24,7 @@ public class Permissions {
     @Column(unique = true)
     private PermissionType permissionType;
 
-    @OneToMany(mappedBy = "permissions")
+    @ManyToMany(mappedBy = "permissions")
     private Set<Role> roles = new HashSet<>();
 
     public long getId() {
