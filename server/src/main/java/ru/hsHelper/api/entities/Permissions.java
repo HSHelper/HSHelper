@@ -1,5 +1,8 @@
 package ru.hsHelper.api.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +28,7 @@ public class Permissions {
     private PermissionType permissionType;
 
     @ManyToMany(mappedBy = "permissions")
+    @Fetch(FetchMode.JOIN)
     private Set<Role> roles = new HashSet<>();
 
     public long getId() {
