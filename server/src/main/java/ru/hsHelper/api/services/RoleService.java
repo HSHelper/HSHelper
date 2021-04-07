@@ -12,4 +12,5 @@ public interface RoleService {
     Set<Role> getRoleByRoleType(Role.RoleType roleType);
     Role addPermissions(long roleId, Set<Long> permissionsIds);
     Role deletePermissions(long roleId, Set<Long> permissionIds);
+    Set<Role> getAllRoles();
 }

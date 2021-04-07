@@ -9,6 +9,7 @@ import ru.hsHelper.api.repositories.RoleRepository;
 import ru.hsHelper.api.services.PermissionService;
 
 import javax.persistence.Access;
+import java.util.Set;
 
 @Service
 public class PermissionServiceImpl implements PermissionService {
@@ -46,5 +47,11 @@ public class PermissionServiceImpl implements PermissionService {
         return permissionsRepository.findByPermissionType(permissionType).orElseThrow(
                 () -> new IllegalArgumentException("No permission with such id")
         );
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<Permissions> getAllPermissions() {
+        return permissionsRepository.findAll();
     }
 }
