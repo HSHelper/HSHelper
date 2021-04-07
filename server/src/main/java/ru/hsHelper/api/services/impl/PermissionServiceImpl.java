@@ -32,6 +32,7 @@ public class PermissionServiceImpl implements PermissionService {
         permissionsRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Permissions getPermissionById(long id) {
         return permissionsRepository.findById(id).orElseThrow(
@@ -39,6 +40,7 @@ public class PermissionServiceImpl implements PermissionService {
         );
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Permissions getPermissionByPermissionType(Permissions.PermissionType permissionType) {
         return permissionsRepository.findByPermissionType(permissionType).orElseThrow(
