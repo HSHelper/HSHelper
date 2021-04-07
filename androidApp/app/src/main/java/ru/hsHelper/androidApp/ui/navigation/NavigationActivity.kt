@@ -1,4 +1,4 @@
-package ru.hsHelper.androidApp
+package ru.hsHelper.androidApp.ui.navigation
 
 import android.os.Bundle
 import android.view.Menu
@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.Toolbar
 import ru.hsHelper.R
+import ru.hsHelper.androidApp.data.ButtonData
+import ru.hsHelper.androidApp.data.NavigationActivityDataProvider
+import ru.hsHelper.androidApp.getCurrentWindowWidth
 
 
 class NavigationActivity : AppCompatActivity() {

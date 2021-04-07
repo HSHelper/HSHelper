@@ -1,6 +1,6 @@
-package ru.hsHelper.data
+package ru.hsHelper.androidApp.data
 
-import ru.hsHelper.data.model.LoggedInUser
+import ru.hsHelper.androidApp.data.model.LoggedInUser
 
 /**
  * Class that requests authentication and user information from the remote data source and

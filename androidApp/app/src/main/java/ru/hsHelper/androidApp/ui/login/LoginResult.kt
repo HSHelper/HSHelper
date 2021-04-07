@@ -1,4 +1,4 @@
-package ru.hsHelper.ui.login
+package ru.hsHelper.androidApp.ui.login
 
 /**
  * Authentication result : success (user details) or error message.

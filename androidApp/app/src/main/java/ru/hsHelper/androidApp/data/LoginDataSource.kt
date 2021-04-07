@@ -1,6 +1,6 @@
-package ru.hsHelper.data
+package ru.hsHelper.androidApp.data
 
-import ru.hsHelper.data.model.LoggedInUser
+import ru.hsHelper.androidApp.data.model.LoggedInUser
 import java.io.IOException
 
 /**
