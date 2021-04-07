@@ -1,4 +1,4 @@
-package ru.hsHelper.ui.login
+package ru.hsHelper.androidApp.ui.login
 
 /**
  * Data validation state of the login form.

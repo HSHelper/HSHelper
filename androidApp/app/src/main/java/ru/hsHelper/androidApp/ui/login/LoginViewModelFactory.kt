@@ -1,9 +1,9 @@
-package ru.hsHelper.ui.login
+package ru.hsHelper.androidApp.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.hsHelper.data.LoginDataSource
-import ru.hsHelper.data.LoginRepository
+import ru.hsHelper.androidApp.data.LoginDataSource
+import ru.hsHelper.androidApp.data.LoginRepository
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

@@ -1,4 +1,4 @@
-package ru.hsHelper.data
+package ru.hsHelper.androidApp.data
 
 /**
  * A generic class that holds a value with its loading status.

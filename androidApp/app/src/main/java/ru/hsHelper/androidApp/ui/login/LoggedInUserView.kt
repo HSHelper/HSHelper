@@ -1,4 +1,4 @@
-package ru.hsHelper.ui.login
+package ru.hsHelper.androidApp.ui.login
 
 /**
  * User details post authentication that is exposed to the UI

@@ -1,4 +1,4 @@
-package ru.hsHelper.ui.login
+package ru.hsHelper.androidApp.ui.login
 
 import android.app.Activity
 import android.content.Intent
@@ -17,7 +17,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 
 import ru.hsHelper.R
-import ru.hsHelper.androidApp.NavigationActivity
+import ru.hsHelper.androidApp.ui.navigation.NavigationActivity
 
 class LoginActivity : AppCompatActivity() {
 
