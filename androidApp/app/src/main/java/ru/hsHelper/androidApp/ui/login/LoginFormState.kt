@@ -1,10 +1,14 @@
 package ru.hsHelper.androidApp.ui.login
 
-/**
- * Data validation state of the login form.
- */
-data class LoginFormState(
-    val usernameError: Int? = null,
-    val passwordError: Int? = null,
-    val isDataValid: Boolean = false
-)
+import androidx.annotation.StringRes
+
+sealed class LoginFormState {
+    data class Error(
+        @StringRes
+        val emailError: Int? = null,
+        @StringRes
+        val passwordError: Int? = null
+    ) : LoginFormState()
+
+    object Valid : LoginFormState()
+}

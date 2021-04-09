@@ -1,9 +1,8 @@
 package ru.hsHelper.androidApp.ui.login
 
-/**
- * Authentication result : success (user details) or error message.
- */
-data class LoginResult(
-    val success: LoggedInUserView? = null,
-    val error: Int? = null
-)
+import com.google.firebase.auth.FirebaseUser
+
+sealed class LoginResult {
+    data class Success(val success: FirebaseUser) : LoginResult()
+    data class Error(val error: Int) : LoginResult()
+}

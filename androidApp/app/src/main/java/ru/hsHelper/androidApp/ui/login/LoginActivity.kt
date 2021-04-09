@@ -1,25 +1,27 @@
 package ru.hsHelper.androidApp.ui.login
 
-import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseUser
 
 import ru.hsHelper.R
-import ru.hsHelper.androidApp.ui.navigation.NavigationActivity
 
 class LoginActivity : AppCompatActivity() {
+    companion object {
+        private const val RC_GOOGLE_SIGN_IN: Int = 1
+    }
 
     private lateinit var loginViewModel: LoginViewModel
 
@@ -28,25 +30,39 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_login)
 
-        val username = findViewById<EditText>(R.id.username)
+        val email = findViewById<EditText>(R.id.email)
         val password = findViewById<EditText>(R.id.password)
         val login = findViewById<Button>(R.id.login)
+        val register = findViewById<Button>(R.id.register)
         val loading = findViewById<ProgressBar>(R.id.loading)
+        val loginGoogle = findViewById<Button>(R.id.login_google)
 
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
+        setupViewModel(email, password, loading)
+        setupLogin(email, password, login, register, loading)
+        setupGoogleLogin(loginGoogle)
+    }
+
+    private fun setupViewModel(
+        email: EditText,
+        password: EditText,
+        loading: ProgressBar
+    ) {
+        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
 
-            // disable login button unless both username / password is valid
-            login.isEnabled = loginState.isDataValid
-
-            if (loginState.usernameError != null) {
-                username.error = getString(loginState.usernameError)
-            }
-            if (loginState.passwordError != null) {
-                password.error = getString(loginState.passwordError)
+            when (loginState) {
+                is LoginFormState.Valid -> {
+                }
+                is LoginFormState.Error -> {
+                    if (loginState.emailError != null) {
+                        email.error = getString(loginState.emailError)
+                    }
+                    if (loginState.passwordError != null) {
+                        password.error = getString(loginState.passwordError)
+                    }
+                }
             }
         })
 
@@ -54,56 +70,80 @@ class LoginActivity : AppCompatActivity() {
             val loginResult = it ?: return@Observer
 
             loading.visibility = View.GONE
-            if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
-            }
-            if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
-                setResult(Activity.RESULT_OK)
 
-                //Complete and destroy login activity once successful
-                finish()
+            when (loginResult) {
+                is LoginResult.Success -> {
+                    updateUiWithUser(loginResult.success)
+                    setResult(RESULT_OK)
+                    finish()
+                }
+                is LoginResult.Error -> {
+                    showLoginFailed(loginResult.error)
+                }
             }
         })
+    }
 
-        username.afterTextChanged {
-            loginViewModel.loginDataChanged(
-                username.text.toString(),
-                password.text.toString()
-            )
+    private fun setupLogin(
+        email: EditText,
+        password: EditText,
+        login: Button,
+        register: Button,
+        loading: ProgressBar
+    ) {
+        password.setOnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_DONE ->
+                    loginViewModel.login(
+                        email.text.toString(),
+                        password.text.toString()
+                    )
+            }
+            false
         }
 
-        password.apply {
-            afterTextChanged {
-                loginViewModel.loginDataChanged(
-                    username.text.toString(),
-                    password.text.toString()
-                )
-            }
+        register.setOnClickListener {
+            loading.visibility = View.VISIBLE
+            loginViewModel.loginDataCheck(email.text.toString(), password.text.toString())
+            loginViewModel.register(email.text.toString(), password.text.toString())
+        }
 
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
-                        )
+        login.setOnClickListener {
+            loading.visibility = View.VISIBLE
+            loginViewModel.login(email.text.toString(), password.text.toString())
+        }
+    }
+
+    private fun setupGoogleLogin(loginGoogle: Button) {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        loginGoogle.setOnClickListener {
+            startActivityForResult(googleSignInClient.signInIntent, RC_GOOGLE_SIGN_IN)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_GOOGLE_SIGN_IN) {
+            GoogleSignIn.getSignedInAccountFromIntent(data).apply {
+                addOnSuccessListener {
+                    loginViewModel.authWithGoogle(it.idToken!!)
                 }
-                false
-            }
-
-            login.setOnClickListener {
-                loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                addOnFailureListener {
+                    showLoginFailed(R.string.google_login_failed)
+                }
             }
         }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
+    private fun updateUiWithUser(model: FirebaseUser) {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
-        // TODO : initiate successful logged in experience
-        startActivity(Intent(this, NavigationActivity::class.java))
         Toast.makeText(
             applicationContext,
             "$welcome $displayName",
@@ -114,19 +154,4 @@ class LoginActivity : AppCompatActivity() {
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
-}
-
-/**
- * Extension function to simplify setting an afterTextChanged action to EditText components.
- */
-fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-    this.addTextChangedListener(object : TextWatcher {
-        override fun afterTextChanged(editable: Editable?) {
-            afterTextChanged.invoke(editable.toString())
-        }
-
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-    })
 }
