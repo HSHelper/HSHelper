@@ -20,8 +20,6 @@ class InitialActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_initial)
 
-        auth.signOut()
-
         if (auth.currentUser == null) {
             startActivityForResult(Intent(this, LoginActivity::class.java), RC_LOGIN)
         } else {
