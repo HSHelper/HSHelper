@@ -19,12 +19,14 @@ public class User {
     private long id;
     private String firstName;
     private String LastName;
+    private String email;
 
     public User() {}
 
-    public User(String firstName, String lastName) {
+    public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         LastName = lastName;
+        this.email = email;
     }
 
     @OneToMany(mappedBy = "user")
