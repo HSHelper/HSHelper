@@ -1,10 +1,10 @@
-package ru.hsHelper.api.requests.create;
+package ru.hsHelper.api.requests.update;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
-public class UserCreateRequest implements Serializable {
+public class UserUpdateRequest implements Serializable {
 
     @NotEmpty
     private String firstName;
@@ -15,11 +15,13 @@ public class UserCreateRequest implements Serializable {
     @Email
     private String email;
 
-    public UserCreateRequest() {}
+    public UserUpdateRequest() {
+    }
 
-    public UserCreateRequest(@NotEmpty String firstName, @NotEmpty String lastName) {
+    public UserUpdateRequest(@NotEmpty String firstName, @NotEmpty String lastName, @Email String email) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
     }
 
     public String getFirstName() {
