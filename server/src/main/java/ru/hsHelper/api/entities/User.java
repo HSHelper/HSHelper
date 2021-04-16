@@ -1,18 +1,22 @@
 package ru.hsHelper.api.entities;
 
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Entity
+@EqualsAndHashCode
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,24 +33,24 @@ public class User {
         this.email = email;
     }
 
-    @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.JOIN)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SELECT)
     private Set<UserGroupRole> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     private  Set<UserToPartition> partitions = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     private Set<UserCourseRole> courses = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     private Set<UserCoursePartRole> courseParts = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     private Set<UserWork> userWorks = new HashSet<>();
 
     public long getId() {
@@ -111,5 +115,21 @@ public class User {
 
     public void setUserWorks(Set<UserWork> userWorks) {
         this.userWorks = userWorks;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void addUserGroupRole(UserGroupRole userGroupRole) {
+        groups.add(userGroupRole);
+    }
+
+    public void removeUserGroupRole(UserGroupRole userGroupRole) {
+        groups.remove(userGroupRole);
     }
 }
