@@ -1,9 +1,7 @@
 package ru.hsHelper.api.entities;
 
-import com.sun.istack.Nullable;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.lang.NonNull;
 import ru.hsHelper.api.keys.UserGroupRoleKey;
 
 import javax.persistence.CascadeType;
@@ -19,7 +17,7 @@ import java.util.Set;
 @Entity
 public class UserGroupRole {
     @EmbeddedId
-    private UserGroupRoleKey id;
+    private UserGroupRoleKey id = new UserGroupRoleKey();
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @MapsId("userId")
@@ -30,9 +28,10 @@ public class UserGroupRole {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @MapsId("groupId")
     @JoinColumn(name = "group_id")
+    @Fetch(FetchMode.JOIN)
     private Group group;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.JOIN)
     private Set<Role> roles;
 
@@ -78,9 +77,11 @@ public class UserGroupRole {
         this.roles = roles;
     }
 
-    @PreRemove
-    private void removeUserGroupRoleFromUserAndRole() {
-        group.getUserGroupRoleSet().remove(this);
-        user.getGroups().remove(this);
+    public void removeUserGroupAndRoles() {
+        user.removeUserGroupRole(this);
+        group.removeUserGroupRole(this);
+        for (Role role : roles) {
+            role.removeUserGroupRole(this);
+        }
     }
 }

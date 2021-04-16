@@ -42,6 +42,7 @@ public class Role {
     private Set<Permissions> permissions = new HashSet<>();
 
     @ManyToMany(mappedBy = "roles")
+    @Fetch(FetchMode.SELECT)
     private Set<UserGroupRole> userGroupRoles = new HashSet<>();
 
     @ManyToMany(mappedBy = "roles")
@@ -106,10 +107,21 @@ public class Role {
         this.userCoursePartRoles = userCoursePartRoles;
     }
 
+    public void addUserGroupRole(UserGroupRole userGroupRole) {
+        userGroupRoles.add(userGroupRole);
+    }
+
+    public void removeUserGroupRole(UserGroupRole userGroupRole) {
+        userGroupRoles.remove(userGroupRole);
+    }
+
     @PreRemove
     private void removeRolesFromPermissions() {
         for (Permissions p : permissions) {
             p.getRoles().remove(this);
+        }
+        for (UserGroupRole userGroupRole : userGroupRoles) {
+            userGroupRole.getRoles().remove(this);
         }
     }
 }
