@@ -1,0 +1,22 @@
+name: CI-codestyle
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  codestyle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Codacy Analysis CLI
+        uses: codacy/codacy-analysis-cli-action@2.0.1
+        with:
+          #verbose:
+          project-token: ${{ secrets.CODACY_API_TOKEN }}
+          #directory:
+          #parallel:
+          upload: true
+          fail-if-incomplete: false
