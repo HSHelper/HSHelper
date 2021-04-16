@@ -28,11 +28,11 @@ public class Group {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "group", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private Set<UserGroupRole> userGroupRoleSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "group", orphanRemoval = true)
+    @OneToMany(mappedBy = "group", cascade = {CascadeType.MERGE, CascadeType.PERSIST},orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private Set<Partition> partitions = new HashSet<>();
 
@@ -86,5 +86,13 @@ public class Group {
 
     public void removeUserGroupRole(UserGroupRole userGroupRole) {
         userGroupRoleSet.remove(userGroupRole);
+    }
+
+    public void addPartition(Partition partition) {
+        partitions.add(partition);
+    }
+
+    public void removePartition(Partition partition) {
+        partitions.remove(partition);
     }
 }

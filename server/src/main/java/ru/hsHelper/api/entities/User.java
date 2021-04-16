@@ -33,11 +33,11 @@ public class User {
         this.email = email;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserGroupRole> groups = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private  Set<UserToPartition> partitions = new HashSet<>();
 
@@ -131,5 +131,13 @@ public class User {
 
     public void removeUserGroupRole(UserGroupRole userGroupRole) {
         groups.remove(userGroupRole);
+    }
+
+    public void addPartition(UserToPartition partition) {
+        partitions.add(partition);
+    }
+
+    public void removePartition(UserToPartition partition) {
+        partitions.remove(partition);
     }
 }
