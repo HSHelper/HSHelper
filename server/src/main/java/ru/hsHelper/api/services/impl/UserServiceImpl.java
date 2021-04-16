@@ -3,15 +3,19 @@ package ru.hsHelper.api.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.Group;
 import ru.hsHelper.api.entities.Partition;
 import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.entities.User;
+import ru.hsHelper.api.entities.UserCourseRole;
 import ru.hsHelper.api.entities.UserGroupRole;
 import ru.hsHelper.api.entities.UserToPartition;
+import ru.hsHelper.api.repositories.CourseRepository;
 import ru.hsHelper.api.repositories.GroupRepository;
 import ru.hsHelper.api.repositories.PartitionRepository;
 import ru.hsHelper.api.repositories.RoleRepository;
+import ru.hsHelper.api.repositories.UserCourseRoleRepository;
 import ru.hsHelper.api.repositories.UserGroupRoleRepository;
 import ru.hsHelper.api.repositories.UserRepository;
 import ru.hsHelper.api.repositories.UserToPartitionRepository;
@@ -30,18 +34,23 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PartitionRepository partitionRepository;
     private final UserToPartitionRepository userToPartitionRepository;
+    private final CourseRepository courseRepository;
+    private final UserCourseRoleRepository userCourseRoleRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, GroupRepository groupRepository,
                            UserGroupRoleRepository userGroupRoleRepository, RoleRepository roleRepository,
                            PartitionRepository partitionRepository,
-                           UserToPartitionRepository userToPartitionRepository) {
+                           UserToPartitionRepository userToPartitionRepository,
+                           CourseRepository courseRepository, UserCourseRoleRepository userCourseRoleRepository) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.userGroupRoleRepository = userGroupRoleRepository;
         this.roleRepository = roleRepository;
         this.partitionRepository = partitionRepository;
         this.userToPartitionRepository = userToPartitionRepository;
+        this.courseRepository = courseRepository;
+        this.userCourseRoleRepository = userCourseRoleRepository;
     }
 
     @Transactional
@@ -64,6 +73,11 @@ public class UserServiceImpl implements UserService {
             userToPartition.removePartitionAndUser();
         }
         userToPartitionRepository.deleteAllByUser(user);
+        Set<UserCourseRole> userCourseRoles = userCourseRoleRepository.findAllByUser(user);
+        for (UserCourseRole userCourseRole : userCourseRoles) {
+            userCourseRole.removeUserCourseAndRoles();
+        }
+        userCourseRoleRepository.deleteAllByUser(user);
         userRepository.delete(user);
     }
 
@@ -139,6 +153,36 @@ public class UserServiceImpl implements UserService {
             userToPartition.removePartitionAndUser();
         }
         userToPartitionRepository.deleteAllByUserAndPartitionIn(user, partitions);
+        return user;
+    }
+
+    @Transactional
+    @Override
+    public User addCourses(long userId, Set<Long> courseIds, Map<Long, Set<Long>> roleIds) {
+        User user = getUserById(userId);
+        Set<Course> courses = courseRepository.findAllByIdIn(courseIds);
+        for (Course course : courses) {
+            Set<Role> roles = roleRepository.findAllByIdIn(roleIds.get(course.getId()));
+            UserCourseRole userCourseRole = userCourseRoleRepository.save(new UserCourseRole(user, course, roles));
+            for (Role role : roles) {
+                role.addUserCourseRole(userCourseRole);
+            }
+            course.addUser(userCourseRole);
+            user.addCourse(userCourseRole);
+        }
+        return user;
+    }
+
+    @Transactional
+    @Override
+    public User deleteCourses(long userId, Set<Long> courseIds) {
+        User user = getUserById(userId);
+        Set<Course> courses = courseRepository.findAllByIdIn(courseIds);
+        Set<UserCourseRole> userCourseRoles = userCourseRoleRepository.findAllByUserAndCourseIn(user, courses);
+        for (UserCourseRole userCourseRole : userCourseRoles) {
+            userCourseRole.removeUserCourseAndRoles();
+        }
+        userCourseRoleRepository.deleteAllByUserAndCourseIn(user, courses);
         return user;
     }
 }
