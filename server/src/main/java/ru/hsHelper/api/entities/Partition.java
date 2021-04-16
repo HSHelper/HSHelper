@@ -31,7 +31,8 @@ public class Partition {
     @Fetch(FetchMode.JOIN)
     private Group group;
 
-    @OneToMany(mappedBy = "defaultPartition")
+    @OneToMany(mappedBy = "defaultPartition", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @Fetch(FetchMode.SELECT)
     private Set<Course> coursesWithThisDefaultPartition = new HashSet<>();
 
     @OneToMany(mappedBy = "partition")
@@ -99,5 +100,13 @@ public class Partition {
 
     public void removeUser(UserToPartition user) {
         users.remove(user);
+    }
+
+    public void addCourse(Course course) {
+        coursesWithThisDefaultPartition.add(course);
+    }
+
+    public void removeCourse(Course course) {
+        coursesWithThisDefaultPartition.remove(course);
     }
 }

@@ -38,14 +38,15 @@ public class Role {
         name = "role_permission",
         joinColumns = @JoinColumn(name = "role_id"),
         inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     private Set<Permissions> permissions = new HashSet<>();
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserGroupRole> userGroupRoles = new HashSet<>();
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.JOIN)
     private Set<UserCourseRole> userCourseRoles = new HashSet<>();
 
     @ManyToMany(mappedBy = "roles")
@@ -113,6 +114,14 @@ public class Role {
 
     public void removeUserGroupRole(UserGroupRole userGroupRole) {
         userGroupRoles.remove(userGroupRole);
+    }
+
+    public void addUserCourseRole(UserCourseRole userCourseRole) {
+        userCourseRoles.add(userCourseRole);
+    }
+
+    public void removeUserCourseRole(UserCourseRole userCourseRole) {
+        userCourseRoles.remove(userCourseRole);
     }
 
     @PreRemove

@@ -36,7 +36,7 @@ public class Group {
     @Fetch(FetchMode.SELECT)
     private Set<Partition> partitions = new HashSet<>();
 
-    @OneToMany(mappedBy = "group", orphanRemoval = true)
+    @OneToMany(mappedBy = "group",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private Set<Course> courses = new HashSet<>();
 
@@ -94,5 +94,13 @@ public class Group {
 
     public void removePartition(Partition partition) {
         partitions.remove(partition);
+    }
+
+    public void addCourse(Course course) {
+        courses.add(course);
+    }
+
+    public void removeCourse(Course course) {
+        courses.remove(course);
     }
 }

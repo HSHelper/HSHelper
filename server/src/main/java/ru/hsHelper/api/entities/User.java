@@ -140,4 +140,12 @@ public class User {
     public void removePartition(UserToPartition partition) {
         partitions.remove(partition);
     }
+
+    public void addCourse(UserCourseRole userCourseRole) {
+        courses.add(userCourseRole);
+    }
+
+    public void removeCourse(UserCourseRole userCourseRole) {
+        courses.remove(userCourseRole);
+    }
 }
