@@ -1,4 +1,4 @@
-package ru.hsHelper.androidApp
+package ru.hsHelper.androidApp.utils
 
 import android.app.Activity
 import android.util.DisplayMetrics
