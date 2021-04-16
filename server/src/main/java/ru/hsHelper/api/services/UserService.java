@@ -13,4 +13,6 @@ public interface UserService {
     User getUserById(long id);
     User addGroups(long userId, Set<Long> groupIds, Map<Long, Set<Long>> roleIds);
     User deleteGroups(long userId, Set<Long> groupsIds);
+    User addToPartitions(long userId, Set<Long> partitionIds, Map<Long, Integer> userParts);
+    User deletePartitions(long userId, Set<Long> partitionIds);
 }

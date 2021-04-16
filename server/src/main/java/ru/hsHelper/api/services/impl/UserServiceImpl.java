@@ -4,18 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.hsHelper.api.entities.Group;
+import ru.hsHelper.api.entities.Partition;
 import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserGroupRole;
+import ru.hsHelper.api.entities.UserToPartition;
 import ru.hsHelper.api.repositories.GroupRepository;
+import ru.hsHelper.api.repositories.PartitionRepository;
 import ru.hsHelper.api.repositories.RoleRepository;
 import ru.hsHelper.api.repositories.UserGroupRoleRepository;
 import ru.hsHelper.api.repositories.UserRepository;
+import ru.hsHelper.api.repositories.UserToPartitionRepository;
 import ru.hsHelper.api.requests.update.UserUpdateRequest;
 import ru.hsHelper.api.services.UserService;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.Map;
 
@@ -26,14 +28,20 @@ public class UserServiceImpl implements UserService {
     private final GroupRepository groupRepository;
     private final UserGroupRoleRepository userGroupRoleRepository;
     private final RoleRepository roleRepository;
+    private final PartitionRepository partitionRepository;
+    private final UserToPartitionRepository userToPartitionRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, GroupRepository groupRepository,
-                           UserGroupRoleRepository userGroupRoleRepository, RoleRepository roleRepository) {
+                           UserGroupRoleRepository userGroupRoleRepository, RoleRepository roleRepository,
+                           PartitionRepository partitionRepository,
+                           UserToPartitionRepository userToPartitionRepository) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.userGroupRoleRepository = userGroupRoleRepository;
         this.roleRepository = roleRepository;
+        this.partitionRepository = partitionRepository;
+        this.userToPartitionRepository = userToPartitionRepository;
     }
 
     @Transactional
@@ -51,6 +59,11 @@ public class UserServiceImpl implements UserService {
             userGroupRole.removeUserGroupAndRoles();
         }
         userGroupRoleRepository.deleteAllByUser(user);
+        Set<UserToPartition> userToPartitions = userToPartitionRepository.findAllByUser(user);
+        for (UserToPartition userToPartition : userToPartitions) {
+            userToPartition.removePartitionAndUser();
+        }
+        userToPartitionRepository.deleteAllByUser(user);
         userRepository.delete(user);
     }
 
@@ -99,6 +112,33 @@ public class UserServiceImpl implements UserService {
             userGroupRole.removeUserGroupAndRoles();
         }
         userGroupRoleRepository.deleteAllByUserAndGroupIn(user, groups);
+        return user;
+    }
+
+    @Transactional
+    @Override
+    public User addToPartitions(long userId, Set<Long> partitionIds, Map<Long, Integer> userParts) {
+        User user = getUserById(userId);
+        Set<Partition> partitions = partitionRepository.findAllByIdIn(partitionIds);
+        for (Partition partition : partitions) {
+            UserToPartition userToPartition = userToPartitionRepository.save(
+                    new UserToPartition(user, partition, userParts.get(partition.getId())));
+            partition.addUser(userToPartition);
+            user.addPartition(userToPartition);
+        }
+        return user;
+    }
+
+    @Transactional
+    @Override
+    public User deletePartitions(long userId, Set<Long> partitionIds) {
+        User user = getUserById(userId);
+        Set<Partition> partitions = partitionRepository.findAllByIdIn(partitionIds);
+        Set<UserToPartition> userToPartitions = userToPartitionRepository.findAllByUserAndPartitionIn(user, partitions);
+        for (UserToPartition userToPartition : userToPartitions) {
+            userToPartition.removePartitionAndUser();
+        }
+        userToPartitionRepository.deleteAllByUserAndPartitionIn(user, partitions);
         return user;
     }
 }
