@@ -1,5 +1,9 @@
 package ru.hsHelper.api.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,15 +22,18 @@ public class CoursePart {
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
     @JoinColumn(name = "partition_id", nullable = false)
+    @Fetch(FetchMode.JOIN)
     private Partition partition;
 
-    @OneToMany(mappedBy = "coursePart")
+    @OneToMany(mappedBy = "coursePart", cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<UserCoursePartRole> users = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
     @JoinColumn(name = "course_id", nullable = false)
+    @Fetch(FetchMode.JOIN)
     private Course course;
 
     @OneToMany(mappedBy = "coursePart")
@@ -34,6 +41,17 @@ public class CoursePart {
 
     private double weight;
     private double block;
+
+    public CoursePart() {
+    }
+
+    public CoursePart(String name, Partition partition, Course course, double weight, double block) {
+        this.name = name;
+        this.partition = partition;
+        this.course = course;
+        this.weight = weight;
+        this.block = block;
+    }
 
     public long getId() {
         return id;
@@ -97,5 +115,13 @@ public class CoursePart {
 
     public void setBlock(double block) {
         this.block = block;
+    }
+
+    public void addUser(UserCoursePartRole userCoursePartRole) {
+        users.add(userCoursePartRole);
+    }
+
+    public void removeUser(UserCoursePartRole userCoursePartRole) {
+        users.remove(userCoursePartRole);
     }
 }

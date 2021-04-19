@@ -41,11 +41,11 @@ public class User {
     @Fetch(FetchMode.SELECT)
     private  Set<UserToPartition> partitions = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserCourseRole> courses = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserCoursePartRole> courseParts = new HashSet<>();
 
@@ -147,5 +147,13 @@ public class User {
 
     public void removeCourse(UserCourseRole userCourseRole) {
         courses.remove(userCourseRole);
+    }
+
+    public void addCoursePart(UserCoursePartRole userCoursePartRole) {
+        courseParts.add(userCoursePartRole);
+    }
+
+    public void removeCoursePart(UserCoursePartRole userCoursePartRole) {
+        courseParts.remove(userCoursePartRole);
     }
 }

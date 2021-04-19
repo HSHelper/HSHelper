@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 public class UserCoursePartRole {
     @EmbeddedId
-    UserCoursePartRoleKey id;
+    UserCoursePartRoleKey id = new UserCoursePartRoleKey();
 
     @ManyToOne
     @MapsId("userId")
@@ -29,6 +29,15 @@ public class UserCoursePartRole {
 
     @ManyToMany
     Set<Role> roles = new HashSet<>();
+
+    public UserCoursePartRole() {
+    }
+
+    public UserCoursePartRole(User user, CoursePart coursePart, Set<Role> roles) {
+        this.user = user;
+        this.coursePart = coursePart;
+        this.roles = roles;
+    }
 
     public UserCoursePartRoleKey getId() {
         return id;
@@ -60,5 +69,13 @@ public class UserCoursePartRole {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void removeUserCoursePartAndRoles() {
+        user.removeCoursePart(this);
+        coursePart.removeUser(this);
+        for (Role role : roles) {
+            role.removeUserCoursePartRole(this);
+        }
     }
 }

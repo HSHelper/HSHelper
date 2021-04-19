@@ -31,7 +31,8 @@ public class Course {
     @Fetch(FetchMode.SELECT)
     private Set<UserCourseRole> users = new HashSet<>();
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<CoursePart> courseParts = new HashSet<>();
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -102,5 +103,13 @@ public class Course {
 
     public void removeUser(UserCourseRole userCourseRole) {
         users.remove(userCourseRole);
+    }
+
+    public void addCoursePart(CoursePart coursePart) {
+        courseParts.add(coursePart);
+    }
+
+    public void removeCoursePart(CoursePart coursePart) {
+        courseParts.remove(coursePart);
     }
 }
