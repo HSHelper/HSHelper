@@ -35,7 +35,8 @@ public class Partition {
     @Fetch(FetchMode.SELECT)
     private Set<Course> coursesWithThisDefaultPartition = new HashSet<>();
 
-    @OneToMany(mappedBy = "partition")
+    @OneToMany(mappedBy = "partition", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<CoursePart> courseParts = new HashSet<>();
 
     public Partition(String name, Group group) {
@@ -108,5 +109,13 @@ public class Partition {
 
     public void removeCourse(Course course) {
         coursesWithThisDefaultPartition.remove(course);
+    }
+
+    public void addCoursePart(CoursePart coursePart) {
+        courseParts.add(coursePart);
+    }
+
+    public void removeCoursePart(CoursePart coursePart) {
+        courseParts.remove(coursePart);
     }
 }

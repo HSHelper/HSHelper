@@ -17,4 +17,6 @@ public interface UserService {
     User deletePartitions(long userId, Set<Long> partitionIds);
     User addCourses(long userId, Set<Long> courseIds, Map<Long, Set<Long>> roleIds);
     User deleteCourses(long userId, Set<Long> courseIds);
+    User addCourseParts(long userId, Set<Long> coursePartIds, Map<Long, Set<Long>> roleIds);
+    User deleteCourseParts(long userId, Set<Long> coursePartIds);
 }

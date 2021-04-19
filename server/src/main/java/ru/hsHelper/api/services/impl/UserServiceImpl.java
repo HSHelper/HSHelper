@@ -4,17 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.hsHelper.api.entities.Course;
+import ru.hsHelper.api.entities.CoursePart;
 import ru.hsHelper.api.entities.Group;
 import ru.hsHelper.api.entities.Partition;
 import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.entities.User;
+import ru.hsHelper.api.entities.UserCoursePartRole;
 import ru.hsHelper.api.entities.UserCourseRole;
 import ru.hsHelper.api.entities.UserGroupRole;
 import ru.hsHelper.api.entities.UserToPartition;
+import ru.hsHelper.api.repositories.CoursePartRepository;
 import ru.hsHelper.api.repositories.CourseRepository;
 import ru.hsHelper.api.repositories.GroupRepository;
 import ru.hsHelper.api.repositories.PartitionRepository;
 import ru.hsHelper.api.repositories.RoleRepository;
+import ru.hsHelper.api.repositories.UserCoursePartRoleRepository;
 import ru.hsHelper.api.repositories.UserCourseRoleRepository;
 import ru.hsHelper.api.repositories.UserGroupRoleRepository;
 import ru.hsHelper.api.repositories.UserRepository;
@@ -36,13 +40,17 @@ public class UserServiceImpl implements UserService {
     private final UserToPartitionRepository userToPartitionRepository;
     private final CourseRepository courseRepository;
     private final UserCourseRoleRepository userCourseRoleRepository;
+    private final CoursePartRepository coursePartRepository;
+    private final UserCoursePartRoleRepository userCoursePartRoleRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, GroupRepository groupRepository,
                            UserGroupRoleRepository userGroupRoleRepository, RoleRepository roleRepository,
                            PartitionRepository partitionRepository,
                            UserToPartitionRepository userToPartitionRepository,
-                           CourseRepository courseRepository, UserCourseRoleRepository userCourseRoleRepository) {
+                           CourseRepository courseRepository, UserCourseRoleRepository userCourseRoleRepository,
+                           CoursePartRepository coursePartRepository,
+                           UserCoursePartRoleRepository userCoursePartRoleRepository) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.userGroupRoleRepository = userGroupRoleRepository;
@@ -51,6 +59,8 @@ public class UserServiceImpl implements UserService {
         this.userToPartitionRepository = userToPartitionRepository;
         this.courseRepository = courseRepository;
         this.userCourseRoleRepository = userCourseRoleRepository;
+        this.coursePartRepository = coursePartRepository;
+        this.userCoursePartRoleRepository = userCoursePartRoleRepository;
     }
 
     @Transactional
@@ -78,6 +88,11 @@ public class UserServiceImpl implements UserService {
             userCourseRole.removeUserCourseAndRoles();
         }
         userCourseRoleRepository.deleteAllByUser(user);
+        Set<UserCoursePartRole> userCoursePartRoles = userCoursePartRoleRepository.findAllByUser(user);
+        for (UserCoursePartRole userCoursePartRole : userCoursePartRoles) {
+            userCoursePartRole.removeUserCoursePartAndRoles();
+        }
+        userCoursePartRoleRepository.deleteAllByUser(user);
         userRepository.delete(user);
     }
 
@@ -183,6 +198,38 @@ public class UserServiceImpl implements UserService {
             userCourseRole.removeUserCourseAndRoles();
         }
         userCourseRoleRepository.deleteAllByUserAndCourseIn(user, courses);
+        return user;
+    }
+
+    @Transactional
+    @Override
+    public User addCourseParts(long userId, Set<Long> coursePartIds, Map<Long, Set<Long>> roleIds) {
+        User user = getUserById(userId);
+        Set<CoursePart> courseParts = coursePartRepository.findAllByIdIn(coursePartIds);
+        for (CoursePart coursePart : courseParts) {
+            Set<Role> roles = roleRepository.findAllByIdIn(roleIds.get(coursePart.getId()));
+            UserCoursePartRole userCoursePartRole =
+                    userCoursePartRoleRepository.save(new UserCoursePartRole(user, coursePart, roles));
+            for (Role role : roles) {
+                role.addUserCoursePartRole(userCoursePartRole);
+            }
+            coursePart.addUser(userCoursePartRole);
+            user.addCoursePart(userCoursePartRole);
+        }
+        return user;
+    }
+
+    @Transactional
+    @Override
+    public User deleteCourseParts(long userId, Set<Long> coursePartIds) {
+        User user = getUserById(userId);
+        Set<CoursePart> coursesParts = coursePartRepository.findAllByIdIn(coursePartIds);
+        Set<UserCoursePartRole> userCoursePartRoles =
+                userCoursePartRoleRepository.findAllByUserAndCoursePartIn(user, coursesParts);
+        for (UserCoursePartRole userCoursePartRole : userCoursePartRoles) {
+            userCoursePartRole.removeUserCoursePartAndRoles();
+        }
+        userCoursePartRoleRepository.deleteAllByUserAndCoursePartIn(user, coursesParts);
         return user;
     }
 }

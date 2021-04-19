@@ -46,10 +46,11 @@ public class Role {
     private Set<UserGroupRole> userGroupRoles = new HashSet<>();
 
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     private Set<UserCourseRole> userCourseRoles = new HashSet<>();
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<UserCoursePartRole> userCoursePartRoles = new HashSet<>();
 
     public Role() {
@@ -122,6 +123,14 @@ public class Role {
 
     public void removeUserCourseRole(UserCourseRole userCourseRole) {
         userCourseRoles.remove(userCourseRole);
+    }
+
+    public void addUserCoursePartRole(UserCoursePartRole userCoursePartRole) {
+        userCoursePartRoles.add(userCoursePartRole);
+    }
+
+    public void removeUserCoursePartRole(UserCoursePartRole userCoursePartRole) {
+        userCoursePartRoles.remove(userCoursePartRole);
     }
 
     @PreRemove
