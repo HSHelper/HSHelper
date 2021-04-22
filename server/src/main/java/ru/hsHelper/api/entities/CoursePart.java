@@ -22,21 +22,22 @@ public class CoursePart {
 
     private String name;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "partition_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     private Partition partition;
 
-    @OneToMany(mappedBy = "coursePart", cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "coursePart", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserCoursePartRole> users = new HashSet<>();
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "course_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     private Course course;
 
-    @OneToMany(mappedBy = "coursePart")
+    @OneToMany(mappedBy = "coursePart", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<Work> works = new HashSet<>();
 
     private double weight;
@@ -123,5 +124,13 @@ public class CoursePart {
 
     public void removeUser(UserCoursePartRole userCoursePartRole) {
         users.remove(userCoursePartRole);
+    }
+
+    public void addWork(Work work) {
+        works.add(work);
+    }
+
+    public void removeWork(Work work) {
+        works.remove(work);
     }
 }

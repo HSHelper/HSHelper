@@ -19,4 +19,6 @@ public interface UserService {
     User deleteCourses(long userId, Set<Long> courseIds);
     User addCourseParts(long userId, Set<Long> coursePartIds, Map<Long, Set<Long>> roleIds);
     User deleteCourseParts(long userId, Set<Long> coursePartIds);
+    User addWorks(long userId, Set<Long> workIds, Map<Long, String> solutions);
+    User deleteWorks(long userId, Set<Long> workIds);
 }

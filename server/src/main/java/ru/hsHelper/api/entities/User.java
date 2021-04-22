@@ -156,4 +156,12 @@ public class User {
     public void removeCoursePart(UserCoursePartRole userCoursePartRole) {
         courseParts.remove(userCoursePartRole);
     }
+
+    public void addWork(UserWork userWork) {
+        userWorks.add(userWork);
+    }
+
+    public void removeWork(UserWork userWork) {
+        userWorks.remove(userWork);
+    }
 }

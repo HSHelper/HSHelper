@@ -13,6 +13,8 @@ import ru.hsHelper.api.entities.UserCoursePartRole;
 import ru.hsHelper.api.entities.UserCourseRole;
 import ru.hsHelper.api.entities.UserGroupRole;
 import ru.hsHelper.api.entities.UserToPartition;
+import ru.hsHelper.api.entities.UserWork;
+import ru.hsHelper.api.entities.Work;
 import ru.hsHelper.api.repositories.CoursePartRepository;
 import ru.hsHelper.api.repositories.CourseRepository;
 import ru.hsHelper.api.repositories.GroupRepository;
@@ -23,9 +25,12 @@ import ru.hsHelper.api.repositories.UserCourseRoleRepository;
 import ru.hsHelper.api.repositories.UserGroupRoleRepository;
 import ru.hsHelper.api.repositories.UserRepository;
 import ru.hsHelper.api.repositories.UserToPartitionRepository;
+import ru.hsHelper.api.repositories.UserWorkRepository;
+import ru.hsHelper.api.repositories.WorkRepository;
 import ru.hsHelper.api.requests.update.UserUpdateRequest;
 import ru.hsHelper.api.services.UserService;
 
+import java.util.Date;
 import java.util.Set;
 import java.util.Map;
 
@@ -42,6 +47,8 @@ public class UserServiceImpl implements UserService {
     private final UserCourseRoleRepository userCourseRoleRepository;
     private final CoursePartRepository coursePartRepository;
     private final UserCoursePartRoleRepository userCoursePartRoleRepository;
+    private final WorkRepository workRepository;
+    private final UserWorkRepository userWorkRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, GroupRepository groupRepository,
@@ -50,7 +57,8 @@ public class UserServiceImpl implements UserService {
                            UserToPartitionRepository userToPartitionRepository,
                            CourseRepository courseRepository, UserCourseRoleRepository userCourseRoleRepository,
                            CoursePartRepository coursePartRepository,
-                           UserCoursePartRoleRepository userCoursePartRoleRepository) {
+                           UserCoursePartRoleRepository userCoursePartRoleRepository, WorkRepository workRepository,
+                           UserWorkRepository userWorkRepository) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.userGroupRoleRepository = userGroupRoleRepository;
@@ -61,6 +69,8 @@ public class UserServiceImpl implements UserService {
         this.userCourseRoleRepository = userCourseRoleRepository;
         this.coursePartRepository = coursePartRepository;
         this.userCoursePartRoleRepository = userCoursePartRoleRepository;
+        this.workRepository = workRepository;
+        this.userWorkRepository = userWorkRepository;
     }
 
     @Transactional
@@ -93,6 +103,11 @@ public class UserServiceImpl implements UserService {
             userCoursePartRole.removeUserCoursePartAndRoles();
         }
         userCoursePartRoleRepository.deleteAllByUser(user);
+        Set<UserWork> userWorks = userWorkRepository.findAllByUser(user);
+        for (UserWork userWork : userWorks) {
+            userWork.removeUserAndWork();
+        }
+        userWorkRepository.deleteAll(userWorks);
         userRepository.delete(user);
     }
 
@@ -230,6 +245,33 @@ public class UserServiceImpl implements UserService {
             userCoursePartRole.removeUserCoursePartAndRoles();
         }
         userCoursePartRoleRepository.deleteAllByUserAndCoursePartIn(user, coursesParts);
+        return user;
+    }
+
+    @Transactional
+    @Override
+    public User addWorks(long userId, Set<Long> workIds, Map<Long, String> solutions) {
+        User user = getUserById(userId);
+        Set<Work> works = workRepository.findAllByIdIn(workIds);
+        for (Work work : works) {
+            UserWork userWork = userWorkRepository.save(new UserWork(user, work,
+                    new Date(), solutions.get(work.getId()), 0));
+            user.addWork(userWork);
+            work.addUser(userWork);
+        }
+        return user;
+    }
+
+    @Transactional
+    @Override
+    public User deleteWorks(long userId, Set<Long> workIds) {
+        User user = getUserById(userId);
+        Set<Work> works = workRepository.findAllByIdIn(workIds);
+        Set<UserWork> userWorks = userWorkRepository.findAllByUserAndWorkIn(user, works);
+        for (UserWork userWork : userWorks) {
+            userWork.removeUserAndWork();
+        }
+        userWorkRepository.deleteAll(userWorks);
         return user;
     }
 }
