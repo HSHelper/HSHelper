@@ -9,4 +9,6 @@ import java.util.Set;
 public interface PartitionRepository extends CrudRepository<Partition, Long> {
     public void deleteByGroup(Group group);
     Set<Partition> findAllByIdIn(Set<Long> partitionIds);
+
+    Set<Partition> findAllByGroupAndIdIn(Group group, Set<Long> partitionIds);
 }

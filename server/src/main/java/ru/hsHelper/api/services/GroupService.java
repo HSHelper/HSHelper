@@ -13,4 +13,6 @@ public interface GroupService {
     void deleteGroup(long id);
     Group addUsers(long groupId, Set<Long> userIds, Map<Long, Set<Long>> roleIds);
     Group deleteUsers(long groupId, Set<Long> userIds);
+    Group addPartitions(long groupId, Set<Long> partitionIds);
+    Group deletePartitions(long groupId, Set<Long> partitionIds, Map<Long, Long> groupIds);
 }
