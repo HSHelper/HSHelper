@@ -1,10 +1,12 @@
 package ru.hsHelper.api.services.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.CoursePart;
 import ru.hsHelper.api.entities.Partition;
+import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserCoursePartRole;
 import ru.hsHelper.api.entities.Work;
 import ru.hsHelper.api.repositories.CoursePartRepository;
@@ -16,7 +18,9 @@ import ru.hsHelper.api.repositories.WorkRepository;
 import ru.hsHelper.api.requests.create.CoursePartCreateRequest;
 import ru.hsHelper.api.services.CoursePartService;
 import ru.hsHelper.api.services.WorkService;
+import ru.hsHelper.api.services.impl.util.UserCoursePartService;
 
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -29,11 +33,14 @@ public class CoursePartServiceImpl implements CoursePartService {
     private final UserRepository userRepository;
     private final WorkService workService;
     private final WorkRepository workRepository;
+    private final UserCoursePartService userCoursePartService;
 
+    @Autowired
     public CoursePartServiceImpl(CoursePartRepository coursePartRepository, PartitionRepository partitionRepository,
                                  CourseRepository courseRepository, UserRepository userRepository,
                                  UserCoursePartRoleRepository userCoursePartRoleRepository,
-                                 WorkService workService, WorkRepository workRepository) {
+                                 WorkService workService, WorkRepository workRepository,
+                                 UserCoursePartService userCoursePartService) {
         this.coursePartRepository = coursePartRepository;
         this.partitionRepository = partitionRepository;
         this.courseRepository = courseRepository;
@@ -41,6 +48,7 @@ public class CoursePartServiceImpl implements CoursePartService {
         this.userRepository = userRepository;
         this.workService = workService;
         this.workRepository = workRepository;
+        this.userCoursePartService = userCoursePartService;
     }
 
     @Transactional
@@ -92,5 +100,30 @@ public class CoursePartServiceImpl implements CoursePartService {
             workService.preDeleteWork(work);
         }
         workRepository.deleteAll(works);
+    }
+
+    @Transactional
+    @Override
+    public CoursePart addUsers(long coursePartId, Set<Long> userIds, Map<Long, Set<Long>> roleIds) {
+        CoursePart coursePart = getCoursePartById(coursePartId);
+        Set<User> users = userRepository.findAllByIdIn(userIds);
+        for (User user : users) {
+            userCoursePartService.createUserCoursePartRole(user, coursePart, roleIds.get(user.getId()));
+        }
+        return coursePart;
+    }
+
+    @Transactional
+    @Override
+    public CoursePart deleteUsers(long coursePartId, Set<Long> userIds) {
+        CoursePart coursePart = getCoursePartById(coursePartId);
+        Set<User> users = userRepository.findAllByIdIn(userIds);
+        Set<UserCoursePartRole> userCoursePartRoles =
+                userCoursePartRoleRepository.findAllByCoursePartAndUserIn(coursePart, users);
+        for (UserCoursePartRole userCoursePartRole : userCoursePartRoles) {
+            userCoursePartRole.removeUserCoursePartAndRoles();
+        }
+        userCoursePartRoleRepository.deleteAll(userCoursePartRoles);
+        return coursePart;
     }
 }
