@@ -44,13 +44,14 @@ public class RoleController {
         return roleService.getRoleByRoleType(roleType);
     }
 
-    @PutMapping("/{roleId}/permissions/{isAdding}")
-    public Role addPermissions(@PathVariable long roleId, @PathVariable boolean isAdding,
+    @PutMapping("/{roleId}/permissions/")
+    public Role addPermissions(@PathVariable long roleId,
                                @RequestBody Set<Long> permissionIds) {
-        if (isAdding) {
-            return roleService.addPermissions(roleId, permissionIds);
-        } else {
-            return roleService.deletePermissions(roleId, permissionIds);
-        }
+        return roleService.addPermissions(roleId, permissionIds);
+    }
+
+    @DeleteMapping("/{roleId}/permissions/")
+    public Role deletePermissions(@PathVariable long roleId, @RequestBody Set<Long> permissionIds) {
+        return roleService.deletePermissions(roleId, permissionIds);
     }
 }
