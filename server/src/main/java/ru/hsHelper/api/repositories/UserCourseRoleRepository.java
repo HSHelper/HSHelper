@@ -18,4 +18,6 @@ public interface UserCourseRoleRepository extends CrudRepository<UserCourseRole,
     Set<UserCourseRole> findAllByUser(User user);
 
     void deleteAllByUser(User user);
+
+    Set<UserCourseRole> findAllByCourse(Course course);
 }

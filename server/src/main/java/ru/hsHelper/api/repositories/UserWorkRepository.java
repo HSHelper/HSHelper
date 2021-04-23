@@ -10,10 +10,10 @@ import java.util.Set;
 
 public interface UserWorkRepository extends CrudRepository<UserWork, UserWorkKey> {
     void deleteByUser(User user);
-
-    Set<UserWork> findAllByIdIn(Set<Long> workIds);
-
+    
     Set<UserWork> findAllByUser(User user);
 
     Set<UserWork> findAllByUserAndWorkIn(User user, Set<Work> works);
+
+    Set<UserWork> findAllByWork(Work work);
 }
