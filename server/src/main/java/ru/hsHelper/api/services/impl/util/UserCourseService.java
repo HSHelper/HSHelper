@@ -3,35 +3,37 @@ package ru.hsHelper.api.services.impl.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.Group;
 import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.entities.User;
+import ru.hsHelper.api.entities.UserCourseRole;
 import ru.hsHelper.api.entities.UserGroupRole;
 import ru.hsHelper.api.repositories.RoleRepository;
+import ru.hsHelper.api.repositories.UserCourseRoleRepository;
 import ru.hsHelper.api.repositories.UserGroupRoleRepository;
 
 import java.util.Set;
 
 @Service
-public class UserGroupService {
-
+public class UserCourseService {
     private final RoleRepository roleRepository;
-    private final UserGroupRoleRepository userGroupRoleRepository;
+    private final UserCourseRoleRepository userCourseRoleRepository;
 
     @Autowired
-    public UserGroupService(RoleRepository roleRepository, UserGroupRoleRepository userGroupRoleRepository) {
+    public UserCourseService(RoleRepository roleRepository, UserCourseRoleRepository userCourseRoleRepository) {
         this.roleRepository = roleRepository;
-        this.userGroupRoleRepository = userGroupRoleRepository;
+        this.userCourseRoleRepository = userCourseRoleRepository;
     }
 
     @Transactional
-    public void createUserGroupRole(User user, Group group, Set<Long> roleIds) {
+    public void createUserGroupRole(User user, Course course, Set<Long> roleIds) {
         Set<Role> roles = roleRepository.findAllByIdIn(roleIds);
-        UserGroupRole userGroupRole = userGroupRoleRepository.save(new UserGroupRole(user, group, roles));
+        UserCourseRole userCourseRole = userCourseRoleRepository.save(new UserCourseRole(user, course, roles));
         for (Role role : roles) {
-            role.addUserGroupRole(userGroupRole);
+            role.addUserCourseRole(userCourseRole);
         }
-        group.addUserGroupRole(userGroupRole);
-        user.addUserGroupRole(userGroupRole);
+        course.addUser(userCourseRole);
+        user.addCourse(userCourseRole);
     }
 }
