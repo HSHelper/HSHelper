@@ -37,19 +37,19 @@ public class User {
     @Fetch(FetchMode.SELECT)
     private Set<UserGroupRole> groups = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private  Set<UserToPartition> partitions = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserCourseRole> courses = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserCoursePartRole> courseParts = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserWork> userWorks = new HashSet<>();
 

@@ -38,7 +38,7 @@ public class Role {
         name = "role_permission",
         joinColumns = @JoinColumn(name = "role_id"),
         inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.JOIN)
     private Set<Permissions> permissions = new HashSet<>();
 
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
