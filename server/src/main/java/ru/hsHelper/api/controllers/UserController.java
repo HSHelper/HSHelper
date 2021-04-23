@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/groups")
-    public User addGroups(@PathVariable long id, @RequestBody ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
+    public User addGroups(@PathVariable long id, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
         return userService.addGroups(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
@@ -62,7 +62,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/partitions")
-    public User addToPartitions(@PathVariable long id, @RequestBody PartitionAddRequest partitionAddRequest) {
+    public User addToPartitions(@PathVariable long id, @RequestBody @Valid PartitionAddRequest partitionAddRequest) {
         return userService.addToPartitions(id, partitionAddRequest.getPartitionIds(), partitionAddRequest.getUserParts());
     }
 
@@ -72,7 +72,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/courses")
-    public User addCourses(@PathVariable long id, @RequestBody ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
+    public User addCourses(@PathVariable long id, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
         return userService.addCourses(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
@@ -82,7 +82,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/course-parts")
-    public User addCourseParts(@PathVariable long id, @RequestBody ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
+    public User addCourseParts(@PathVariable long id, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
         return userService.addCourseParts(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
@@ -93,7 +93,7 @@ public class UserController {
 
     @PutMapping("/{id}/works")
     public User addWorks(@PathVariable long id,
-                         @RequestBody ObjectsWithSolutionsAddRequest objectsWithSolutionsAddRequest) {
+                         @RequestBody @Valid ObjectsWithSolutionsAddRequest objectsWithSolutionsAddRequest) {
         return userService.addWorks(id, objectsWithSolutionsAddRequest.getObjectsIds(),
                 objectsWithSolutionsAddRequest.getSolutions());
     }
