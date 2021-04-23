@@ -16,6 +16,7 @@ import ru.hsHelper.api.repositories.UserCoursePartRoleRepository;
 import ru.hsHelper.api.repositories.UserRepository;
 import ru.hsHelper.api.repositories.WorkRepository;
 import ru.hsHelper.api.requests.create.CoursePartCreateRequest;
+import ru.hsHelper.api.requests.update.CoursePartUpdateRequest;
 import ru.hsHelper.api.services.CoursePartService;
 import ru.hsHelper.api.services.WorkService;
 import ru.hsHelper.api.services.impl.util.UserCoursePartService;
@@ -73,6 +74,22 @@ public class CoursePartServiceImpl implements CoursePartService {
         return coursePartRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("No course with such id")
         );
+    }
+
+    @Transactional
+    @Override
+    public CoursePart updateCoursePart(long id, CoursePartUpdateRequest coursePartUpdateRequest) {
+        CoursePart coursePart = getCoursePartById(id);
+        coursePart.setBlock(coursePartUpdateRequest.getBlock());
+        coursePart.setWeight(coursePartUpdateRequest.getWeight());
+        coursePart.setName(coursePartUpdateRequest.getName());
+        coursePart.getPartition().removeCoursePart(coursePart);
+        Partition partition = partitionRepository.findById(coursePartUpdateRequest.getPartitionId()).orElseThrow(
+                () -> new IllegalArgumentException("No partition with such id")
+        );
+        coursePart.setPartition(partition);
+        partition.addCoursePart(coursePart);
+        return coursePart;
     }
 
     @Transactional
