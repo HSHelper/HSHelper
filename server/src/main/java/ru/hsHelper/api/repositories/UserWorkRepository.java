@@ -16,4 +16,6 @@ public interface UserWorkRepository extends CrudRepository<UserWork, UserWorkKey
     Set<UserWork> findAllByUserAndWorkIn(User user, Set<Work> works);
 
     Set<UserWork> findAllByWork(Work work);
+
+    Set<UserWork> findAllByWorkAndUserIn(Work work, Set<User> users);
 }
