@@ -6,4 +6,6 @@ import ru.hsHelper.api.requests.create.WorkCreateRequest;
 public interface WorkService {
     Work createWork(WorkCreateRequest workCreateRequest);
     Work getWorkById(long id);
+    void deleteWork(long id);
+    void preDeleteWork(Work work);
 }

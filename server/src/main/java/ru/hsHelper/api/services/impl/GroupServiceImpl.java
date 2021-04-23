@@ -3,20 +3,23 @@ package ru.hsHelper.api.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.Group;
 import ru.hsHelper.api.entities.Partition;
 import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserGroupRole;
+import ru.hsHelper.api.repositories.CourseRepository;
 import ru.hsHelper.api.repositories.GroupRepository;
 import ru.hsHelper.api.repositories.PartitionRepository;
 import ru.hsHelper.api.repositories.RoleRepository;
 import ru.hsHelper.api.repositories.UserGroupRoleRepository;
 import ru.hsHelper.api.repositories.UserRepository;
 import ru.hsHelper.api.requests.update.GroupUpdateRequest;
+import ru.hsHelper.api.services.CourseService;
 import ru.hsHelper.api.services.GroupService;
+import ru.hsHelper.api.services.PartitionService;
 import ru.hsHelper.api.services.impl.util.UserGroupService;
 
-import javax.servlet.http.Part;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,17 +32,25 @@ public class GroupServiceImpl implements GroupService {
     private final RoleRepository roleRepository;
     private final UserGroupService userGroupService;
     private final PartitionRepository partitionRepository;
+    private final PartitionService partitionService;
+    private final CourseService courseService;
+    private final CourseRepository courseRepository;
 
     @Autowired
     public GroupServiceImpl(GroupRepository groupRepository, UserRepository userRepository,
                             UserGroupRoleRepository userGroupRoleRepository, RoleRepository roleRepository,
-                            UserGroupService userGroupService, PartitionRepository partitionRepository) {
+                            UserGroupService userGroupService, PartitionRepository partitionRepository,
+                            PartitionService partitionService, CourseService courseService,
+                            CourseRepository courseRepository) {
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
         this.userGroupRoleRepository = userGroupRoleRepository;
         this.roleRepository = roleRepository;
         this.userGroupService = userGroupService;
         this.partitionRepository = partitionRepository;
+        this.partitionService = partitionService;
+        this.courseService = courseService;
+        this.courseRepository = courseRepository;
     }
 
     @Transactional
@@ -75,6 +86,16 @@ public class GroupServiceImpl implements GroupService {
             userGroupRole.removeUserGroupAndRoles();
         }
         userGroupRoleRepository.deleteAll(userGroupRoles);
+        Set<Partition> partitions = partitionRepository.findAllByGroup(group);
+        for (Partition partition : partitions) {
+            partitionService.preDeletePartition(partition);
+        }
+        partitionRepository.deleteAll(partitions);
+        Set<Course> courses = courseRepository.findAllByGroup(group);
+        for (Course course : courses) {
+            courseService.preDeleteCourse(course);
+        }
+        courseRepository.deleteAll(courses);
         groupRepository.delete(group);
     }
 
@@ -99,39 +120,6 @@ public class GroupServiceImpl implements GroupService {
             userGroupRole.removeUserGroupAndRoles();
         }
         userGroupRoleRepository.deleteAllByGroupAndUserIn(group, users);
-        return group;
-    }
-
-    @Transactional
-    @Override
-    public Group addPartitions(long groupId, Set<Long> partitionIds) {
-        Group group = groupRepository.findById(groupId).orElseThrow(
-                () -> new IllegalArgumentException("No group with such id")
-        );
-        Set<Partition> partitions = partitionRepository.findAllByGroupAndIdIn(group, partitionIds);
-        for (Partition partition : partitions) {
-            partition.getGroup().removePartition(partition);
-            group.addPartition(partition);
-            partition.setGroup(group);
-        }
-        return group;
-    }
-
-    @Transactional
-    @Override
-    public Group deletePartitions(long groupId, Set<Long> partitionIds, Map<Long, Long> groupIds) {
-        Group group = groupRepository.findById(groupId).orElseThrow(
-                () -> new IllegalArgumentException("No group with such id")
-        );
-        Set<Partition> partitions = partitionRepository.findAllByGroupAndIdIn(group, partitionIds);
-        for (Partition partition : partitions) {
-            Group newGroup = groupRepository.findById(groupIds.get(partition.getId())).orElseThrow(
-                    () -> new IllegalArgumentException("No group with such id")
-            );
-            group.removePartition(partition);
-            newGroup.addPartition(partition);
-            partition.setGroup(newGroup);
-        }
         return group;
     }
 }

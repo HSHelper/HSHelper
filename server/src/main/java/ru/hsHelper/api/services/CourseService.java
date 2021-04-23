@@ -6,4 +6,6 @@ import ru.hsHelper.api.requests.create.CourseCreateRequest;
 public interface CourseService {
     Course createCourse(CourseCreateRequest courseCreateRequest);
     Course getCourseById(long id);
+    void deleteCourse(long id);
+    void preDeleteCourse(Course course);
 }

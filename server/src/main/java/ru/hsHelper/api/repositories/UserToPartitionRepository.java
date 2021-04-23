@@ -14,4 +14,8 @@ public interface UserToPartitionRepository extends CrudRepository<UserToPartitio
     void deleteAllByUserAndPartitionIn(User user, Set<Partition> partitionSet);
     Set<UserToPartition> findAllByUser(User user);
     void deleteAllByUser(User user);
+
+    Set<UserToPartition> findAllByPartitionAndUserIn(Partition partition, Set<User> users);
+
+    Set<UserToPartition> findAllByPartition(Partition partition);
 }
