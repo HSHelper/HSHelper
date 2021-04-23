@@ -20,4 +20,6 @@ public interface UserCoursePartRoleRepository extends CrudRepository<UserCourseP
     void deleteAllByUser(User user);
 
     Set<UserCoursePartRole> findAllByCoursePart(CoursePart coursePart);
+
+    Set<UserCoursePartRole> findAllByCoursePartAndUserIn(CoursePart coursePart, Set<User> users);
 }

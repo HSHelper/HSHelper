@@ -27,7 +27,7 @@ public class UserCourseService {
     }
 
     @Transactional
-    public void createUserGroupRole(User user, Course course, Set<Long> roleIds) {
+    public void createUserCourseRole(User user, Course course, Set<Long> roleIds) {
         Set<Role> roles = roleRepository.findAllByIdIn(roleIds);
         UserCourseRole userCourseRole = userCourseRoleRepository.save(new UserCourseRole(user, course, roles));
         for (Role role : roles) {

@@ -7,7 +7,6 @@ import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.CoursePart;
 import ru.hsHelper.api.entities.Group;
 import ru.hsHelper.api.entities.Partition;
-import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserCourseRole;
 import ru.hsHelper.api.repositories.CoursePartRepository;
@@ -123,7 +122,7 @@ public class CourseServiceImpl implements CourseService {
         Course course = getCourseById(courseId);
         Set<User> users = userRepository.findAllByIdIn(userIds);
         for (User user : users) {
-            userCourseService.createUserGroupRole(user, course, roleIds.get(user.getId()));
+            userCourseService.createUserCourseRole(user, course, roleIds.get(user.getId()));
         }
         return course;
     }

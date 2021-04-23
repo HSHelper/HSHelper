@@ -7,7 +7,6 @@ import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.CoursePart;
 import ru.hsHelper.api.entities.Group;
 import ru.hsHelper.api.entities.Partition;
-import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserCoursePartRole;
 import ru.hsHelper.api.entities.UserCourseRole;
@@ -29,6 +28,7 @@ import ru.hsHelper.api.repositories.UserWorkRepository;
 import ru.hsHelper.api.repositories.WorkRepository;
 import ru.hsHelper.api.requests.update.UserUpdateRequest;
 import ru.hsHelper.api.services.UserService;
+import ru.hsHelper.api.services.impl.util.UserCoursePartService;
 import ru.hsHelper.api.services.impl.util.UserCourseService;
 import ru.hsHelper.api.services.impl.util.UserGroupService;
 
@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
     private final UserGroupRoleRepository userGroupRoleRepository;
-    private final RoleRepository roleRepository;
     private final PartitionRepository partitionRepository;
     private final UserToPartitionRepository userToPartitionRepository;
     private final CourseRepository courseRepository;
@@ -53,21 +52,22 @@ public class UserServiceImpl implements UserService {
     private final UserWorkRepository userWorkRepository;
     private final UserGroupService userGroupService;
     private final UserCourseService userCourseService;
+    private final UserCoursePartService userCoursePartService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, GroupRepository groupRepository,
-                           UserGroupRoleRepository userGroupRoleRepository, RoleRepository roleRepository,
+                           UserGroupRoleRepository userGroupRoleRepository,
                            PartitionRepository partitionRepository,
                            UserToPartitionRepository userToPartitionRepository,
                            CourseRepository courseRepository, UserCourseRoleRepository userCourseRoleRepository,
                            CoursePartRepository coursePartRepository,
                            UserCoursePartRoleRepository userCoursePartRoleRepository, WorkRepository workRepository,
                            UserWorkRepository userWorkRepository, UserGroupService userGroupService,
-                           UserCourseService userCourseService) {
+                           UserCourseService userCourseService, UserCoursePartService userCoursePartService) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.userGroupRoleRepository = userGroupRoleRepository;
-        this.roleRepository = roleRepository;
+        this.userCoursePartService = userCoursePartService;
         this.partitionRepository = partitionRepository;
         this.userToPartitionRepository = userToPartitionRepository;
         this.courseRepository = courseRepository;
@@ -193,7 +193,7 @@ public class UserServiceImpl implements UserService {
         User user = getUserById(userId);
         Set<Course> courses = courseRepository.findAllByIdIn(courseIds);
         for (Course course : courses) {
-            userCourseService.createUserGroupRole(user, course, roleIds.get(course.getId()));
+            userCourseService.createUserCourseRole(user, course, roleIds.get(course.getId()));
         }
         return user;
     }
@@ -217,14 +217,7 @@ public class UserServiceImpl implements UserService {
         User user = getUserById(userId);
         Set<CoursePart> courseParts = coursePartRepository.findAllByIdIn(coursePartIds);
         for (CoursePart coursePart : courseParts) {
-            Set<Role> roles = roleRepository.findAllByIdIn(roleIds.get(coursePart.getId()));
-            UserCoursePartRole userCoursePartRole =
-                    userCoursePartRoleRepository.save(new UserCoursePartRole(user, coursePart, roles));
-            for (Role role : roles) {
-                role.addUserCoursePartRole(userCoursePartRole);
-            }
-            coursePart.addUser(userCoursePartRole);
-            user.addCoursePart(userCoursePartRole);
+            userCoursePartService.createUserCoursePartRole(user, coursePart, roleIds.get(coursePart.getId()));
         }
         return user;
     }
