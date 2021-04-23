@@ -29,6 +29,7 @@ import ru.hsHelper.api.repositories.UserWorkRepository;
 import ru.hsHelper.api.repositories.WorkRepository;
 import ru.hsHelper.api.requests.update.UserUpdateRequest;
 import ru.hsHelper.api.services.UserService;
+import ru.hsHelper.api.services.impl.util.UserGroupService;
 
 import java.util.Date;
 import java.util.Set;
@@ -49,6 +50,7 @@ public class UserServiceImpl implements UserService {
     private final UserCoursePartRoleRepository userCoursePartRoleRepository;
     private final WorkRepository workRepository;
     private final UserWorkRepository userWorkRepository;
+    private final UserGroupService userGroupService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, GroupRepository groupRepository,
@@ -58,7 +60,7 @@ public class UserServiceImpl implements UserService {
                            CourseRepository courseRepository, UserCourseRoleRepository userCourseRoleRepository,
                            CoursePartRepository coursePartRepository,
                            UserCoursePartRoleRepository userCoursePartRoleRepository, WorkRepository workRepository,
-                           UserWorkRepository userWorkRepository) {
+                           UserWorkRepository userWorkRepository, UserGroupService userGroupService) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.userGroupRoleRepository = userGroupRoleRepository;
@@ -71,6 +73,7 @@ public class UserServiceImpl implements UserService {
         this.userCoursePartRoleRepository = userCoursePartRoleRepository;
         this.workRepository = workRepository;
         this.userWorkRepository = userWorkRepository;
+        this.userGroupService = userGroupService;
     }
 
     @Transactional
@@ -135,13 +138,7 @@ public class UserServiceImpl implements UserService {
         User user = getUserById(userId);
         Set<Group> groups = groupRepository.findAllByIdIn(groupIds);
         for (Group group : groups) {
-            Set<Role> roles = roleRepository.findAllByIdIn(roleIds.get(group.getId()));
-            UserGroupRole userGroupRole = userGroupRoleRepository.save(new UserGroupRole(user, group, roles));
-            for (Role role : roles) {
-                role.addUserGroupRole(userGroupRole);
-            }
-            group.addUserGroupRole(userGroupRole);
-            user.addUserGroupRole(userGroupRole);
+            userGroupService.createUserGroupRole(user, group, roleIds.get(group.getId()));
         }
         return user;
     }

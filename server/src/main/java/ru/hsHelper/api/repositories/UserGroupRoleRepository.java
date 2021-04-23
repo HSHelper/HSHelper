@@ -15,4 +15,10 @@ public interface UserGroupRoleRepository extends CrudRepository<UserGroupRole, U
     void deleteAllByUserAndGroupIn(User user, Set<Group> groupSet);
     Set<UserGroupRole> findAllByUserAndGroupIn(User user, Set<Group> groupSet);
     Set<UserGroupRole> findAllByUser(User user);
+
+    Set<UserGroupRole> findAllByGroupAndUserIn(Group group, Set<User> users);
+
+    void deleteAllByGroupAndUserIn(Group group, Set<User> users);
+
+    Set<UserGroupRole> findAllByGroup(Group group);
 }
