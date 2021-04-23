@@ -98,18 +98,4 @@ public class UserController {
         userWorkRepository.deleteByUser(user);
         userRepository.deleteById(id);
     }
-
-    @PutMapping("/{userId}/groups/{groupId}")
-    public User addGroup(@PathVariable long userId, @PathVariable long groupId, @RequestBody long roleId) {
-        User user = userRepository.findById(userId).orElseThrow(() ->
-                new IllegalArgumentException("No user with such id"));
-        Group group = groupRepository.findById(groupId).orElseThrow(() ->
-                new IllegalArgumentException("No group with such id"));
-        Role role = roleRepository.findById(roleId).orElseThrow(() ->
-                new IllegalArgumentException("No role with such id"));
-        UserGroupRole userGroupRole = new UserGroupRole(user, group, role);
-        userGroupRoleRepository.save(userGroupRole);
-        groupRepository.save(group);
-        return userRepository.save(user);
-    }
 }

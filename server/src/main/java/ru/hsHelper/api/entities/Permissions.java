@@ -1,11 +1,18 @@
 package ru.hsHelper.api.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
+import javax.swing.text.View;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,8 +30,18 @@ public class Permissions {
     @Column(unique = true)
     private PermissionType permissionType;
 
-    @OneToMany(mappedBy = "permissions")
+    @ManyToMany(mappedBy = "permissions", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.JOIN)
     private Set<Role> roles = new HashSet<>();
+
+
+    public Permissions() {
+        this.permissionType = PermissionType.VIEW;
+    }
+
+    public Permissions(PermissionType permissionType) {
+        this.permissionType = permissionType;
+    }
 
     public long getId() {
         return id;
@@ -48,5 +65,12 @@ public class Permissions {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @PreRemove
+    private void removePermissionsFromRoles() {
+        for (Role role : roles) {
+            role.getPermissions().remove(this);
+        }
     }
 }

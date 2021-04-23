@@ -5,8 +5,10 @@ import ru.hsHelper.api.keys.UserGroupRoleKey;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import java.util.Set;
 
 @Entity
 public class UserGroupRole {
@@ -23,14 +25,13 @@ public class UserGroupRole {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @ManyToMany
+    private Set<Role> roles;
 
-    public UserGroupRole(User user, Group group, Role role) {
+    public UserGroupRole(User user, Group group, Set<Role> roles) {
         this.user = user;
         this.group = group;
-        this.role = role;
+        this.roles = roles;
     }
 
     public UserGroupRole() {
@@ -61,11 +62,11 @@ public class UserGroupRole {
         this.group = group;
     }
 
-    public Role getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

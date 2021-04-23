@@ -1,13 +1,20 @@
 package ru.hsHelper.api.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,18 +33,30 @@ public class Role {
     @Column(unique = true)
     private RoleType roleType;
 
-    @ManyToOne
-    @JoinColumn(name = "permission_id", nullable = false)
-    private Permissions permissions;
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+        name = "role_permission",
+        joinColumns = @JoinColumn(name = "role_id"),
+        inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    @Fetch(FetchMode.JOIN)
+    private Set<Permissions> permissions = new HashSet<>();
 
-    @OneToMany(mappedBy = "role")
+    @ManyToMany(mappedBy = "roles")
     private Set<UserGroupRole> userGroupRoles = new HashSet<>();
 
-    @OneToMany(mappedBy = "role")
+    @ManyToMany(mappedBy = "roles")
     private Set<UserCourseRole> userCourseRoles = new HashSet<>();
 
-    @OneToMany(mappedBy = "role")
+    @ManyToMany(mappedBy = "roles")
     private Set<UserCoursePartRole> userCoursePartRoles = new HashSet<>();
+
+    public Role() {
+        this.roleType = RoleType.OBSERVER;
+    }
+
+    public Role(RoleType roleType) {
+        this.roleType = roleType;
+    }
 
     public long getId() {
         return id;
@@ -55,11 +74,11 @@ public class Role {
         this.roleType = roleType;
     }
 
-    public Permissions getPermissions() {
+    public Set<Permissions> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(Permissions permissions) {
+    public void setPermissions(Set<Permissions> permissions) {
         this.permissions = permissions;
     }
 
@@ -85,5 +104,12 @@ public class Role {
 
     public void setUserCoursePartRoles(Set<UserCoursePartRole> userCoursePartRoles) {
         this.userCoursePartRoles = userCoursePartRoles;
+    }
+
+    @PreRemove
+    private void removeRolesFromPermissions() {
+        for (Permissions p : permissions) {
+            p.getRoles().remove(this);
+        }
     }
 }
