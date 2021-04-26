@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.hsHelper.api.entities.Permissions;
 import ru.hsHelper.api.services.PermissionService;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/permissions")
 public class PermissionsController {

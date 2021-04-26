@@ -137,4 +137,10 @@ public class PartitionServiceImpl implements PartitionService {
         userToPartitionRepository.deleteAll(userToPartitions);
         return partition;
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<Partition> getAll() {
+        return partitionRepository.findAll();
+    }
 }

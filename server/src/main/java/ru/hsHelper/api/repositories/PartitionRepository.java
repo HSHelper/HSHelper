@@ -13,4 +13,6 @@ public interface PartitionRepository extends CrudRepository<Partition, Long> {
     Set<Partition> findAllByGroupAndIdIn(Group group, Set<Long> partitionIds);
 
     Set<Partition> findAllByGroup(Group group);
+
+    Set<Partition> findAll();
 }

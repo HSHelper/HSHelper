@@ -15,4 +15,5 @@ public interface WorkService {
     void preDeleteWork(Work work);
     Work addUsers(long workId, Set<Long> userIds, Map<Long, String> solutions);
     Work deleteUsers(long workId, Set<Long> userIds);
+    Set<Work> getAll();
 }

@@ -57,4 +57,9 @@ public class PartitionController {
     public Partition deleteUsers(@PathVariable long id, @RequestBody Set<Long> userIds) {
         return partitionService.deleteUsers(id, userIds);
     }
+
+    @GetMapping("/")
+    public Set<Partition> getAll() {
+        return partitionService.getAll();
+    }
 }

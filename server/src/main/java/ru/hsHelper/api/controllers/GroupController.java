@@ -59,4 +59,9 @@ public class GroupController {
     public Group deleteUsers(@PathVariable long id, @RequestBody Set<Long> userIds) {
         return groupService.deleteUsers(id, userIds);
     }
+
+    @GetMapping("/")
+    public Set<Group> getAll() {
+        return groupService.getAll();
+    }
 }
