@@ -15,4 +15,5 @@ public interface CourseService {
     void preDeleteCourse(Course course);
     Course addUsers(long courseId, Set<Long> userIds, Map<Long, Set<Long>> roleIds);
     Course deleteUsers(long courseId, Set<Long> userIds);
+    Set<Course> getAll();
 }

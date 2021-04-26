@@ -22,6 +22,7 @@ import ru.hsHelper.api.services.CoursePartService;
 import ru.hsHelper.api.services.CourseService;
 import ru.hsHelper.api.services.impl.util.UserCourseService;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -92,6 +93,7 @@ public class CourseServiceImpl implements CourseService {
         );
     }
 
+    @Transactional
     @Override
     public void deleteCourse(long id) {
         Course course = courseRepository.findById(id).orElseThrow(
@@ -101,6 +103,7 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.delete(course);
     }
 
+    @Transactional
     @Override
     public void preDeleteCourse(Course course) {
         course.getDefaultPartition().removeCourse(course);
@@ -117,6 +120,7 @@ public class CourseServiceImpl implements CourseService {
         coursePartRepository.deleteAll(courseParts);
     }
 
+    @Transactional
     @Override
     public Course addUsers(long courseId, Set<Long> userIds, Map<Long, Set<Long>> roleIds) {
         Course course = getCourseById(courseId);
@@ -127,6 +131,7 @@ public class CourseServiceImpl implements CourseService {
         return course;
     }
 
+    @Transactional
     @Override
     public Course deleteUsers(long courseId, Set<Long> userIds) {
         Course course = getCourseById(courseId);
@@ -137,5 +142,11 @@ public class CourseServiceImpl implements CourseService {
         }
         userCourseRoleRepository.deleteAll(userCourseRoles);
         return course;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<Course> getAll() {
+        return courseRepository.findAll();
     }
 }
