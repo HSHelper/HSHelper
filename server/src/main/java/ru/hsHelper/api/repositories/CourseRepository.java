@@ -15,4 +15,6 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
     Set<Course> findAllByDefaultPartition(Partition partition);
 
     Set<Course> findAllByGroup(Group group);
+
+    Set<Course> findAll();
 }

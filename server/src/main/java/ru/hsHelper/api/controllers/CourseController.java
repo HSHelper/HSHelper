@@ -57,4 +57,9 @@ public class CourseController {
     public Course deleteUsers(@PathVariable long id, @RequestBody Set<Long> userIds) {
         return courseService.deleteUsers(id, userIds);
     }
+
+    @GetMapping("/")
+    public Set<Course> getAll() {
+        return courseService.getAll();
+    }
 }
