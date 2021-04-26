@@ -15,4 +15,5 @@ public interface PartitionService {
     void preDeletePartition(Partition partition);
     Partition addUsers(long partitionId, Set<Long> userIds, Map<Long, Integer> userParts);
     Partition deleteUsers(long partitionId, Set<Long> userIds);
+    Set<Partition> getAll();
 }

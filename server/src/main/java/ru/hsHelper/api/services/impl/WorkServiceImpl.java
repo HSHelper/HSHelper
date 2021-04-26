@@ -116,4 +116,10 @@ public class WorkServiceImpl implements WorkService {
         userWorkRepository.deleteAll(userWorks);
         return work;
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<Work> getAll() {
+        return workRepository.findAll();
+    }
 }

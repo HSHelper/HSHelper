@@ -60,4 +60,9 @@ public class WorkController {
     public Work deleteUsers(@PathVariable long id, @RequestBody Set<Long> userIds) {
         return workService.deleteUsers(id, userIds);
     }
+
+    @GetMapping("/")
+    public Set<Work> getAll() {
+        return workService.getAll();
+    }
 }

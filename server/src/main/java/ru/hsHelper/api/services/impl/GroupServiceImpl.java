@@ -122,4 +122,10 @@ public class GroupServiceImpl implements GroupService {
         userGroupRoleRepository.deleteAllByGroupAndUserIn(group, users);
         return group;
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<Group> getAll() {
+        return groupRepository.findAll();
+    }
 }

@@ -15,4 +15,5 @@ public interface CoursePartService {
     void preDeleteCoursePart(CoursePart coursePart);
     CoursePart addUsers(long coursePartId, Set<Long> userIds, Map<Long, Set<Long>> roleIds);
     CoursePart deleteUsers(long coursePartId, Set<Long> userIds);
+    Set<CoursePart> getAll();
 }

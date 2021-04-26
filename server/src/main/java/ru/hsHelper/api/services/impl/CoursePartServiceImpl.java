@@ -143,4 +143,10 @@ public class CoursePartServiceImpl implements CoursePartService {
         userCoursePartRoleRepository.deleteAll(userCoursePartRoles);
         return coursePart;
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<CoursePart> getAll() {
+        return coursePartRepository.findAll();
+    }
 }

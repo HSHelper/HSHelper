@@ -12,4 +12,6 @@ public interface WorkRepository extends CrudRepository<Work, Long> {
     Set<Work> findAllByIdIn(Set<Long> workIds);
 
     Set<Work> findAllByCoursePart(CoursePart coursePart);
+
+    Set<Work> findAll();
 }
