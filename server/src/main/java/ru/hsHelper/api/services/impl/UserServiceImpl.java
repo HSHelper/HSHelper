@@ -262,4 +262,9 @@ public class UserServiceImpl implements UserService {
         userWorkRepository.deleteAll(userWorks);
         return user;
     }
+
+    @Override
+    public Set<User> getAll() {
+        return userRepository.findAll();
+    }
 }

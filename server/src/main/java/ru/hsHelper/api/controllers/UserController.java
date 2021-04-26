@@ -102,4 +102,9 @@ public class UserController {
     public User deleteWorks(@PathVariable long id, @RequestBody Set<Long> groupIds) {
         return userService.deleteWorks(id, groupIds);
     }
+
+    @GetMapping("/")
+    public Set<User> getAll() {
+        return userService.getAll();
+    }
 }
