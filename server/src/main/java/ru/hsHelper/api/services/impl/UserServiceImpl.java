@@ -268,4 +268,12 @@ public class UserServiceImpl implements UserService {
     public Set<User> getAll() {
         return userRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new IllegalArgumentException("No user with such email")
+        );
+    }
 }
