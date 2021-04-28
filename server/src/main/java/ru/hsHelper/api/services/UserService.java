@@ -22,4 +22,5 @@ public interface UserService {
     User addWorks(long userId, Set<Long> workIds, Map<Long, String> solutions);
     User deleteWorks(long userId, Set<Long> workIds);
     Set<User> getAll();
+    User getUserByEmail(String email);
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.requests.add.ObjectsWithRoleAddRequest;
@@ -18,6 +19,7 @@ import ru.hsHelper.api.requests.update.UserUpdateRequest;
 import ru.hsHelper.api.services.UserService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import java.util.Set;
 
 @RestController
@@ -106,5 +108,10 @@ public class UserController {
     @GetMapping("/")
     public Set<User> getAll() {
         return userService.getAll();
+    }
+
+    @GetMapping("/email")
+    public User getUserByEmail(@RequestParam @Email @Valid String email) {
+        return userService.getUserByEmail(email);
     }
 }
