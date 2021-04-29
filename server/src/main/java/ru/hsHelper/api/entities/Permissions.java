@@ -1,5 +1,6 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -30,6 +31,7 @@ public class Permissions {
     @Column(unique = true)
     private PermissionType permissionType;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "permissions", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.JOIN)
     private Set<Role> roles = new HashSet<>();

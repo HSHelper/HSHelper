@@ -1,5 +1,7 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -37,6 +39,7 @@ public class Work {
     @Fetch(FetchMode.JOIN)
     private CoursePart coursePart;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "work", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserWork> users = new HashSet<>();
