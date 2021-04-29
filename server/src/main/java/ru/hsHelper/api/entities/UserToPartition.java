@@ -1,5 +1,6 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import ru.hsHelper.api.keys.UserToPartitionKey;
@@ -22,6 +23,7 @@ public class UserToPartition {
     @Fetch(FetchMode.JOIN)
     private User user;
 
+    @JsonManagedReference
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @MapsId("partitionId")
     @JoinColumn(name = "partition_id")

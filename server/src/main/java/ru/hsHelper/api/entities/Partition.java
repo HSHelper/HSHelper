@@ -1,5 +1,7 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -22,6 +24,7 @@ public class Partition {
 
     private String name;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "partition", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
     private Set<UserToPartition> users = new HashSet<>();
@@ -31,10 +34,12 @@ public class Partition {
     @Fetch(FetchMode.JOIN)
     private Group group;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "defaultPartition", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Fetch(FetchMode.SELECT)
     private Set<Course> coursesWithThisDefaultPartition = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "partition", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<CoursePart> courseParts = new HashSet<>();

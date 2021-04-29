@@ -1,5 +1,7 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -33,6 +35,8 @@ public class Role {
     @Column(unique = true)
     private RoleType roleType;
 
+
+    @JsonManagedReference
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
         name = "role_permission",
@@ -41,14 +45,17 @@ public class Role {
     @Fetch(FetchMode.JOIN)
     private Set<Permissions> permissions = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserGroupRole> userGroupRoles = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserCourseRole> userCourseRoles = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserCoursePartRole> userCoursePartRoles = new HashSet<>();

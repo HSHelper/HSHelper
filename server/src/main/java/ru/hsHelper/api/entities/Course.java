@@ -1,5 +1,6 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -27,10 +28,12 @@ public class Course {
     @Fetch(FetchMode.JOIN)
     private Partition defaultPartition;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "course", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<UserCourseRole> users = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "course", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     private Set<CoursePart> courseParts = new HashSet<>();

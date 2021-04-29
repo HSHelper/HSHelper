@@ -1,7 +1,10 @@
 package ru.hsHelper.api.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import ru.hsHelper.api.keys.UserCoursePartRoleKey;
 
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -17,17 +20,20 @@ public class UserCoursePartRole {
     @EmbeddedId
     UserCoursePartRoleKey id = new UserCoursePartRoleKey();
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @MapsId("userId")
     @JoinColumn(name = "user_id")
+    @Fetch(FetchMode.JOIN)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @MapsId("coursePartId")
     @JoinColumn(name = "course_part_id")
+    @Fetch(FetchMode.JOIN)
     private CoursePart coursePart;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.JOIN)
     Set<Role> roles = new HashSet<>();
 
     public UserCoursePartRole() {

@@ -1,5 +1,6 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -28,14 +29,17 @@ public class Group {
         this.name = name;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "group", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private Set<UserGroupRole> userGroupRoleSet = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "group", cascade = {CascadeType.MERGE, CascadeType.PERSIST},orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private Set<Partition> partitions = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "group",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private Set<Course> courses = new HashSet<>();
