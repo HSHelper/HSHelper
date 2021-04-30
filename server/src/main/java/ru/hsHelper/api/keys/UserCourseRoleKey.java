@@ -13,6 +13,14 @@ public class UserCourseRoleKey implements Serializable {
     @Column(name = "course_id")
     private Long courseId;
 
+    public UserCourseRoleKey() {
+    }
+
+    public UserCourseRoleKey(Long userId, Long courseId) {
+        this.userId = userId;
+        this.courseId = courseId;
+    }
+
     public Long getUserId() {
         return userId;
     }

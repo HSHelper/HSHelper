@@ -13,6 +13,13 @@ public class UserToPartitionKey implements Serializable {
     @Column(name = "partition_id")
     private Long partitionId;
 
+    public UserToPartitionKey() {}
+
+    public UserToPartitionKey(Long userId, Long partitionId) {
+        this.userId = userId;
+        this.partitionId = partitionId;
+    }
+
     public Long getUserId() {
         return userId;
     }

@@ -13,6 +13,14 @@ public class UserWorkKey implements Serializable {
     @Column(name = "work_id")
     private Long workId;
 
+    public UserWorkKey() {
+    }
+
+    public UserWorkKey(Long userId, Long workId) {
+        this.userId = userId;
+        this.workId = workId;
+    }
+
     public Long getUserId() {
         return userId;
     }

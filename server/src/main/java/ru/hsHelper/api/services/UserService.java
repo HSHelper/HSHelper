@@ -1,6 +1,11 @@
 package ru.hsHelper.api.services;
 
 import ru.hsHelper.api.entities.User;
+import ru.hsHelper.api.entities.UserCoursePartRole;
+import ru.hsHelper.api.entities.UserCourseRole;
+import ru.hsHelper.api.entities.UserGroupRole;
+import ru.hsHelper.api.entities.UserToPartition;
+import ru.hsHelper.api.entities.UserWork;
 import ru.hsHelper.api.requests.update.UserUpdateRequest;
 
 import java.util.Set;
@@ -23,4 +28,14 @@ public interface UserService {
     User deleteWorks(long userId, Set<Long> workIds);
     Set<User> getAll();
     User getUserByEmail(String email);
+    UserGroupRole getGroup(long userId, long groupId);
+    Set<UserGroupRole> getAllGroups(long userId);
+    UserToPartition getPartition(long userId, long partitionId);
+    Set<UserToPartition> getAllPartitions(long userId);
+    UserCourseRole getCourse(long userId, long courseId);
+    Set<UserCourseRole> getAllCourses(long userId);
+    UserCoursePartRole getCoursePart(long userId, long coursePartId);
+    Set<UserCoursePartRole> getAllCourseParts(long userId);
+    UserWork getWork(long userId, long workId);
+    Set<UserWork> getAllWorks(long userId);
 }

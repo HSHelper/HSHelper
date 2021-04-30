@@ -18,7 +18,6 @@ import ru.hsHelper.api.repositories.CoursePartRepository;
 import ru.hsHelper.api.repositories.CourseRepository;
 import ru.hsHelper.api.repositories.GroupRepository;
 import ru.hsHelper.api.repositories.PartitionRepository;
-import ru.hsHelper.api.repositories.RoleRepository;
 import ru.hsHelper.api.repositories.UserCoursePartRoleRepository;
 import ru.hsHelper.api.repositories.UserCourseRoleRepository;
 import ru.hsHelper.api.repositories.UserGroupRoleRepository;
@@ -31,6 +30,8 @@ import ru.hsHelper.api.services.UserService;
 import ru.hsHelper.api.services.impl.util.UserCoursePartService;
 import ru.hsHelper.api.services.impl.util.UserCourseService;
 import ru.hsHelper.api.services.impl.util.UserGroupService;
+import ru.hsHelper.api.services.impl.util.UserPartitionService;
+import ru.hsHelper.api.services.impl.util.UserWorkService;
 
 import java.util.Date;
 import java.util.Set;
@@ -53,6 +54,8 @@ public class UserServiceImpl implements UserService {
     private final UserGroupService userGroupService;
     private final UserCourseService userCourseService;
     private final UserCoursePartService userCoursePartService;
+    private final UserPartitionService userPartitionService;
+    private final UserWorkService userWorkService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, GroupRepository groupRepository,
@@ -63,7 +66,8 @@ public class UserServiceImpl implements UserService {
                            CoursePartRepository coursePartRepository,
                            UserCoursePartRoleRepository userCoursePartRoleRepository, WorkRepository workRepository,
                            UserWorkRepository userWorkRepository, UserGroupService userGroupService,
-                           UserCourseService userCourseService, UserCoursePartService userCoursePartService) {
+                           UserCourseService userCourseService, UserCoursePartService userCoursePartService,
+                           UserPartitionService userPartitionService, UserWorkService userWorkService) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.userGroupRoleRepository = userGroupRoleRepository;
@@ -78,6 +82,8 @@ public class UserServiceImpl implements UserService {
         this.userWorkRepository = userWorkRepository;
         this.userGroupService = userGroupService;
         this.userCourseService = userCourseService;
+        this.userPartitionService = userPartitionService;
+        this.userWorkService = userWorkService;
     }
 
     @Transactional
@@ -275,5 +281,65 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email).orElseThrow(
                 () -> new IllegalArgumentException("No user with such email")
         );
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserGroupRole getGroup(long userId, long groupId) {
+        return userGroupService.getUserGroupRole(userId, groupId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<UserGroupRole> getAllGroups(long userId) {
+        return userGroupRoleRepository.findAllByUser(getUserById(userId));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserToPartition getPartition(long userId, long partitionId) {
+        return userPartitionService.getUserToPartition(userId, partitionId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<UserToPartition> getAllPartitions(long userId) {
+        return userToPartitionRepository.findAllByUser(getUserById(userId));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserCourseRole getCourse(long userId, long courseId) {
+        return userCourseService.getUserCourseRole(userId, courseId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<UserCourseRole> getAllCourses(long userId) {
+        return userCourseRoleRepository.findAllByUser(getUserById(userId));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserCoursePartRole getCoursePart(long userId, long coursePartId) {
+        return userCoursePartService.getUserCoursePartRole(userId, coursePartId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<UserCoursePartRole> getAllCourseParts(long userId) {
+        return userCoursePartRoleRepository.findAllByUser(getUserById(userId));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserWork getWork(long userId, long workId) {
+        return userWorkService.getUserWork(userId, workId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<UserWork> getAllWorks(long userId) {
+        return userWorkRepository.findAllByUser(getUserById(userId));
     }
 }
