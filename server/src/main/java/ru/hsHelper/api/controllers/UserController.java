@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.hsHelper.api.entities.User;
+import ru.hsHelper.api.entities.UserCoursePartRole;
+import ru.hsHelper.api.entities.UserCourseRole;
+import ru.hsHelper.api.entities.UserGroupRole;
+import ru.hsHelper.api.entities.UserToPartition;
+import ru.hsHelper.api.entities.UserWork;
 import ru.hsHelper.api.requests.add.ObjectsWithRoleAddRequest;
 import ru.hsHelper.api.requests.add.ObjectsWithSolutionsAddRequest;
 import ru.hsHelper.api.requests.add.PartitionAddRequest;
@@ -113,5 +118,55 @@ public class UserController {
     @GetMapping("/email")
     public User getUserByEmail(@RequestParam @Email @Valid String email) {
         return userService.getUserByEmail(email);
+    }
+
+    @GetMapping("/{userId}/groups/{groupId}")
+    public UserGroupRole getGroup(@PathVariable long userId, @PathVariable long groupId) {
+        return userService.getGroup(userId, groupId);
+    }
+
+    @GetMapping("/{userId}/groups")
+    public Set<UserGroupRole> getAllGroups(@PathVariable long userId) {
+        return userService.getAllGroups(userId);
+    }
+
+    @GetMapping("/{userId}/partitions/{partitionId}")
+    public UserToPartition getPartition(@PathVariable long userId, @PathVariable long partitionId) {
+        return userService.getPartition(userId, partitionId);
+    }
+
+    @GetMapping("/{userId}/partitions")
+    public Set<UserToPartition> getAllPartitions(@PathVariable long userId) {
+        return userService.getAllPartitions(userId);
+    }
+
+    @GetMapping("/{userId}/courses/{courseId}")
+    public UserCourseRole getCourse(@PathVariable long userId, @PathVariable long courseId) {
+        return userService.getCourse(userId, courseId);
+    }
+
+    @GetMapping("/{userId}/courses")
+    public Set<UserCourseRole> getAllCourses(@PathVariable long userId) {
+        return userService.getAllCourses(userId);
+    }
+
+    @GetMapping("/{userId}/course-parts/{coursePartId}")
+    public UserCoursePartRole getCoursePart(@PathVariable long userId, @PathVariable long coursePartId) {
+        return userService.getCoursePart(userId, coursePartId);
+    }
+
+    @GetMapping("/{userId}/course-parts")
+    public Set<UserCoursePartRole> getAllCourseParts(@PathVariable long userId) {
+        return userService.getAllCourseParts(userId);
+    }
+
+    @GetMapping("/{userId}/works/{workId}")
+    public UserWork getWork(@PathVariable long userId, @PathVariable long workId) {
+        return userService.getWork(userId, workId);
+    }
+
+    @GetMapping("/{userId}/works")
+    public Set<UserWork> getAllWorks(@PathVariable long userId) {
+        return userService.getAllWorks(userId);
     }
 }

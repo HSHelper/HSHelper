@@ -7,8 +7,11 @@ import ru.hsHelper.api.entities.Group;
 import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserGroupRole;
+import ru.hsHelper.api.keys.UserGroupRoleKey;
 import ru.hsHelper.api.repositories.RoleRepository;
 import ru.hsHelper.api.repositories.UserGroupRoleRepository;
+import ru.hsHelper.api.services.GroupService;
+import ru.hsHelper.api.services.UserService;
 
 import java.util.Set;
 
@@ -33,5 +36,12 @@ public class UserGroupService {
         }
         group.addUserGroupRole(userGroupRole);
         user.addUserGroupRole(userGroupRole);
+    }
+
+    @Transactional(readOnly = true)
+    public UserGroupRole getUserGroupRole(long userId, long groupId) {
+        return userGroupRoleRepository.findById(new UserGroupRoleKey(userId, groupId)).orElseThrow(
+                () -> new IllegalArgumentException("There is not such user in this group")
+        );
     }
 }

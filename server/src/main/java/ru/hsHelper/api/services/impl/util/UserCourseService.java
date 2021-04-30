@@ -9,6 +9,7 @@ import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserCourseRole;
 import ru.hsHelper.api.entities.UserGroupRole;
+import ru.hsHelper.api.keys.UserCourseRoleKey;
 import ru.hsHelper.api.repositories.RoleRepository;
 import ru.hsHelper.api.repositories.UserCourseRoleRepository;
 import ru.hsHelper.api.repositories.UserGroupRoleRepository;
@@ -35,5 +36,12 @@ public class UserCourseService {
         }
         course.addUser(userCourseRole);
         user.addCourse(userCourseRole);
+    }
+
+    @Transactional(readOnly = true)
+    public UserCourseRole getUserCourseRole(long userId, long courseId) {
+        return userCourseRoleRepository.findById(new UserCourseRoleKey(userId, courseId)).orElseThrow(
+                () -> new IllegalArgumentException("There is not such user in this course")
+        );
     }
 }
