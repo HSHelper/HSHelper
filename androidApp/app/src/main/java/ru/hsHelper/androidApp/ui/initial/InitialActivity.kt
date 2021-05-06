@@ -2,12 +2,14 @@ package ru.hsHelper.androidApp.ui.initial
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.ui.login.LoginActivity
 import ru.hsHelper.androidApp.ui.navigation.NavigationActivity
+
 
 class InitialActivity : AppCompatActivity() {
     companion object {
@@ -23,7 +25,11 @@ class InitialActivity : AppCompatActivity() {
         if (auth.currentUser == null) {
             startActivityForResult(Intent(this, LoginActivity::class.java), RC_LOGIN)
         } else {
-            startLoggedIn()
+            if (intent.hasExtra("notification")) {
+                startFromNotification()
+            } else {
+                startLoggedIn()
+            }
         }
     }
 
@@ -46,5 +52,11 @@ class InitialActivity : AppCompatActivity() {
     private fun startLoggedIn() {
         startActivity(Intent(this, NavigationActivity::class.java))
         finish()
+    }
+
+    private fun startFromNotification() {
+        Log.d("Notification", "Starting from notification")
+        Log.d("Notification", intent.getStringExtra("notification") ?: "null")
+        startLoggedIn()
     }
 }
