@@ -25,7 +25,8 @@ public class Role {
     public enum RoleType {
         ADMIN,
         STUDENT,
-        OBSERVER
+        OBSERVER,
+        TEACHER
     }
 
     @Id
