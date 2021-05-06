@@ -23,6 +23,8 @@ public class CoursePart {
 
     private String name;
 
+    private String gSheetLink;
+
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "partition_id", nullable = false)
     @Fetch(FetchMode.JOIN)
@@ -49,12 +51,21 @@ public class CoursePart {
     public CoursePart() {
     }
 
-    public CoursePart(String name, Partition partition, Course course, double weight, double block) {
+    public CoursePart(String name, String gSheetLink, Partition partition, Course course, double weight, double block) {
         this.name = name;
+        this.gSheetLink = gSheetLink;
         this.partition = partition;
         this.course = course;
         this.weight = weight;
         this.block = block;
+    }
+
+    public String getGSheetLink() {
+        return gSheetLink;
+    }
+
+    public void setGSheetLink(String gSheetLink) {
+        this.gSheetLink = gSheetLink;
     }
 
     public long getId() {
