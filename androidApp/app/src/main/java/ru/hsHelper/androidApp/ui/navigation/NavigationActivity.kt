@@ -15,7 +15,6 @@ import androidx.appcompat.widget.Toolbar
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.data.ButtonData
 import ru.hsHelper.androidApp.data.NavigationActivityDataProvider
-import ru.hsHelper.androidApp.ui.login.LoginActivity
 import ru.hsHelper.androidApp.ui.settings.SettingsActivity
 import ru.hsHelper.androidApp.utils.getCurrentWindowWidth
 
