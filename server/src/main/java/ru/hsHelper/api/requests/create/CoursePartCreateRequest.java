@@ -8,6 +8,9 @@ import java.io.Serializable;
 public class CoursePartCreateRequest implements Serializable {
     @NotEmpty
     private String name;
+    
+    @NotEmpty
+    private String gSheetLink;
 
     @NotNull
     private long partitionId;
@@ -22,15 +25,24 @@ public class CoursePartCreateRequest implements Serializable {
     @NotNull
     private double block;
 
-    public CoursePartCreateRequest(@NotEmpty String name, @NotNull long partitionId,
+    public CoursePartCreateRequest(@NotEmpty String name, @NotEmpty String gSheetLink, @NotNull long partitionId,
                                    @NotNull long courseId,
                                    @NotNull @Min(value = 0L, message = "weight should be positive") double weight,
                                    @NotNull double block) {
         this.name = name;
+        this.gSheetLink = gSheetLink;
         this.partitionId = partitionId;
         this.courseId = courseId;
         this.weight = weight;
         this.block = block;
+    }
+
+    public String getGSheetLink() {
+        return gSheetLink;
+    }
+
+    public void setGSheetLink(String gSheetLink) {
+        this.gSheetLink = gSheetLink;
     }
 
     public String getName() {
