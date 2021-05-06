@@ -1,22 +1,21 @@
 package ru.hsHelper.androidApp.ui.login
 
 import android.content.Intent
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseUser
-
 import ru.hsHelper.R
+import ru.hsHelper.androidApp.auth.AuthUser
 
 class LoginActivity : AppCompatActivity() {
     companion object {
@@ -27,7 +26,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_login)
 
         val email = findViewById<EditText>(R.id.email)
@@ -141,7 +139,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUiWithUser(model: FirebaseUser) {
+    private fun updateUiWithUser(model: AuthUser) {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
         Toast.makeText(
