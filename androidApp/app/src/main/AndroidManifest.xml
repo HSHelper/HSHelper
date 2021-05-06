@@ -26,7 +26,7 @@
             android:theme="@style/Theme.MyApplication.NoActionBar" />
         <activity
             android:name="ru.hsHelper.androidApp.ui.settings.SettingsActivity"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/settings" />
     </application>
 
 </manifest>

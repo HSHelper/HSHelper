@@ -2,13 +2,13 @@ package ru.hsHelper.androidApp.ui.settings
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.firebase.auth.FirebaseAuth
 import ru.hsHelper.R
-import ru.hsHelper.androidApp.ui.login.LoginActivity
-import java.lang.Exception
+import ru.hsHelper.androidApp.ui.initial.InitialActivity
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -24,24 +24,33 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
+            this.finish()
+            true
+        } else {
+            false
+        }
+    }
+
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
-            val out = findPreference<Preference>("sign_out")
-            out!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                return@OnPreferenceClickListener signOut()
-            }
+            setSignOut()
         }
 
-        private fun signOut(): Boolean {
-            return try {
-                FirebaseAuth.getInstance().signOut()
-                this.activity?.finishAffinity()
-                startActivity(Intent(this.activity, LoginActivity::class.java))
-                true
-            } catch (e: Exception) {
-                false
-            }
+        private fun setSignOut() {
+            findPreference<Preference>(resources.getString(R.string.sign_out))!!
+                .setOnPreferenceClickListener {
+                    try {
+                        this.activity?.finishAffinity()
+                        FirebaseAuth.getInstance().signOut()
+                        startActivity(Intent(this.activity, InitialActivity::class.java))
+                        true
+                    } catch (e: Exception) {
+                        false
+                    }
+                }
         }
     }
 }
