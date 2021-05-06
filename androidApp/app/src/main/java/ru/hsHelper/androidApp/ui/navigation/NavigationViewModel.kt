@@ -2,6 +2,7 @@ package ru.hsHelper.androidApp.ui.navigation
 
 import android.content.Intent
 import android.view.View
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import ru.hsHelper.androidApp.auth.getRestId
 import ru.hsHelper.androidApp.data.ButtonData
 import ru.hsHelper.androidApp.rest.RestProvider
 
+
 class NavigationViewModel : ViewModel() {
     companion object {
         suspend fun getMainButtons(path: String): List<ButtonData> =
@@ -20,7 +22,7 @@ class NavigationViewModel : ViewModel() {
                 else -> when (path[0]) {
                     'G' -> getMainButtonsCourses(path.substring(1).toLong())
                     'C' -> getMainButtonsCourse(path.substring(1).toLong())
-                    'P' -> TODO()
+                    'P' -> getMainButtonsCoursePart(path.substring(1).toLong())
                     else -> TODO()
                 }
             }
@@ -67,9 +69,23 @@ class NavigationViewModel : ViewModel() {
                 .toList()
         }
 
+        private suspend fun getMainButtonsCoursePart(coursePartId: Long): List<ButtonData> {
+            val coursePart = RestProvider.coursePartApi.getCoursePartUsingGET(coursePartId)
+            return listOf(
+                ButtonData("Spreadsheet") { view ->
+                    val browserIntent =
+                        Intent(Intent.ACTION_VIEW, coursePart.gsheetLink?.toUri())
+                    view.context.startActivity(browserIntent)
+                },
+                ButtonData("Works") {
+                    // TODO: Run marks activity
+                },
+            )
+        }
+
         private fun navigationLauncher(name: String, path: String) = { view: View ->
             val intent = Intent(view.context, NavigationActivity::class.java).apply {
-                putExtra(NavigationActivity.nameKey, name)
+                putExtra(NavigationActivity.titleKey, name)
                 putExtra(NavigationActivity.pathKey, path)
             }
             view.context.startActivity(intent)
