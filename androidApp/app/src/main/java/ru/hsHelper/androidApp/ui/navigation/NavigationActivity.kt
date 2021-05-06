@@ -1,5 +1,6 @@
 package ru.hsHelper.androidApp.ui.navigation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.data.ButtonData
+import ru.hsHelper.androidApp.ui.settings.SettingsActivity
 import ru.hsHelper.androidApp.utils.getCurrentWindowWidth
 
 
@@ -113,9 +115,7 @@ class NavigationActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_settings ->
-                Toast
-                    .makeText(this, "Settings is TODO", Toast.LENGTH_SHORT)
-                    .show() // TODO: Run settings activity
+                startActivity(Intent(this, SettingsActivity::class.java))
             R.id.navigation_calendar ->
                 Toast
                     .makeText(this, "Calendar is TODO", Toast.LENGTH_SHORT)
@@ -124,6 +124,7 @@ class NavigationActivity : AppCompatActivity() {
                 Toast
                     .makeText(this, "Contributions is TODO", Toast.LENGTH_SHORT)
                     .show() // TODO: Run contributions mode
+            else -> return false
         }
         return true
     }

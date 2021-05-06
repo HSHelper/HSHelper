@@ -15,6 +15,8 @@ object AuthProvider {
     fun signIn(email: String, password: String) =
         auth.signInWithEmailAndPassword(email, password)
 
+    fun signOut() = auth.signOut()
+
     fun authWithGoogleToken(token: String) =
         auth.signInWithCredential(GoogleAuthProvider.getCredential(token, null))
 
