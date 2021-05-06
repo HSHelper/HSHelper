@@ -21,11 +21,12 @@ data class Permissions(
     @Json(name = "roles") @field:Json(name = "roles") var roles: List<Role>? = null
 ) {
     /**
-     * Values: COMMENT, UPDATE, VIEW
+     * Values: COMMENT, CREATE, UPDATE, VIEW
      */
     @JsonClass(generateAdapter = false)
     enum class PermissionTypeEnum(val value: String) {
         @Json(name = "COMMENT") COMMENT("COMMENT"),
+        @Json(name = "CREATE") CREATE("CREATE"),
         @Json(name = "UPDATE") UPDATE("UPDATE"),
         @Json(name = "VIEW") VIEW("VIEW")
     }

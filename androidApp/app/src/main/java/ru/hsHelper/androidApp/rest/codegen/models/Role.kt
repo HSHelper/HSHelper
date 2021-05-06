@@ -21,12 +21,13 @@ data class Role(
     @Json(name = "roleType") @field:Json(name = "roleType") var roleType: Role.RoleTypeEnum? = null
 ) {
     /**
-     * Values: ADMIN, OBSERVER, STUDENT
+     * Values: ADMIN, OBSERVER, STUDENT, TEACHER
      */
     @JsonClass(generateAdapter = false)
     enum class RoleTypeEnum(val value: String) {
         @Json(name = "ADMIN") ADMIN("ADMIN"),
         @Json(name = "OBSERVER") OBSERVER("OBSERVER"),
-        @Json(name = "STUDENT") STUDENT("STUDENT")
+        @Json(name = "STUDENT") STUDENT("STUDENT"),
+        @Json(name = "TEACHER") TEACHER("TEACHER")
     }
 }
