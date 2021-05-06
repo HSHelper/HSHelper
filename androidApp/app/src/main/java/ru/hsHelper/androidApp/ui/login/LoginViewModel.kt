@@ -3,15 +3,11 @@ package ru.hsHelper.androidApp.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Patterns
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 
 import ru.hsHelper.R
+import ru.hsHelper.androidApp.auth.AuthProvider
 
 class LoginViewModel : ViewModel() {
-    private val auth = FirebaseAuth.getInstance()
-
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
 
@@ -19,7 +15,7 @@ class LoginViewModel : ViewModel() {
     val loginResult: LiveData<LoginResult> = _loginResult
 
     fun login(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password).apply {
+        AuthProvider.signIn(email, password).apply {
             addOnSuccessListener {
                 val user = it?.user
                 if (user != null) {
@@ -35,8 +31,8 @@ class LoginViewModel : ViewModel() {
     }
 
     fun register(email: String, password: String) {
-        if (isEmailValid(email) && isPasswordValid(password)) {
-            auth.createUserWithEmailAndPassword(email, password).apply {
+        if (AuthProvider.isValid(email, password)) {
+            AuthProvider.createUser(email, password).apply {
                 addOnSuccessListener {
                     val user = it?.user
                     if (user != null) {
@@ -55,12 +51,12 @@ class LoginViewModel : ViewModel() {
     }
 
     fun loginDataCheck(email: String, password: String) {
-        val emailError = if (isEmailValid(email)) {
+        val emailError = if (AuthProvider.isEmailValid(email)) {
             null
         } else {
             R.string.invalid_email
         }
-        val passwordError = if (isPasswordValid(password)) {
+        val passwordError = if (AuthProvider.isPasswordValid(password)) {
             null
         } else {
             R.string.invalid_password
@@ -73,17 +69,8 @@ class LoginViewModel : ViewModel() {
     }
 
     fun authWithGoogle(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential).addOnSuccessListener {
-            _loginResult.value = LoginResult.Success(auth.currentUser!!)
+        AuthProvider.authWithGoogleToken(idToken).addOnSuccessListener {
+            _loginResult.value = LoginResult.Success(AuthProvider.currentUser!!)
         }
-    }
-
-    private fun isEmailValid(email: String): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
-    private fun isPasswordValid(password: String): Boolean {
-        return password.length > 5
     }
 }

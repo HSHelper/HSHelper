@@ -1,3 +1,8 @@
 package ru.hsHelper.androidApp.data
 
-data class ButtonData(val mainText: String, val listener: () -> Unit)
+import android.view.View
+
+data class ButtonData(
+    val mainText: String,
+    val listener: (View) -> Unit
+)

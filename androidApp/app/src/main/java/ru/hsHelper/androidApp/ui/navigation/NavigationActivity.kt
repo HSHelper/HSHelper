@@ -1,5 +1,6 @@
 package ru.hsHelper.androidApp.ui.navigation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,41 +12,49 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.data.ButtonData
-import ru.hsHelper.androidApp.data.NavigationActivityDataProvider
+import ru.hsHelper.androidApp.ui.settings.SettingsActivity
 import ru.hsHelper.androidApp.utils.getCurrentWindowWidth
 
 
 class NavigationActivity : AppCompatActivity() {
-    private val mainButtonsRawSize = 2
+    companion object {
+        private const val mainButtonsRawSize = 2
+        const val titleKey = "TITLE"
+        const val pathKey = "PATH"
+    }
+
+    private lateinit var view: NavigationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setToolbar()
+        setView()
+    }
+
+    private fun setToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.title = intent.getStringExtra(titleKey) ?: resources.getString(R.string.groups)
         setSupportActionBar(toolbar)
+    }
 
-        // TODO : Get data from service
-        val data: NavigationActivityDataProvider = object : NavigationActivityDataProvider {
-            override val mainButtons: List<ButtonData>
-                get() = listOf(
-                    ButtonData("Java") {},
-                    ButtonData("Calculus") {},
-                    ButtonData("C++") {},
-                    ButtonData("Algebra") {},
-                    ButtonData("Haskell") {})
-
+    private fun setView() {
+        view = ViewModelProvider(this).get(NavigationViewModel::class.java).apply {
+            mainButtonsState.observe(this@NavigationActivity) {
+                setButtons(it)
+            }
+            postData(intent.getStringExtra(pathKey) ?: "")
         }
-
-        setButtons(data.mainButtons)
     }
 
     private fun makeMainButton(button: ButtonData): AppCompatButton {
         return AppCompatButton(this).apply {
-            setBackgroundColor(context.getColor(R.color.navigation_activity_main_button_color))
+            setBackgroundColor(resources.getColor(R.color.navigation_activity_main_button_color))
             text = button.mainText
-            setOnClickListener { button.listener }
+            setOnClickListener(button.listener)
         }
     }
 
@@ -92,6 +101,7 @@ class NavigationActivity : AppCompatActivity() {
             }
         }
         val table: TableLayout = findViewById(R.id.main_table)
+        table.removeAllViews()
         for (row in tableRows) {
             table.addView(row)
         }
@@ -105,9 +115,7 @@ class NavigationActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_settings ->
-                Toast
-                    .makeText(this, "Settings is TODO", Toast.LENGTH_SHORT)
-                    .show() // TODO: Run settings activity
+                startActivity(Intent(this, SettingsActivity::class.java))
             R.id.navigation_calendar ->
                 Toast
                     .makeText(this, "Calendar is TODO", Toast.LENGTH_SHORT)
@@ -116,6 +124,7 @@ class NavigationActivity : AppCompatActivity() {
                 Toast
                     .makeText(this, "Contributions is TODO", Toast.LENGTH_SHORT)
                     .show() // TODO: Run contributions mode
+            else -> return false
         }
         return true
     }
