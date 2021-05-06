@@ -20,11 +20,10 @@ import ru.hsHelper.androidApp.utils.getCurrentWindowWidth
 class NavigationActivity : AppCompatActivity() {
     companion object {
         private const val mainButtonsRawSize = 2
-        const val nameKey = "NAME"
+        const val titleKey = "TITLE"
         const val pathKey = "PATH"
     }
 
-    private val path = intent?.getStringExtra(pathKey) ?: "/"
     private lateinit var view: NavigationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,8 +35,7 @@ class NavigationActivity : AppCompatActivity() {
 
     private fun setToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        toolbar.title = intent?.getStringExtra(nameKey)
-            ?: path.substring(path.lastIndexOf('/') + 1)
+        toolbar.title = intent.getStringExtra(titleKey) ?: resources.getString(R.string.groups)
         setSupportActionBar(toolbar)
     }
 
@@ -46,15 +44,15 @@ class NavigationActivity : AppCompatActivity() {
             mainButtonsState.observe(this@NavigationActivity) {
                 setButtons(it)
             }
-            postData(path)
+            postData(intent.getStringExtra(pathKey) ?: "")
         }
     }
 
     private fun makeMainButton(button: ButtonData): AppCompatButton {
         return AppCompatButton(this).apply {
-            setBackgroundColor(context.getColor(R.color.navigation_activity_main_button_color))
+            setBackgroundColor(resources.getColor(R.color.navigation_activity_main_button_color))
             text = button.mainText
-            setOnClickListener { button.listener }
+            setOnClickListener(button.listener)
         }
     }
 
