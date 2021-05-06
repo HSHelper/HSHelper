@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
 import ru.hsHelper.R
+import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.ui.login.LoginActivity
 import ru.hsHelper.androidApp.ui.navigation.NavigationActivity
 
@@ -16,13 +16,11 @@ class InitialActivity : AppCompatActivity() {
         private const val RC_LOGIN: Int = 1
     }
 
-    private val auth = FirebaseAuth.getInstance()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_initial)
 
-        if (auth.currentUser == null) {
+        if (AuthProvider.isNotLoggedIn) {
             startActivityForResult(Intent(this, LoginActivity::class.java), RC_LOGIN)
         } else {
             if (intent.hasExtra("notification")) {
@@ -36,7 +34,7 @@ class InitialActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_LOGIN) {
-            if (auth.currentUser == null) {
+            if (AuthProvider.isNotLoggedIn) {
                 Toast.makeText(
                     this,
                     getString(R.string.unexpected_error),
