@@ -22,7 +22,8 @@ public class Permissions {
     public enum PermissionType {
         VIEW,
         UPDATE,
-        COMMENT
+        COMMENT,
+        CREATE
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
