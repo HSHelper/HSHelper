@@ -106,9 +106,8 @@ class NavigationActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.navigation_settings -> {
+            R.id.navigation_settings ->
                 startActivity(Intent(this, SettingsActivity::class.java))
-            }
             R.id.navigation_calendar ->
                 Toast
                     .makeText(this, "Calendar is TODO", Toast.LENGTH_SHORT)
@@ -117,6 +116,7 @@ class NavigationActivity : AppCompatActivity() {
                 Toast
                     .makeText(this, "Contributions is TODO", Toast.LENGTH_SHORT)
                     .show() // TODO: Run contributions mode
+            else -> return false
         }
         return true
     }
