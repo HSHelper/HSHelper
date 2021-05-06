@@ -3,8 +3,6 @@ package ru.hsHelper.androidApp.auth
 import android.util.Patterns
 import com.google.firebase.auth.*
 
-typealias AuthUser = FirebaseUser
-
 object AuthProvider {
     private val auth = FirebaseAuth.getInstance()
 

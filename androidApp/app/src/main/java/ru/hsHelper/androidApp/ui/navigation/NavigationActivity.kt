@@ -11,34 +11,43 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.data.ButtonData
-import ru.hsHelper.androidApp.data.NavigationActivityDataProvider
 import ru.hsHelper.androidApp.utils.getCurrentWindowWidth
 
 
 class NavigationActivity : AppCompatActivity() {
-    private val mainButtonsRawSize = 2
+    companion object {
+        private const val mainButtonsRawSize = 2
+        const val nameKey = "NAME"
+        const val pathKey = "PATH"
+    }
+
+    private val path = intent?.getStringExtra(pathKey) ?: "/"
+    private lateinit var view: NavigationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setToolbar()
+        setView()
+    }
+
+    private fun setToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.title = intent?.getStringExtra(nameKey)
+            ?: path.substring(path.lastIndexOf('/') + 1)
         setSupportActionBar(toolbar)
+    }
 
-        // TODO : Get data from service
-        val data: NavigationActivityDataProvider = object : NavigationActivityDataProvider {
-            override val mainButtons: List<ButtonData>
-                get() = listOf(
-                    ButtonData("Java") {},
-                    ButtonData("Calculus") {},
-                    ButtonData("C++") {},
-                    ButtonData("Algebra") {},
-                    ButtonData("Haskell") {})
-
+    private fun setView() {
+        view = ViewModelProvider(this).get(NavigationViewModel::class.java).apply {
+            mainButtonsState.observe(this@NavigationActivity) {
+                setButtons(it)
+            }
+            postData(path)
         }
-
-        setButtons(data.mainButtons)
     }
 
     private fun makeMainButton(button: ButtonData): AppCompatButton {
@@ -92,6 +101,7 @@ class NavigationActivity : AppCompatActivity() {
             }
         }
         val table: TableLayout = findViewById(R.id.main_table)
+        table.removeAllViews()
         for (row in tableRows) {
             table.addView(row)
         }
