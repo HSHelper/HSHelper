@@ -28,8 +28,14 @@ hs_err_pid*
 /local.properties
 .idea
 .DS_Store
-*/build
+*build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+
+# REST client codegen
+*codegen
+*.swagger*
+*swagger-doc.json
+*swagger.json
