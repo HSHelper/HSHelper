@@ -128,4 +128,28 @@ public class GroupServiceImpl implements GroupService {
     public Set<Group> getAll() {
         return groupRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserGroupRole getUser(long groupId, long userId) {
+        return userGroupService.getUserGroupRole(userId, groupId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<UserGroupRole> getAllUsers(long groupId) {
+        return userGroupRoleRepository.findAllByGroup(getGroupById(groupId));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<Partition> getAllPartitions(long groupId) {
+        return partitionRepository.findAllByGroup(getGroupById(groupId));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<Course> getAllCourses(long groupId) {
+        return courseRepository.findAllByGroup(getGroupById(groupId));
+    }
 }
