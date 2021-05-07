@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.Group;
+import ru.hsHelper.api.entities.Partition;
+import ru.hsHelper.api.entities.UserGroupRole;
 import ru.hsHelper.api.requests.add.ObjectsWithRoleAddRequest;
 import ru.hsHelper.api.requests.create.GroupCreateRequest;
 import ru.hsHelper.api.requests.update.GroupUpdateRequest;
@@ -63,5 +66,25 @@ public class GroupController {
     @GetMapping("/")
     public Set<Group> getAll() {
         return groupService.getAll();
+    }
+
+    @GetMapping("/{groupId}/users/{userId}")
+    public UserGroupRole getUser(@PathVariable long groupId, @PathVariable long userId) {
+        return groupService.getUser(groupId, userId);
+    }
+
+    @GetMapping("/{groupId}/users")
+    public Set<UserGroupRole> getAllUsers(@PathVariable long groupId) {
+        return groupService.getAllUsers(groupId);
+    }
+
+    @GetMapping("/{groupId}/courses")
+    public Set<Course> getAllCourses(@PathVariable long groupId) {
+        return groupService.getAllCourses(groupId);
+    }
+
+    @GetMapping("/{groupId}/partitions")
+    public Set<Partition> getAllPartitions(@PathVariable long groupId) {
+        return groupService.getAllPartitions(groupId);
     }
 }
