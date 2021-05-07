@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.hsHelper.api.entities.Course;
+import ru.hsHelper.api.entities.CoursePart;
 import ru.hsHelper.api.entities.Partition;
+import ru.hsHelper.api.entities.UserToPartition;
 import ru.hsHelper.api.requests.add.PartitionAddRequest;
 import ru.hsHelper.api.requests.create.PartitionCreateRequest;
 import ru.hsHelper.api.requests.update.PartitionUpdateRequest;
@@ -61,5 +64,25 @@ public class PartitionController {
     @GetMapping("/")
     public Set<Partition> getAll() {
         return partitionService.getAll();
+    }
+
+    @GetMapping("/{partitionId}/users/{userId}")
+    public UserToPartition getUser(@PathVariable long partitionId, @PathVariable long userId) {
+        return partitionService.getUser(partitionId, userId);
+    }
+
+    @GetMapping("/{partitionId}/users")
+    public Set<UserToPartition> getAllUsers(@PathVariable long partitionId) {
+        return partitionService.getAllUsers(partitionId);
+    }
+
+    @GetMapping("/{partitionId}/courses")
+    public Set<Course> getAllCoursesWithSuchDefaultPartition(@PathVariable long partitionId) {
+        return partitionService.getCoursesWithSuchDefaultPartition(partitionId);
+    }
+
+    @GetMapping("/{partitionId}/course-parts")
+    public Set<CoursePart> getAllCourseParts(@PathVariable long partitionId) {
+        return partitionService.getCourseParts(partitionId);
     }
 }

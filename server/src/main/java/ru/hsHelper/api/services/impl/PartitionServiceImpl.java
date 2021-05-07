@@ -20,6 +20,7 @@ import ru.hsHelper.api.requests.update.PartitionUpdateRequest;
 import ru.hsHelper.api.services.CoursePartService;
 import ru.hsHelper.api.services.CourseService;
 import ru.hsHelper.api.services.PartitionService;
+import ru.hsHelper.api.services.impl.util.UserPartitionService;
 
 import java.util.Map;
 import java.util.Set;
@@ -35,12 +36,14 @@ public class PartitionServiceImpl implements PartitionService {
     private final CourseService courseService;
     private final CoursePartRepository coursePartRepository;
     private final CoursePartService coursePartService;
+    private final UserPartitionService userPartitionService;
 
     @Autowired
     public PartitionServiceImpl(PartitionRepository partitionRepository, GroupRepository groupRepository,
                                 UserToPartitionRepository userToPartitionRepository, UserRepository userRepository,
                                 CourseRepository courseRepository, CourseService courseService,
-                                CoursePartRepository coursePartRepository, CoursePartService coursePartService) {
+                                CoursePartRepository coursePartRepository, CoursePartService coursePartService,
+                                UserPartitionService userPartitionService) {
         this.partitionRepository = partitionRepository;
         this.groupRepository = groupRepository;
         this.userToPartitionRepository = userToPartitionRepository;
@@ -49,6 +52,7 @@ public class PartitionServiceImpl implements PartitionService {
         this.courseService = courseService;
         this.coursePartRepository = coursePartRepository;
         this.coursePartService = coursePartService;
+        this.userPartitionService = userPartitionService;
     }
 
     @Transactional
@@ -142,5 +146,29 @@ public class PartitionServiceImpl implements PartitionService {
     @Override
     public Set<Partition> getAll() {
         return partitionRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserToPartition getUser(long partitionId, long userId) {
+        return userPartitionService.getUserToPartition(userId, partitionId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<UserToPartition> getAllUsers(long partitionId) {
+        return userToPartitionRepository.findAllByPartition(getPartitionById(partitionId));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<Course> getCoursesWithSuchDefaultPartition(long partitionId) {
+        return courseRepository.findAllByDefaultPartition(getPartitionById(partitionId));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<CoursePart> getCourseParts(long partitionId) {
+        return coursePartRepository.findAllByPartition(getPartitionById(partitionId));
     }
 }
