@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.hsHelper.api.entities.User;
+import ru.hsHelper.api.entities.UserWork;
 import ru.hsHelper.api.entities.Work;
 import ru.hsHelper.api.requests.add.ObjectsWithSolutionsAddRequest;
 import ru.hsHelper.api.requests.create.WorkCreateRequest;
@@ -64,5 +66,15 @@ public class WorkController {
     @GetMapping("/")
     public Set<Work> getAll() {
         return workService.getAll();
+    }
+
+    @GetMapping("/{workId}/users/{userId}")
+    public UserWork getUser(@PathVariable long workId, @PathVariable long userId) {
+        return workService.getUser(workId, userId);
+    }
+
+    @GetMapping("/{workId}/users")
+    public Set<UserWork> getAllUsers(@PathVariable long workId) {
+        return workService.getAllUsers(workId);
     }
 }

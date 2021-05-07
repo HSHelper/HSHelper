@@ -1,5 +1,6 @@
 package ru.hsHelper.api.services;
 
+import ru.hsHelper.api.entities.UserWork;
 import ru.hsHelper.api.entities.Work;
 import ru.hsHelper.api.requests.create.WorkCreateRequest;
 import ru.hsHelper.api.requests.update.WorkUpdateRequest;
@@ -16,4 +17,6 @@ public interface WorkService {
     Work addUsers(long workId, Set<Long> userIds, Map<Long, String> solutions);
     Work deleteUsers(long workId, Set<Long> userIds);
     Set<Work> getAll();
+    UserWork getUser(long workId, long userId);
+    Set<UserWork> getAllUsers(long workId);
 }
