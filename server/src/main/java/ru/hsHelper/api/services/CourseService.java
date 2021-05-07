@@ -1,6 +1,8 @@
 package ru.hsHelper.api.services;
 
 import ru.hsHelper.api.entities.Course;
+import ru.hsHelper.api.entities.CoursePart;
+import ru.hsHelper.api.entities.UserCourseRole;
 import ru.hsHelper.api.requests.create.CourseCreateRequest;
 import ru.hsHelper.api.requests.update.CourseUpdateRequest;
 
@@ -16,4 +18,7 @@ public interface CourseService {
     Course addUsers(long courseId, Set<Long> userIds, Map<Long, Set<Long>> roleIds);
     Course deleteUsers(long courseId, Set<Long> userIds);
     Set<Course> getAll();
+    UserCourseRole getUser(long courseId, long userId);
+    Set<UserCourseRole> getAllUsers(long courseId);
+    Set<CoursePart> getAllCourseParts(long courseId);
 }
