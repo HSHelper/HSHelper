@@ -14,6 +14,7 @@ import ru.hsHelper.api.repositories.WorkRepository;
 import ru.hsHelper.api.requests.create.WorkCreateRequest;
 import ru.hsHelper.api.requests.update.WorkUpdateRequest;
 import ru.hsHelper.api.services.WorkService;
+import ru.hsHelper.api.services.impl.util.UserWorkService;
 
 import java.util.Date;
 import java.util.Map;
@@ -26,14 +27,17 @@ public class WorkServiceImpl implements WorkService {
     private final CoursePartRepository coursePartRepository;
     private final UserWorkRepository userWorkRepository;
     private final UserRepository userRepository;
+    private final UserWorkService userWorkService;
 
     @Autowired
     public WorkServiceImpl(WorkRepository workRepository, CoursePartRepository coursePartRepository,
-                           UserWorkRepository userWorkRepository, UserRepository userRepository) {
+                           UserWorkRepository userWorkRepository, UserRepository userRepository,
+                           UserWorkService userWorkService) {
         this.workRepository = workRepository;
         this.coursePartRepository = coursePartRepository;
         this.userWorkRepository = userWorkRepository;
         this.userRepository = userRepository;
+        this.userWorkService = userWorkService;
     }
 
     @Transactional
@@ -121,5 +125,17 @@ public class WorkServiceImpl implements WorkService {
     @Override
     public Set<Work> getAll() {
         return workRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserWork getUser(long workId, long userId) {
+        return userWorkService.getUserWork(userId, workId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<UserWork> getAllUsers(long workId) {
+        return userWorkRepository.findAllByWork(getWorkById(workId));
     }
 }
