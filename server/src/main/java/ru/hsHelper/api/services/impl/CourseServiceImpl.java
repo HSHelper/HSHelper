@@ -149,4 +149,22 @@ public class CourseServiceImpl implements CourseService {
     public Set<Course> getAll() {
         return courseRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserCourseRole getUser(long courseId, long userId) {
+        return userCourseService.getUserCourseRole(userId, courseId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<UserCourseRole> getAllUsers(long courseId) {
+        return userCourseRoleRepository.findAllByCourse(getCourseById(courseId));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<CoursePart> getAllCourseParts(long courseId) {
+        return coursePartRepository.findAllByCourse(getCourseById(courseId));
+    }
 }

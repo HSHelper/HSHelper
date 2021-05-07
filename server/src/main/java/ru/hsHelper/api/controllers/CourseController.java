@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.hsHelper.api.entities.Course;
+import ru.hsHelper.api.entities.CoursePart;
+import ru.hsHelper.api.entities.User;
+import ru.hsHelper.api.entities.UserCourseRole;
 import ru.hsHelper.api.requests.add.ObjectsWithRoleAddRequest;
 import ru.hsHelper.api.requests.create.CourseCreateRequest;
 import ru.hsHelper.api.requests.update.CourseUpdateRequest;
@@ -61,5 +64,20 @@ public class CourseController {
     @GetMapping("/")
     public Set<Course> getAll() {
         return courseService.getAll();
+    }
+
+    @GetMapping("/{courseId}/users/{userId}")
+    public UserCourseRole getUser(@PathVariable long courseId, @PathVariable long userId) {
+        return courseService.getUser(courseId, userId);
+    }
+
+    @GetMapping("/{courseId}/users")
+    public Set<UserCourseRole> getAllUsers(@PathVariable long courseId) {
+        return courseService.getAllUsers(courseId);
+    }
+
+    @GetMapping("/{courseId}/course-parts")
+    public Set<CoursePart> getAllCourseParts(@PathVariable long courseId) {
+        return courseService.getAllCourseParts(courseId);
     }
 }
