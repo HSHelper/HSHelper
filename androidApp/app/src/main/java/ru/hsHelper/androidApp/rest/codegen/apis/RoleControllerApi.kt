@@ -17,7 +17,7 @@ import ru.hsHelper.androidApp.rest.codegen.models.Role
 interface RoleControllerApi {
     /**
      * addPermissions
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param permissionIds permissionIds (required)
      * @param roleId roleId (required)
      */
@@ -32,7 +32,7 @@ interface RoleControllerApi {
     ): Role
     /**
      * createRole
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param roleType roleType (required)
      */
     @Headers(
@@ -45,7 +45,7 @@ interface RoleControllerApi {
     ): Role
     /**
      * createRole
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param roleType roleType (required)
      */
     @Headers(
@@ -58,7 +58,7 @@ interface RoleControllerApi {
     ): Role
     /**
      * deletePermissions
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param permissionIds permissionIds (required)
      * @param roleId roleId (required)
      */
@@ -72,7 +72,7 @@ interface RoleControllerApi {
     ): Role
     /**
      * deleteRole
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -84,7 +84,7 @@ interface RoleControllerApi {
     ): Unit
     /**
      * getRoleById
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -96,7 +96,7 @@ interface RoleControllerApi {
     ): Role
     /**
      * getRoleByRoleType
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param roleType roleType (required)
      */
     @Headers(

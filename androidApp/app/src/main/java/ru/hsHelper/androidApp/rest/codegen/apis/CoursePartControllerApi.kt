@@ -15,12 +15,14 @@ import ru.hsHelper.androidApp.rest.codegen.models.CoursePart
 import ru.hsHelper.androidApp.rest.codegen.models.CoursePartCreateRequest
 import ru.hsHelper.androidApp.rest.codegen.models.CoursePartUpdateRequest
 import ru.hsHelper.androidApp.rest.codegen.models.ObjectsWithRoleAddRequest
+import ru.hsHelper.androidApp.rest.codegen.models.UserCoursePartRole
+import ru.hsHelper.androidApp.rest.codegen.models.Work
 
 @JvmSuppressWildcards
 interface CoursePartControllerApi {
     /**
      * addUsers
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param objectsWithRoleAddRequest objectsWithRoleAddRequest (required)
      */
@@ -35,7 +37,7 @@ interface CoursePartControllerApi {
     ): CoursePart
     /**
      * createCoursePart
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param coursePartCreateRequest coursePartCreateRequest (required)
      */
     @Headers(
@@ -48,7 +50,7 @@ interface CoursePartControllerApi {
     ): CoursePart
     /**
      * deleteCoursePart
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -60,7 +62,7 @@ interface CoursePartControllerApi {
     ): Unit
     /**
      * deleteUsers
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param userIds userIds (required)
      */
@@ -73,8 +75,20 @@ interface CoursePartControllerApi {
         @retrofit2.http.Body userIds: List<Long>
     ): CoursePart
     /**
+     * getAllUsers
+     * The endpoint is owned by server REST api service owner
+     * @param coursePartId coursePartId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllUsersUsingGET_1"
+    )
+    @GET("course-parts/{coursePartId}/users")
+    suspend fun getAllUsersUsingGET1(
+        @retrofit2.http.Path("coursePartId") coursePartId: Long
+    ): List<UserCoursePartRole>
+    /**
      * getAll
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      */
     @Headers(
         "X-Operation-ID: getAllUsingGET_1"
@@ -82,8 +96,20 @@ interface CoursePartControllerApi {
     @GET("course-parts/")
     suspend fun getAllUsingGET1(): List<CoursePart>
     /**
+     * getAllWorks
+     * The endpoint is owned by server REST api service owner
+     * @param coursePartId coursePartId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllWorksUsingGET"
+    )
+    @GET("course-parts/{coursePartId}/works")
+    suspend fun getAllWorksUsingGET(
+        @retrofit2.http.Path("coursePartId") coursePartId: Long
+    ): List<Work>
+    /**
      * getCoursePart
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -94,8 +120,22 @@ interface CoursePartControllerApi {
         @retrofit2.http.Path("id") id: Long
     ): CoursePart
     /**
+     * getUser
+     * The endpoint is owned by server REST api service owner
+     * @param coursePartId coursePartId (required)
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getUserUsingGET_1"
+    )
+    @GET("course-parts/{coursePartId}/users/{userId}")
+    suspend fun getUserUsingGET1(
+        @retrofit2.http.Path("coursePartId") coursePartId: Long,
+        @retrofit2.http.Path("userId") userId: Long
+    ): UserCoursePartRole
+    /**
      * updateCoursePart
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param coursePartUpdateRequest coursePartUpdateRequest (required)
      * @param id id (required)
      */

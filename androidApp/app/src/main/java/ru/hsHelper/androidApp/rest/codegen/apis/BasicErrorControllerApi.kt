@@ -13,7 +13,7 @@ import ru.hsHelper.androidApp.rest.codegen.models.ModelAndView
 interface BasicErrorControllerApi {
     /**
      * errorHtml
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      */
     @Headers(
         "X-Operation-ID: errorHtmlUsingDELETE"
@@ -22,7 +22,7 @@ interface BasicErrorControllerApi {
     suspend fun errorHtmlUsingDELETE(): ModelAndView
     /**
      * errorHtml
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      */
     @Headers(
         "X-Operation-ID: errorHtmlUsingGET"
@@ -31,7 +31,7 @@ interface BasicErrorControllerApi {
     suspend fun errorHtmlUsingGET(): ModelAndView
     /**
      * errorHtml
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      */
     @Headers(
         "X-Operation-ID: errorHtmlUsingHEAD",
@@ -41,7 +41,7 @@ interface BasicErrorControllerApi {
     suspend fun errorHtmlUsingHEAD(): ModelAndView
     /**
      * errorHtml
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      */
     @Headers(
         "X-Operation-ID: errorHtmlUsingOPTIONS",
@@ -51,7 +51,7 @@ interface BasicErrorControllerApi {
     suspend fun errorHtmlUsingOPTIONS(): ModelAndView
     /**
      * errorHtml
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      */
     @Headers(
         "X-Operation-ID: errorHtmlUsingPATCH",
@@ -61,7 +61,7 @@ interface BasicErrorControllerApi {
     suspend fun errorHtmlUsingPATCH(): ModelAndView
     /**
      * errorHtml
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      */
     @Headers(
         "X-Operation-ID: errorHtmlUsingPOST",
@@ -71,7 +71,7 @@ interface BasicErrorControllerApi {
     suspend fun errorHtmlUsingPOST(): ModelAndView
     /**
      * errorHtml
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      */
     @Headers(
         "X-Operation-ID: errorHtmlUsingPUT",

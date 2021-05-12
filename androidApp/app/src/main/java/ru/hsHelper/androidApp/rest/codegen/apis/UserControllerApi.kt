@@ -27,7 +27,7 @@ import ru.hsHelper.androidApp.rest.codegen.models.UserWork
 interface UserControllerApi {
     /**
      * addCourseParts
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param objectsWithRoleAddRequest objectsWithRoleAddRequest (required)
      */
@@ -42,7 +42,7 @@ interface UserControllerApi {
     ): User
     /**
      * addCourses
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param objectsWithRoleAddRequest objectsWithRoleAddRequest (required)
      */
@@ -57,7 +57,7 @@ interface UserControllerApi {
     ): User
     /**
      * addGroups
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param objectsWithRoleAddRequest objectsWithRoleAddRequest (required)
      */
@@ -72,7 +72,7 @@ interface UserControllerApi {
     ): User
     /**
      * addToPartitions
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param partitionAddRequest partitionAddRequest (required)
      */
@@ -87,7 +87,7 @@ interface UserControllerApi {
     ): User
     /**
      * addWorks
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param objectsWithSolutionsAddRequest objectsWithSolutionsAddRequest (required)
      */
@@ -102,7 +102,7 @@ interface UserControllerApi {
     ): User
     /**
      * createUser
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param userCreateRequest userCreateRequest (required)
      */
     @Headers(
@@ -115,7 +115,7 @@ interface UserControllerApi {
     ): User
     /**
      * deleteCourseParts
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param coursePartIds coursePartIds (required)
      * @param id id (required)
      */
@@ -129,7 +129,7 @@ interface UserControllerApi {
     ): User
     /**
      * deleteCourses
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param courseIds courseIds (required)
      * @param id id (required)
      */
@@ -143,7 +143,7 @@ interface UserControllerApi {
     ): User
     /**
      * deleteGroups
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param groupIds groupIds (required)
      * @param id id (required)
      */
@@ -157,7 +157,7 @@ interface UserControllerApi {
     ): User
     /**
      * deletePartitions
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param partitionIds partitionIds (required)
      */
@@ -171,7 +171,7 @@ interface UserControllerApi {
     ): User
     /**
      * deleteUser
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -183,7 +183,7 @@ interface UserControllerApi {
     ): Unit
     /**
      * deleteWorks
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param groupIds groupIds (required)
      * @param id id (required)
      */
@@ -197,31 +197,31 @@ interface UserControllerApi {
     ): User
     /**
      * getAllCourseParts
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getAllCoursePartsUsingGET"
+        "X-Operation-ID: getAllCoursePartsUsingGET_2"
     )
     @GET("users/{userId}/course-parts")
-    suspend fun getAllCoursePartsUsingGET(
+    suspend fun getAllCoursePartsUsingGET2(
         @retrofit2.http.Path("userId") userId: Long
     ): List<UserCoursePartRole>
     /**
      * getAllCourses
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getAllCoursesUsingGET"
+        "X-Operation-ID: getAllCoursesUsingGET_1"
     )
     @GET("users/{userId}/courses")
-    suspend fun getAllCoursesUsingGET(
+    suspend fun getAllCoursesUsingGET1(
         @retrofit2.http.Path("userId") userId: Long
     ): List<UserCourseRole>
     /**
      * getAllGroups
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param userId userId (required)
      */
     @Headers(
@@ -233,19 +233,19 @@ interface UserControllerApi {
     ): List<UserGroupRole>
     /**
      * getAllPartitions
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getAllPartitionsUsingGET"
+        "X-Operation-ID: getAllPartitionsUsingGET_1"
     )
     @GET("users/{userId}/partitions")
-    suspend fun getAllPartitionsUsingGET(
+    suspend fun getAllPartitionsUsingGET1(
         @retrofit2.http.Path("userId") userId: Long
     ): List<UserToPartition>
     /**
      * getAll
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      */
     @Headers(
         "X-Operation-ID: getAllUsingGET_4"
@@ -254,19 +254,19 @@ interface UserControllerApi {
     suspend fun getAllUsingGET4(): List<User>
     /**
      * getAllWorks
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getAllWorksUsingGET"
+        "X-Operation-ID: getAllWorksUsingGET_1"
     )
     @GET("users/{userId}/works")
-    suspend fun getAllWorksUsingGET(
+    suspend fun getAllWorksUsingGET1(
         @retrofit2.http.Path("userId") userId: Long
     ): List<UserWork>
     /**
      * getCoursePart
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param coursePartId coursePartId (required)
      * @param userId userId (required)
      */
@@ -280,7 +280,7 @@ interface UserControllerApi {
     ): UserCoursePartRole
     /**
      * getCourse
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param courseId courseId (required)
      * @param userId userId (required)
      */
@@ -294,7 +294,7 @@ interface UserControllerApi {
     ): UserCourseRole
     /**
      * getGroup
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param groupId groupId (required)
      * @param userId userId (required)
      */
@@ -308,7 +308,7 @@ interface UserControllerApi {
     ): UserGroupRole
     /**
      * getPartition
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param partitionId partitionId (required)
      * @param userId userId (required)
      */
@@ -322,7 +322,7 @@ interface UserControllerApi {
     ): UserToPartition
     /**
      * getUserByEmail
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param email email (required)
      */
     @Headers(
@@ -334,19 +334,19 @@ interface UserControllerApi {
     ): User
     /**
      * getUser
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
-        "X-Operation-ID: getUserUsingGET"
+        "X-Operation-ID: getUserUsingGET_4"
     )
     @GET("users/{id}")
-    suspend fun getUserUsingGET(
+    suspend fun getUserUsingGET4(
         @retrofit2.http.Path("id") id: Long
     ): User
     /**
      * getWork
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param userId userId (required)
      * @param workId workId (required)
      */
@@ -360,7 +360,7 @@ interface UserControllerApi {
     ): UserWork
     /**
      * updateUser
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param userUpdateRequest userUpdateRequest (required)
      */

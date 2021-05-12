@@ -43,8 +43,7 @@ generateSwagger {
     }
     platform = "kotlin-coroutines"
     packageName = "ru.hsHelper.androidApp.rest.codegen"
-    specName = "integration"
-    specVersion = "1.0.0"
+    specName = "server REST api"
     inputFile = file("./swagger-doc.json")
     outputDir = file("./src/main/java/")
 }

@@ -16,7 +16,7 @@ import ru.hsHelper.androidApp.rest.codegen.models.Permissions
 interface PermissionsControllerApi {
     /**
      * createPermission
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param permissionType permissionType (required)
      */
     @Headers(
@@ -29,7 +29,7 @@ interface PermissionsControllerApi {
     ): Permissions
     /**
      * createPermission
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param permissionType permissionType (required)
      */
     @Headers(
@@ -42,7 +42,7 @@ interface PermissionsControllerApi {
     ): Permissions
     /**
      * deletePermission
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -54,7 +54,7 @@ interface PermissionsControllerApi {
     ): Unit
     /**
      * getPermissionById
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -66,7 +66,7 @@ interface PermissionsControllerApi {
     ): Permissions
     /**
      * getPermissionByPermissionType
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param permissionType permissionType (required)
      */
     @Headers(

@@ -11,16 +11,19 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import ru.hsHelper.androidApp.rest.codegen.models.Course
 import ru.hsHelper.androidApp.rest.codegen.models.Group
 import ru.hsHelper.androidApp.rest.codegen.models.GroupCreateRequest
 import ru.hsHelper.androidApp.rest.codegen.models.GroupUpdateRequest
 import ru.hsHelper.androidApp.rest.codegen.models.ObjectsWithRoleAddRequest
+import ru.hsHelper.androidApp.rest.codegen.models.Partition
+import ru.hsHelper.androidApp.rest.codegen.models.UserGroupRole
 
 @JvmSuppressWildcards
 interface GroupControllerApi {
     /**
      * addUsers
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param objectsWithRoleAddRequest objectsWithRoleAddRequest (required)
      */
@@ -35,7 +38,7 @@ interface GroupControllerApi {
     ): Group
     /**
      * createGroup
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param groupCreateRequest groupCreateRequest (required)
      */
     @Headers(
@@ -48,7 +51,7 @@ interface GroupControllerApi {
     ): Group
     /**
      * deleteGroup
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -60,7 +63,7 @@ interface GroupControllerApi {
     ): Unit
     /**
      * deleteUsers
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param userIds userIds (required)
      */
@@ -73,8 +76,44 @@ interface GroupControllerApi {
         @retrofit2.http.Body userIds: List<Long>
     ): Group
     /**
+     * getAllCourses
+     * The endpoint is owned by server REST api service owner
+     * @param groupId groupId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllCoursesUsingGET"
+    )
+    @GET("groups/{groupId}/courses")
+    suspend fun getAllCoursesUsingGET(
+        @retrofit2.http.Path("groupId") groupId: Long
+    ): List<Course>
+    /**
+     * getAllPartitions
+     * The endpoint is owned by server REST api service owner
+     * @param groupId groupId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllPartitionsUsingGET"
+    )
+    @GET("groups/{groupId}/partitions")
+    suspend fun getAllPartitionsUsingGET(
+        @retrofit2.http.Path("groupId") groupId: Long
+    ): List<Partition>
+    /**
+     * getAllUsers
+     * The endpoint is owned by server REST api service owner
+     * @param groupId groupId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllUsersUsingGET_2"
+    )
+    @GET("groups/{groupId}/users")
+    suspend fun getAllUsersUsingGET2(
+        @retrofit2.http.Path("groupId") groupId: Long
+    ): List<UserGroupRole>
+    /**
      * getAll
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      */
     @Headers(
         "X-Operation-ID: getAllUsingGET_2"
@@ -83,7 +122,7 @@ interface GroupControllerApi {
     suspend fun getAllUsingGET2(): List<Group>
     /**
      * getGroup
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -94,8 +133,22 @@ interface GroupControllerApi {
         @retrofit2.http.Path("id") id: Long
     ): Group
     /**
+     * getUser
+     * The endpoint is owned by server REST api service owner
+     * @param groupId groupId (required)
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getUserUsingGET_2"
+    )
+    @GET("groups/{groupId}/users/{userId}")
+    suspend fun getUserUsingGET2(
+        @retrofit2.http.Path("groupId") groupId: Long,
+        @retrofit2.http.Path("userId") userId: Long
+    ): UserGroupRole
+    /**
      * updateGroup
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param groupUpdateRequest groupUpdateRequest (required)
      * @param id id (required)
      */
