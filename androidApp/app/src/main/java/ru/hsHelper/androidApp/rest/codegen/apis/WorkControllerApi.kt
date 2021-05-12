@@ -12,6 +12,7 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import ru.hsHelper.androidApp.rest.codegen.models.ObjectsWithSolutionsAddRequest
+import ru.hsHelper.androidApp.rest.codegen.models.UserWork
 import ru.hsHelper.androidApp.rest.codegen.models.Work
 import ru.hsHelper.androidApp.rest.codegen.models.WorkCreateRequest
 import ru.hsHelper.androidApp.rest.codegen.models.WorkUpdateRequest
@@ -20,7 +21,7 @@ import ru.hsHelper.androidApp.rest.codegen.models.WorkUpdateRequest
 interface WorkControllerApi {
     /**
      * addUsers
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param objectsWithSolutionsAddRequest objectsWithSolutionsAddRequest (required)
      */
@@ -35,7 +36,7 @@ interface WorkControllerApi {
     ): Work
     /**
      * createWork
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param workCreateRequest workCreateRequest (required)
      */
     @Headers(
@@ -48,7 +49,7 @@ interface WorkControllerApi {
     ): Work
     /**
      * deleteUsers
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param userIds userIds (required)
      */
@@ -62,7 +63,7 @@ interface WorkControllerApi {
     ): Work
     /**
      * deleteWork
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -73,8 +74,20 @@ interface WorkControllerApi {
         @retrofit2.http.Path("id") id: Long
     ): Unit
     /**
+     * getAllUsers
+     * The endpoint is owned by server REST api service owner
+     * @param workId workId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllUsersUsingGET_4"
+    )
+    @GET("works/{workId}/users")
+    suspend fun getAllUsersUsingGET4(
+        @retrofit2.http.Path("workId") workId: Long
+    ): List<UserWork>
+    /**
      * getAll
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      */
     @Headers(
         "X-Operation-ID: getAllUsingGET_5"
@@ -82,8 +95,22 @@ interface WorkControllerApi {
     @GET("works/")
     suspend fun getAllUsingGET5(): List<Work>
     /**
+     * getUser
+     * The endpoint is owned by server REST api service owner
+     * @param userId userId (required)
+     * @param workId workId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getUserUsingGET_5"
+    )
+    @GET("works/{workId}/users/{userId}")
+    suspend fun getUserUsingGET5(
+        @retrofit2.http.Path("userId") userId: Long,
+        @retrofit2.http.Path("workId") workId: Long
+    ): UserWork
+    /**
      * getWork
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -95,7 +122,7 @@ interface WorkControllerApi {
     ): Work
     /**
      * updateWork
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param workUpdateRequest workUpdateRequest (required)
      */

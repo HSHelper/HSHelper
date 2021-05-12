@@ -11,16 +11,19 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import ru.hsHelper.androidApp.rest.codegen.models.Course
+import ru.hsHelper.androidApp.rest.codegen.models.CoursePart
 import ru.hsHelper.androidApp.rest.codegen.models.Partition
 import ru.hsHelper.androidApp.rest.codegen.models.PartitionAddRequest
 import ru.hsHelper.androidApp.rest.codegen.models.PartitionCreateRequest
 import ru.hsHelper.androidApp.rest.codegen.models.PartitionUpdateRequest
+import ru.hsHelper.androidApp.rest.codegen.models.UserToPartition
 
 @JvmSuppressWildcards
 interface PartitionControllerApi {
     /**
      * addUsers
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param partitionAddRequest partitionAddRequest (required)
      */
@@ -35,7 +38,7 @@ interface PartitionControllerApi {
     ): Partition
     /**
      * createPartition
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param partitionCreateRequest partitionCreateRequest (required)
      */
     @Headers(
@@ -48,7 +51,7 @@ interface PartitionControllerApi {
     ): Partition
     /**
      * deletePartition
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -60,7 +63,7 @@ interface PartitionControllerApi {
     ): Unit
     /**
      * deleteUsers
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param userIds userIds (required)
      */
@@ -73,8 +76,44 @@ interface PartitionControllerApi {
         @retrofit2.http.Body userIds: List<Long>
     ): Partition
     /**
+     * getAllCourseParts
+     * The endpoint is owned by server REST api service owner
+     * @param partitionId partitionId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllCoursePartsUsingGET_1"
+    )
+    @GET("partitions/{partitionId}/course-parts")
+    suspend fun getAllCoursePartsUsingGET1(
+        @retrofit2.http.Path("partitionId") partitionId: Long
+    ): List<CoursePart>
+    /**
+     * getAllCoursesWithSuchDefaultPartition
+     * The endpoint is owned by server REST api service owner
+     * @param partitionId partitionId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllCoursesWithSuchDefaultPartitionUsingGET"
+    )
+    @GET("partitions/{partitionId}/courses")
+    suspend fun getAllCoursesWithSuchDefaultPartitionUsingGET(
+        @retrofit2.http.Path("partitionId") partitionId: Long
+    ): List<Course>
+    /**
+     * getAllUsers
+     * The endpoint is owned by server REST api service owner
+     * @param partitionId partitionId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllUsersUsingGET_3"
+    )
+    @GET("partitions/{partitionId}/users")
+    suspend fun getAllUsersUsingGET3(
+        @retrofit2.http.Path("partitionId") partitionId: Long
+    ): List<UserToPartition>
+    /**
      * getAll
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      */
     @Headers(
         "X-Operation-ID: getAllUsingGET_3"
@@ -83,7 +122,7 @@ interface PartitionControllerApi {
     suspend fun getAllUsingGET3(): List<Partition>
     /**
      * getPartition
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      */
     @Headers(
@@ -94,8 +133,22 @@ interface PartitionControllerApi {
         @retrofit2.http.Path("id") id: Long
     ): Partition
     /**
+     * getUser
+     * The endpoint is owned by server REST api service owner
+     * @param partitionId partitionId (required)
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getUserUsingGET_3"
+    )
+    @GET("partitions/{partitionId}/users/{userId}")
+    suspend fun getUserUsingGET3(
+        @retrofit2.http.Path("partitionId") partitionId: Long,
+        @retrofit2.http.Path("userId") userId: Long
+    ): UserToPartition
+    /**
      * updatePartition
-     * The endpoint is owned by integration service owner
+     * The endpoint is owned by server REST api service owner
      * @param id id (required)
      * @param partitionUpdateRequest partitionUpdateRequest (required)
      */

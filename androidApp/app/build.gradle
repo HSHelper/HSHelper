@@ -1,11 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id "de.undercouch.download"
+    id 'com.google.gms.google-services'
+    id "com.yelp.codegen.plugin"
 }
-
-apply plugin: 'com.android.application'
-
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
@@ -36,19 +35,49 @@ android {
     }
 }
 
+generateSwagger {
+    download {
+        src "http://127.0.0.1:8080/v2/api-docs"
+        dest "./swagger-doc.json"
+        onlyIfModified true
+    }
+    platform = "kotlin-coroutines"
+    packageName = "ru.hsHelper.androidApp.rest.codegen"
+    specName = "server REST api"
+    inputFile = file("./swagger-doc.json")
+    outputDir = file("./src/main/java/")
+}
+
 dependencies {
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.annotation:annotation:1.2.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-    implementation 'com.google.firebase:firebase-auth'
-    implementation platform('com.google.firebase:firebase-bom:26.8.0')
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'androidx.preference:preference-ktx:1.1.1'
+
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+
+    // For generated rest client
+    implementation 'org.threeten:threetenbp:1.5.1'
+    implementation "com.squareup.moshi:moshi:1.11.0"
+    implementation "com.squareup.moshi:moshi-adapters:1.11.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.11.0"
+    implementation "com.squareup.okhttp3:okhttp:4.9.1"
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
+
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-messaging-directboot:21.1.0'
+    implementation platform('com.google.firebase:firebase-bom:26.8.0')
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
