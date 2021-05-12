@@ -27,4 +27,6 @@
     <string name="new_homework">New homework</string>
     <string name="new_mark">New mark</string>
     <string name="account">Account</string>
+    <string name="groups">Groups</string>
+    <string name="downloading">Downloading</string>
 </resources>

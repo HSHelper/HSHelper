@@ -12,6 +12,7 @@ import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.auth.getRestId
 import ru.hsHelper.androidApp.data.ButtonData
 import ru.hsHelper.androidApp.rest.RestProvider
+import ru.hsHelper.androidApp.ui.marks.MarksActivity
 
 
 class NavigationViewModel : ViewModel() {
@@ -77,9 +78,7 @@ class NavigationViewModel : ViewModel() {
                         Intent(Intent.ACTION_VIEW, coursePart.gsheetLink?.toUri())
                     view.context.startActivity(browserIntent)
                 },
-                ButtonData("Works") {
-                    // TODO: Run marks activity
-                },
+                ButtonData("Works", MarksActivity.launcher(coursePart.name!!, "P${coursePartId}"))
             )
         }
 
