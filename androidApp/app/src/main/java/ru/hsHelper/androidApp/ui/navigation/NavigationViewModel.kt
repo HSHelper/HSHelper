@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.auth.getRestId
 import ru.hsHelper.androidApp.data.ButtonData
@@ -16,7 +17,7 @@ import ru.hsHelper.androidApp.ui.marks.MarksActivity
 
 class NavigationViewModel : ViewModel() {
     companion object {
-        suspend fun getMainButtons(path: String): List<ButtonData> =
+        private suspend fun getMainButtons(path: String): List<ButtonData> =
             when {
                 path.isEmpty() -> getMainButtonsGroups()
                 else -> when (path[0]) {
@@ -80,8 +81,18 @@ class NavigationViewModel : ViewModel() {
     private val _mainButtons = MutableLiveData<List<ButtonData>>()
     val mainButtonsState: LiveData<List<ButtonData>> = _mainButtons
 
+    private fun retryButton(e: HttpException, path: String): List<ButtonData> =
+        listOf(ButtonData("Error ${e.code()}\n Retry") {
+            this.postData(path)
+        })
+
+
     fun postData(path: String) = GlobalScope.launch {
-        val mainButtons = getMainButtons(path)
+        val mainButtons = try {
+            getMainButtons(path)
+        } catch (e: HttpException) {
+            retryButton(e, path)
+        }
         _mainButtons.postValue(mainButtons)
     }
 }
