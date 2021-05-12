@@ -10,7 +10,6 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -47,8 +46,8 @@ class LoginActivity : AppCompatActivity() {
     ) {
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
-        loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
-            val loginState = it ?: return@Observer
+        loginViewModel.loginFormState.observe(this@LoginActivity) {
+            val loginState = it ?: return@observe
 
             when (loginState) {
                 is LoginFormState.Valid -> {
@@ -62,10 +61,10 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             }
-        })
+        }
 
-        loginViewModel.loginResult.observe(this@LoginActivity, Observer {
-            val loginResult = it ?: return@Observer
+        loginViewModel.loginResult.observe(this@LoginActivity) {
+            val loginResult = it ?: return@observe
 
             loading.visibility = View.GONE
 
@@ -79,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
                     showLoginFailed(loginResult.error)
                 }
             }
-        })
+        }
     }
 
     private fun setupLogin(
