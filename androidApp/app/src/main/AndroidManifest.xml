@@ -30,9 +30,12 @@
         <activity
             android:name=".androidApp.ui.settings.SettingsActivity"
             android:label="@string/settings" />
+        <activity
+            android:name=".androidApp.ui.marks.MarksActivity"
+            android:theme="@style/Theme.MyApplication.NoActionBar" />
 
         <service
-            android:name="ru.hsHelper.androidApp.services.MyFirebaseMessagingService"
+            android:name=".androidApp.services.MyFirebaseMessagingService"
             android:directBootAware="true"
             android:exported="false">
             <intent-filter>
@@ -40,5 +43,4 @@
             </intent-filter>
         </service>
     </application>
-
 </manifest>
