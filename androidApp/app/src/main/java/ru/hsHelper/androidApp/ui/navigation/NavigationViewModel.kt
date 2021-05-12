@@ -1,7 +1,6 @@
 package ru.hsHelper.androidApp.ui.navigation
 
 import android.content.Intent
-import android.view.View
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -36,35 +35,31 @@ class NavigationViewModel : ViewModel() {
                 .map { group ->
                     ButtonData(
                         group.name!!,
-                        navigationLauncher(group.name!!, "G${group.id!!}")
+                        NavigationActivity.launcher(group.name!!, "G${group.id!!}")
                     )
                 }
                 .toList()
         }
 
         private suspend fun getMainButtonsCourses(groupId: Long): List<ButtonData> {
-            val allCourses = RestProvider.userApi.getAllCoursesUsingGET(groupId)
+            val allCourses = RestProvider.groupApi.getAllCoursesUsingGET(groupId)
             return allCourses.asSequence()
-                .map { courseRole -> courseRole.course!! }
-                .filter { course -> course.group!!.id == groupId }
                 .map { course ->
                     ButtonData(
                         course.name!!,
-                        navigationLauncher(course.name!!, "C${course.id!!}")
+                        NavigationActivity.launcher(course.name!!, "C${course.id!!}")
                     )
                 }
                 .toList()
         }
 
         private suspend fun getMainButtonsCourse(courseId: Long): List<ButtonData> {
-            val allCourses = RestProvider.userApi.getAllCoursePartsUsingGET(courseId)
+            val allCourses = RestProvider.courseApi.getAllCoursePartsUsingGET(courseId)
             return allCourses.asSequence()
-                .map { coursePartRole -> coursePartRole.coursePart!! }
-                .filter { coursePart -> coursePart.course!!.id == courseId }
                 .map { coursePart ->
                     ButtonData(
                         coursePart.name!!,
-                        navigationLauncher(coursePart.name!!, "P${coursePart.id!!}")
+                        NavigationActivity.launcher(coursePart.name!!, "P${coursePart.id!!}")
                     )
                 }
                 .toList()
@@ -74,20 +69,11 @@ class NavigationViewModel : ViewModel() {
             val coursePart = RestProvider.coursePartApi.getCoursePartUsingGET(coursePartId)
             return listOf(
                 ButtonData("Spreadsheet") { view ->
-                    val browserIntent =
-                        Intent(Intent.ACTION_VIEW, coursePart.gsheetLink?.toUri())
+                    val browserIntent = Intent(Intent.ACTION_VIEW, coursePart.gsheetLink?.toUri())
                     view.context.startActivity(browserIntent)
                 },
                 ButtonData("Works", MarksActivity.launcher(coursePart.name!!, "P${coursePartId}"))
             )
-        }
-
-        private fun navigationLauncher(name: String, path: String) = { view: View ->
-            val intent = Intent(view.context, NavigationActivity::class.java).apply {
-                putExtra(NavigationActivity.titleKey, name)
-                putExtra(NavigationActivity.pathKey, path)
-            }
-            view.context.startActivity(intent)
         }
     }
 

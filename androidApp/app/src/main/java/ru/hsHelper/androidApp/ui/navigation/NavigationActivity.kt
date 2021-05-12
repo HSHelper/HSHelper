@@ -24,6 +24,14 @@ class NavigationActivity : AppCompatActivity() {
         private const val mainButtonsRawSize = 2
         const val titleKey = "TITLE"
         const val pathKey = "PATH"
+
+        fun launcher(name: String, path: String) = { view: View ->
+            val intent = Intent(view.context, NavigationActivity::class.java).apply {
+                putExtra(titleKey, name)
+                putExtra(pathKey, path)
+            }
+            view.context.startActivity(intent)
+        }
     }
 
     private lateinit var view: NavigationViewModel
@@ -43,9 +51,10 @@ class NavigationActivity : AppCompatActivity() {
 
     private fun setView() {
         view = ViewModelProvider(this).get(NavigationViewModel::class.java).apply {
-            mainButtonsState.observe(this@NavigationActivity) {
-                setButtons(it)
-            }
+            mainButtonsState.observe(
+                this@NavigationActivity,
+                this@NavigationActivity::setButtons
+            )
             postData(intent.getStringExtra(pathKey) ?: "")
         }
     }
