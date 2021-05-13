@@ -1,5 +1,11 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,18 +24,33 @@ public class Partition {
 
     private String name;
 
-    @OneToMany(mappedBy = "partition")
+    @JsonBackReference
+    @OneToMany(mappedBy = "partition", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @Fetch(FetchMode.JOIN)
     private Set<UserToPartition> users = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "group_id", nullable = false)
+    @Fetch(FetchMode.JOIN)
     private Group group;
 
-    @OneToMany(mappedBy = "defaultPartition")
+    @JsonIgnore
+    @OneToMany(mappedBy = "defaultPartition", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @Fetch(FetchMode.SELECT)
     private Set<Course> coursesWithThisDefaultPartition = new HashSet<>();
 
-    @OneToMany(mappedBy = "partition")
+    @JsonIgnore
+    @OneToMany(mappedBy = "partition", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<CoursePart> courseParts = new HashSet<>();
+
+    public Partition(String name, Group group) {
+        this.name = name;
+        this.group = group;
+    }
+
+    public Partition() {
+    }
 
     public long getId() {
         return id;
@@ -77,5 +98,29 @@ public class Partition {
 
     public void setCourseParts(Set<CoursePart> courseParts) {
         this.courseParts = courseParts;
+    }
+
+    public void addUser(UserToPartition user) {
+        users.add(user);
+    }
+
+    public void removeUser(UserToPartition user) {
+        users.remove(user);
+    }
+
+    public void addCourse(Course course) {
+        coursesWithThisDefaultPartition.add(course);
+    }
+
+    public void removeCourse(Course course) {
+        coursesWithThisDefaultPartition.remove(course);
+    }
+
+    public void addCoursePart(CoursePart coursePart) {
+        courseParts.add(coursePart);
+    }
+
+    public void removeCoursePart(CoursePart coursePart) {
+        courseParts.remove(coursePart);
     }
 }

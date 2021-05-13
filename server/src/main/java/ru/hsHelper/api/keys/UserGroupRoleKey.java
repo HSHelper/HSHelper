@@ -13,6 +13,14 @@ public class UserGroupRoleKey implements Serializable {
     @Column(name = "group_id")
     private Long groupId;
 
+    public UserGroupRoleKey(Long userId, Long groupId) {
+        this.userId = userId;
+        this.groupId = groupId;
+    }
+
+    public UserGroupRoleKey() {
+    }
+
     public Long getUserId() {
         return userId;
     }

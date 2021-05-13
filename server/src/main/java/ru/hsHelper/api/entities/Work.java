@@ -1,5 +1,11 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,12 +34,29 @@ public class Work {
     private double block;
     private WorkType workType;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "course_part_id", nullable = false)
+    @Fetch(FetchMode.JOIN)
     private CoursePart coursePart;
 
-    @OneToMany(mappedBy = "work")
+    @JsonIgnore
+    @OneToMany(mappedBy = "work", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<UserWork> users = new HashSet<>();
+
+    public Work() {
+    }
+
+    public Work(String name, String description, Date deadline, double weight, double block, WorkType workType,
+                CoursePart coursePart) {
+        this.name = name;
+        this.description = description;
+        this.deadline = deadline;
+        this.weight = weight;
+        this.block = block;
+        this.workType = workType;
+        this.coursePart = coursePart;
+    }
 
     public long getId() {
         return id;
@@ -105,5 +128,13 @@ public class Work {
 
     public void setUsers(Set<UserWork> users) {
         this.users = users;
+    }
+
+    public void addUser(UserWork userWork) {
+        users.add(userWork);
+    }
+
+    public void removeUser(UserWork userWork) {
+        users.remove(userWork);
     }
 }

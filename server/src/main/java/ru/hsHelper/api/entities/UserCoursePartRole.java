@@ -1,7 +1,10 @@
 package ru.hsHelper.api.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import ru.hsHelper.api.keys.UserCoursePartRoleKey;
 
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -15,20 +18,32 @@ import java.util.Set;
 @Entity
 public class UserCoursePartRole {
     @EmbeddedId
-    UserCoursePartRoleKey id;
+    UserCoursePartRoleKey id = new UserCoursePartRoleKey();
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @MapsId("userId")
     @JoinColumn(name = "user_id")
+    @Fetch(FetchMode.JOIN)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @MapsId("coursePartId")
     @JoinColumn(name = "course_part_id")
+    @Fetch(FetchMode.JOIN)
     private CoursePart coursePart;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.JOIN)
     Set<Role> roles = new HashSet<>();
+
+    public UserCoursePartRole() {
+    }
+
+    public UserCoursePartRole(User user, CoursePart coursePart, Set<Role> roles) {
+        this.user = user;
+        this.coursePart = coursePart;
+        this.roles = roles;
+    }
 
     public UserCoursePartRoleKey getId() {
         return id;
@@ -60,5 +75,13 @@ public class UserCoursePartRole {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void removeUserCoursePartAndRoles() {
+        user.removeCoursePart(this);
+        coursePart.removeUser(this);
+        for (Role role : roles) {
+            role.removeUserCoursePartRole(this);
+        }
     }
 }

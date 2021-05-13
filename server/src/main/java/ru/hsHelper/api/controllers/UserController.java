@@ -1,22 +1,5 @@
 package ru.hsHelper.api.controllers;
 
-import ru.hsHelper.api.entities.Group;
-import ru.hsHelper.api.entities.Role;
-import ru.hsHelper.api.entities.User;
-import ru.hsHelper.api.entities.UserCoursePartRole;
-import ru.hsHelper.api.entities.UserCourseRole;
-import ru.hsHelper.api.entities.UserGroupRole;
-import ru.hsHelper.api.entities.UserToPartition;
-import ru.hsHelper.api.entities.UserWork;
-import ru.hsHelper.api.repositories.GroupRepository;
-import ru.hsHelper.api.repositories.RoleRepository;
-import ru.hsHelper.api.repositories.UserCoursePartRoleRepository;
-import ru.hsHelper.api.repositories.UserCourseRoleRepository;
-import ru.hsHelper.api.repositories.UserGroupRoleRepository;
-import ru.hsHelper.api.repositories.UserRepository;
-import ru.hsHelper.api.repositories.UserToPartitionRepository;
-import ru.hsHelper.api.repositories.UserWorkRepository;
-import ru.hsHelper.api.requests.create.UserCreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,77 +8,165 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.hsHelper.api.entities.User;
+import ru.hsHelper.api.entities.UserCoursePartRole;
+import ru.hsHelper.api.entities.UserCourseRole;
+import ru.hsHelper.api.entities.UserGroupRole;
+import ru.hsHelper.api.entities.UserToPartition;
+import ru.hsHelper.api.entities.UserWork;
+import ru.hsHelper.api.requests.add.ObjectsWithRoleAddRequest;
+import ru.hsHelper.api.requests.add.ObjectsWithSolutionsAddRequest;
+import ru.hsHelper.api.requests.add.PartitionAddRequest;
+import ru.hsHelper.api.requests.create.UserCreateRequest;
+import ru.hsHelper.api.requests.update.UserUpdateRequest;
+import ru.hsHelper.api.services.UserService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserRepository userRepository;
-    private final UserCoursePartRoleRepository userCoursePartRoleRepository;
-    private final UserCourseRoleRepository userCourseRoleRepository;
-    private final UserGroupRoleRepository userGroupRoleRepository;
-    private final UserToPartitionRepository userToPartitionRepository;
-    private final UserWorkRepository userWorkRepository;
-    private final GroupRepository groupRepository;
-    private final RoleRepository roleRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository,
-                          UserCoursePartRoleRepository userCoursePartRoleRepository,
-                          UserCourseRoleRepository userCourseRoleRepository,
-                          UserGroupRoleRepository userGroupRoleRepository,
-                          UserToPartitionRepository userToPartitionRepository,
-                          UserWorkRepository userWorkRepository,
-                          GroupRepository groupRepository,
-                          RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.userCoursePartRoleRepository = userCoursePartRoleRepository;
-        this.userCourseRoleRepository = userCourseRoleRepository;
-        this.userGroupRoleRepository = userGroupRoleRepository;
-        this.userToPartitionRepository = userToPartitionRepository;
-        this.userWorkRepository = userWorkRepository;
-        this.groupRepository = groupRepository;
-        this.roleRepository = roleRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @PostMapping ({"", "/"})
-    public User createUser(@RequestBody @Valid UserCreateRequest request) {
-        User user = new User(request.getFirstName(), request.getLastName());
-        return userRepository.save(user);
-    }
-
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable long id) {
-        return userRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("No user with such id"));
+    @PostMapping("/")
+    public User createUser(@RequestBody @Valid UserCreateRequest userCreateRequest) {
+        return userService.createUser(new User(userCreateRequest.getFirstName(), userCreateRequest.getLastName(),
+                userCreateRequest.getEmail()));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUserById(@PathVariable long id) {
-        User user = userRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("No user with such id"));
-        for (UserGroupRole ugr : user.getGroups()) {
-            ugr.getGroup().getUserGroupRoleSet().remove(ugr);
-        }
-        userGroupRoleRepository.deleteByUser(user);
-        for (UserToPartition utp : user.getPartitions()) {
-            utp.getPartition().getUsers().remove(utp);
-        }
-        userToPartitionRepository.deleteByUser(user);
-        for (UserCourseRole ucr : user.getCourses()) {
-            ucr.getCourse().getUsers().remove(ucr);
-        }
-        userCourseRoleRepository.deleteByUser(user);
-        for (UserCoursePartRole ucpr : user.getCourseParts()) {
-            ucpr.getCoursePart().getUsers().remove(ucpr);
-        }
-        userCoursePartRoleRepository.deleteByUser(user);
-        for (UserWork uw : user.getUserWorks()) {
-            uw.getWork().getUsers().remove(uw);
-        }
-        userWorkRepository.deleteByUser(user);
-        userRepository.deleteById(id);
+    public void deleteUser(@PathVariable long id) {
+        userService.deleteUser(id);
+    }
+
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable long id, @RequestBody @Valid UserUpdateRequest userUpdateRequest) {
+        return userService.updateUser(id, userUpdateRequest);
+    }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable long id) {
+        return userService.getUserById(id);
+    }
+
+    @PutMapping("/{id}/groups")
+    public User addGroups(@PathVariable long id, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
+        return userService.addGroups(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
+    }
+
+    @DeleteMapping("/{id}/groups")
+    public User deleteGroups(@PathVariable long id, @RequestBody Set<Long> groupIds) {
+        return userService.deleteGroups(id, groupIds);
+    }
+
+    @PutMapping("/{id}/partitions")
+    public User addToPartitions(@PathVariable long id, @RequestBody @Valid PartitionAddRequest partitionAddRequest) {
+        return userService.addToPartitions(id, partitionAddRequest.getPartitionIds(), partitionAddRequest.getUserParts());
+    }
+
+    @DeleteMapping("/{id}/partitions")
+    public User deletePartitions(@PathVariable long id, @RequestBody Set<Long> partitionIds) {
+        return userService.deletePartitions(id, partitionIds);
+    }
+
+    @PutMapping("/{id}/courses")
+    public User addCourses(@PathVariable long id, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
+        return userService.addCourses(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
+    }
+
+    @DeleteMapping("/{id}/courses")
+    public User deleteCourses(@PathVariable long id, @RequestBody Set<Long> courseIds) {
+        return userService.deleteCourses(id, courseIds);
+    }
+
+    @PutMapping("/{id}/course-parts")
+    public User addCourseParts(@PathVariable long id, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
+        return userService.addCourseParts(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
+    }
+
+    @DeleteMapping("/{id}/course-parts")
+    public User deleteCourseParts(@PathVariable long id, @RequestBody Set<Long> coursePartIds) {
+        return userService.deleteCourseParts(id, coursePartIds);
+    }
+
+    @PutMapping("/{id}/works")
+    public User addWorks(@PathVariable long id,
+                         @RequestBody @Valid ObjectsWithSolutionsAddRequest objectsWithSolutionsAddRequest) {
+        return userService.addWorks(id, objectsWithSolutionsAddRequest.getObjectsIds(),
+                objectsWithSolutionsAddRequest.getSolutions());
+    }
+
+    @DeleteMapping("/{id}/works")
+    public User deleteWorks(@PathVariable long id, @RequestBody Set<Long> groupIds) {
+        return userService.deleteWorks(id, groupIds);
+    }
+
+    @GetMapping("/")
+    public Set<User> getAll() {
+        return userService.getAll();
+    }
+
+    @GetMapping("/email")
+    public User getUserByEmail(@RequestParam @Email @Valid String email) {
+        return userService.getUserByEmail(email);
+    }
+
+    @GetMapping("/{userId}/groups/{groupId}")
+    public UserGroupRole getGroup(@PathVariable long userId, @PathVariable long groupId) {
+        return userService.getGroup(userId, groupId);
+    }
+
+    @GetMapping("/{userId}/groups")
+    public Set<UserGroupRole> getAllGroups(@PathVariable long userId) {
+        return userService.getAllGroups(userId);
+    }
+
+    @GetMapping("/{userId}/partitions/{partitionId}")
+    public UserToPartition getPartition(@PathVariable long userId, @PathVariable long partitionId) {
+        return userService.getPartition(userId, partitionId);
+    }
+
+    @GetMapping("/{userId}/partitions")
+    public Set<UserToPartition> getAllPartitions(@PathVariable long userId) {
+        return userService.getAllPartitions(userId);
+    }
+
+    @GetMapping("/{userId}/courses/{courseId}")
+    public UserCourseRole getCourse(@PathVariable long userId, @PathVariable long courseId) {
+        return userService.getCourse(userId, courseId);
+    }
+
+    @GetMapping("/{userId}/courses")
+    public Set<UserCourseRole> getAllCourses(@PathVariable long userId) {
+        return userService.getAllCourses(userId);
+    }
+
+    @GetMapping("/{userId}/course-parts/{coursePartId}")
+    public UserCoursePartRole getCoursePart(@PathVariable long userId, @PathVariable long coursePartId) {
+        return userService.getCoursePart(userId, coursePartId);
+    }
+
+    @GetMapping("/{userId}/course-parts")
+    public Set<UserCoursePartRole> getAllCourseParts(@PathVariable long userId) {
+        return userService.getAllCourseParts(userId);
+    }
+
+    @GetMapping("/{userId}/works/{workId}")
+    public UserWork getWork(@PathVariable long userId, @PathVariable long workId) {
+        return userService.getWork(userId, workId);
+    }
+
+    @GetMapping("/{userId}/works")
+    public Set<UserWork> getAllWorks(@PathVariable long userId) {
+        return userService.getAllWorks(userId);
     }
 }

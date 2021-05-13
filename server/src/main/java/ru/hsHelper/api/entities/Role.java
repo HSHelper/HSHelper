@@ -1,5 +1,7 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -23,7 +25,8 @@ public class Role {
     public enum RoleType {
         ADMIN,
         STUDENT,
-        OBSERVER
+        OBSERVER,
+        TEACHER
     }
 
     @Id
@@ -33,6 +36,8 @@ public class Role {
     @Column(unique = true)
     private RoleType roleType;
 
+
+    @JsonManagedReference
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
         name = "role_permission",
@@ -41,13 +46,19 @@ public class Role {
     @Fetch(FetchMode.JOIN)
     private Set<Permissions> permissions = new HashSet<>();
 
-    @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<UserGroupRole> userGroupRoles = new HashSet<>();
 
-    @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<UserCourseRole> userCourseRoles = new HashSet<>();
 
-    @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<UserCoursePartRole> userCoursePartRoles = new HashSet<>();
 
     public Role() {
@@ -106,10 +117,37 @@ public class Role {
         this.userCoursePartRoles = userCoursePartRoles;
     }
 
+    public void addUserGroupRole(UserGroupRole userGroupRole) {
+        userGroupRoles.add(userGroupRole);
+    }
+
+    public void removeUserGroupRole(UserGroupRole userGroupRole) {
+        userGroupRoles.remove(userGroupRole);
+    }
+
+    public void addUserCourseRole(UserCourseRole userCourseRole) {
+        userCourseRoles.add(userCourseRole);
+    }
+
+    public void removeUserCourseRole(UserCourseRole userCourseRole) {
+        userCourseRoles.remove(userCourseRole);
+    }
+
+    public void addUserCoursePartRole(UserCoursePartRole userCoursePartRole) {
+        userCoursePartRoles.add(userCoursePartRole);
+    }
+
+    public void removeUserCoursePartRole(UserCoursePartRole userCoursePartRole) {
+        userCoursePartRoles.remove(userCoursePartRole);
+    }
+
     @PreRemove
     private void removeRolesFromPermissions() {
         for (Permissions p : permissions) {
             p.getRoles().remove(this);
+        }
+        for (UserGroupRole userGroupRole : userGroupRoles) {
+            userGroupRole.getRoles().remove(this);
         }
     }
 }

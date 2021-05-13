@@ -1,8 +1,12 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,38 +17,47 @@ import java.util.Set;
 
 
 @Entity
+@EqualsAndHashCode
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String firstName;
     private String LastName;
+    @Column(unique = true)
+    private String email;
 
     public User() {}
 
-    public User(String firstName, String lastName) {
+    public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         LastName = lastName;
+        this.email = email;
     }
 
-    @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.JOIN)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<UserGroupRole> groups = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.JOIN)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private  Set<UserToPartition> partitions = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.JOIN)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<UserCourseRole> courses = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.JOIN)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<UserCoursePartRole> courseParts = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    @Fetch(FetchMode.JOIN)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<UserWork> userWorks = new HashSet<>();
 
     public long getId() {
@@ -109,5 +122,53 @@ public class User {
 
     public void setUserWorks(Set<UserWork> userWorks) {
         this.userWorks = userWorks;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void addUserGroupRole(UserGroupRole userGroupRole) {
+        groups.add(userGroupRole);
+    }
+
+    public void removeUserGroupRole(UserGroupRole userGroupRole) {
+        groups.remove(userGroupRole);
+    }
+
+    public void addPartition(UserToPartition partition) {
+        partitions.add(partition);
+    }
+
+    public void removePartition(UserToPartition partition) {
+        partitions.remove(partition);
+    }
+
+    public void addCourse(UserCourseRole userCourseRole) {
+        courses.add(userCourseRole);
+    }
+
+    public void removeCourse(UserCourseRole userCourseRole) {
+        courses.remove(userCourseRole);
+    }
+
+    public void addCoursePart(UserCoursePartRole userCoursePartRole) {
+        courseParts.add(userCoursePartRole);
+    }
+
+    public void removeCoursePart(UserCoursePartRole userCoursePartRole) {
+        courseParts.remove(userCoursePartRole);
+    }
+
+    public void addWork(UserWork userWork) {
+        userWorks.add(userWork);
+    }
+
+    public void removeWork(UserWork userWork) {
+        userWorks.remove(userWork);
     }
 }

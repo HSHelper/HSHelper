@@ -1,5 +1,10 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,19 +23,34 @@ public class Course {
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "default_partition_id")
+    @Fetch(FetchMode.JOIN)
     private Partition defaultPartition;
 
-    @OneToMany(mappedBy = "course")
+    @JsonIgnore
+    @OneToMany(mappedBy = "course", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<UserCourseRole> users = new HashSet<>();
 
-    @OneToMany(mappedBy = "course")
+    @JsonIgnore
+    @OneToMany(mappedBy = "course", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<CoursePart> courseParts = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "group_id")
+    @Fetch(FetchMode.JOIN)
     private Group group;
+
+    public Course() {
+    }
+
+    public Course(String name, Partition defaultPartition, Group group) {
+        this.name = name;
+        this.defaultPartition = defaultPartition;
+        this.group = group;
+    }
 
     public long getId() {
         return id;
@@ -78,5 +98,21 @@ public class Course {
 
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public void addUser(UserCourseRole userCourseRole) {
+        users.add(userCourseRole);
+    }
+
+    public void removeUser(UserCourseRole userCourseRole) {
+        users.remove(userCourseRole);
+    }
+
+    public void addCoursePart(CoursePart coursePart) {
+        courseParts.add(coursePart);
+    }
+
+    public void removeCoursePart(CoursePart coursePart) {
+        courseParts.remove(coursePart);
     }
 }

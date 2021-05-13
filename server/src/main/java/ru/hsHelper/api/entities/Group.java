@@ -1,8 +1,10 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,15 +29,18 @@ public class Group {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "group")
-    @Fetch(FetchMode.JOIN)
+    @JsonIgnore
+    @OneToMany(mappedBy = "group", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    @Fetch(FetchMode.SELECT)
     private Set<UserGroupRole> userGroupRoleSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "group", orphanRemoval = true)
+    @JsonIgnore
+    @OneToMany(mappedBy = "group", cascade = {CascadeType.MERGE, CascadeType.PERSIST},orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private Set<Partition> partitions = new HashSet<>();
 
-    @OneToMany(mappedBy = "group", orphanRemoval = true)
+    @JsonIgnore
+    @OneToMany(mappedBy = "group",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private Set<Course> courses = new HashSet<>();
 
@@ -77,5 +82,29 @@ public class Group {
 
     public void setCourses(Set<Course> courses) {
         this.courses = courses;
+    }
+
+    public void addUserGroupRole(UserGroupRole userGroupRole) {
+        userGroupRoleSet.add(userGroupRole);
+    }
+
+    public void removeUserGroupRole(UserGroupRole userGroupRole) {
+        userGroupRoleSet.remove(userGroupRole);
+    }
+
+    public void addPartition(Partition partition) {
+        partitions.add(partition);
+    }
+
+    public void removePartition(Partition partition) {
+        partitions.remove(partition);
+    }
+
+    public void addCourse(Course course) {
+        courses.add(course);
+    }
+
+    public void removeCourse(Course course) {
+        courses.remove(course);
     }
 }

@@ -1,5 +1,10 @@
 package ru.hsHelper.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,22 +23,50 @@ public class CoursePart {
 
     private String name;
 
-    @ManyToOne
+    private String gSheetLink;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "partition_id", nullable = false)
+    @Fetch(FetchMode.JOIN)
     private Partition partition;
 
-    @OneToMany(mappedBy = "coursePart")
+    @JsonIgnore
+    @OneToMany(mappedBy = "coursePart", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<UserCoursePartRole> users = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "course_id", nullable = false)
+    @Fetch(FetchMode.JOIN)
     private Course course;
 
-    @OneToMany(mappedBy = "coursePart")
+    @JsonIgnore
+    @OneToMany(mappedBy = "coursePart", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SELECT)
     private Set<Work> works = new HashSet<>();
 
     private double weight;
     private double block;
+
+    public CoursePart() {
+    }
+
+    public CoursePart(String name, String gSheetLink, Partition partition, Course course, double weight, double block) {
+        this.name = name;
+        this.gSheetLink = gSheetLink;
+        this.partition = partition;
+        this.course = course;
+        this.weight = weight;
+        this.block = block;
+    }
+
+    public String getGSheetLink() {
+        return gSheetLink;
+    }
+
+    public void setGSheetLink(String gSheetLink) {
+        this.gSheetLink = gSheetLink;
+    }
 
     public long getId() {
         return id;
@@ -97,5 +130,21 @@ public class CoursePart {
 
     public void setBlock(double block) {
         this.block = block;
+    }
+
+    public void addUser(UserCoursePartRole userCoursePartRole) {
+        users.add(userCoursePartRole);
+    }
+
+    public void removeUser(UserCoursePartRole userCoursePartRole) {
+        users.remove(userCoursePartRole);
+    }
+
+    public void addWork(Work work) {
+        works.add(work);
+    }
+
+    public void removeWork(Work work) {
+        works.remove(work);
     }
 }

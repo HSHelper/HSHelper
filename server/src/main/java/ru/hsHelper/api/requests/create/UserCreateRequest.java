@@ -1,5 +1,6 @@
 package ru.hsHelper.api.requests.create;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
@@ -10,6 +11,9 @@ public class UserCreateRequest implements Serializable {
 
     @NotEmpty
     private String lastName;
+
+    @Email
+    private String email;
 
     public UserCreateRequest() {}
 
@@ -32,5 +36,13 @@ public class UserCreateRequest implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
