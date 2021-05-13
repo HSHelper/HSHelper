@@ -3,6 +3,7 @@ package ru.hsHelper.api.services;
 import ru.hsHelper.api.entities.UserWork;
 import ru.hsHelper.api.entities.Work;
 import ru.hsHelper.api.requests.create.WorkCreateRequest;
+import ru.hsHelper.api.requests.update.UserWorkUpdateRequest;
 import ru.hsHelper.api.requests.update.WorkUpdateRequest;
 
 import java.util.Map;
@@ -19,4 +20,5 @@ public interface WorkService {
     Set<Work> getAll();
     UserWork getUser(long workId, long userId);
     Set<UserWork> getAllUsers(long workId);
+    UserWork updateUserWork(long workId, long userId, UserWorkUpdateRequest userWorkUpdateRequest);
 }

@@ -14,6 +14,7 @@ import ru.hsHelper.api.entities.UserWork;
 import ru.hsHelper.api.entities.Work;
 import ru.hsHelper.api.requests.add.ObjectsWithSolutionsAddRequest;
 import ru.hsHelper.api.requests.create.WorkCreateRequest;
+import ru.hsHelper.api.requests.update.UserWorkUpdateRequest;
 import ru.hsHelper.api.requests.update.WorkUpdateRequest;
 import ru.hsHelper.api.services.WorkService;
 
@@ -76,5 +77,11 @@ public class WorkController {
     @GetMapping("/{workId}/users")
     public Set<UserWork> getAllUsers(@PathVariable long workId) {
         return workService.getAllUsers(workId);
+    }
+
+    @PutMapping("/{workId}/users/{userId}")
+    public UserWork updateUserWork(@PathVariable long workId, @PathVariable long userId,
+                                   @RequestBody @Valid UserWorkUpdateRequest userWorkUpdateRequest) {
+        return workService.updateUserWork(workId, userId, userWorkUpdateRequest);
     }
 }

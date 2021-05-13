@@ -12,6 +12,7 @@ import ru.hsHelper.api.repositories.UserRepository;
 import ru.hsHelper.api.repositories.UserWorkRepository;
 import ru.hsHelper.api.repositories.WorkRepository;
 import ru.hsHelper.api.requests.create.WorkCreateRequest;
+import ru.hsHelper.api.requests.update.UserWorkUpdateRequest;
 import ru.hsHelper.api.requests.update.WorkUpdateRequest;
 import ru.hsHelper.api.services.WorkService;
 import ru.hsHelper.api.services.impl.util.UserWorkService;
@@ -137,5 +138,11 @@ public class WorkServiceImpl implements WorkService {
     @Override
     public Set<UserWork> getAllUsers(long workId) {
         return userWorkRepository.findAllByWork(getWorkById(workId));
+    }
+
+    @Transactional
+    @Override
+    public UserWork updateUserWork(long workId, long userId, UserWorkUpdateRequest userWorkUpdateRequest) {
+        return userWorkService.updateUserWork(userId, workId, userWorkUpdateRequest);
     }
 }
