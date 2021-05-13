@@ -29,10 +29,9 @@ public class Course {
     private String name;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "default_partition_id")
+    @JoinColumn(name = "default_partition_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     @NotNull
-    @Column(nullable = false)
     private Partition defaultPartition;
 
     @JsonIgnore
@@ -50,10 +49,9 @@ public class Course {
     private Set<CoursePart> courseParts = new HashSet<>();
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "group_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     @NotNull
-    @Column(nullable = false)
     private Group group;
 
     public Course() {
