@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PreRemove;
 import javax.swing.text.View;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,14 +28,18 @@ public class Permissions {
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
+    @NotNull
     private PermissionType permissionType;
 
     @JsonBackReference
     @ManyToMany(mappedBy = "permissions", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.JOIN)
+    @NotNull
+    @Column(nullable = false)
     private Set<Role> roles = new HashSet<>();
 
 
