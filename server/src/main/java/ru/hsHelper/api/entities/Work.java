@@ -58,7 +58,6 @@ public class Work {
     @JoinColumn(name = "course_part_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     @NotNull
-    @Column(nullable = false)
     private CoursePart coursePart;
 
     @JsonIgnore

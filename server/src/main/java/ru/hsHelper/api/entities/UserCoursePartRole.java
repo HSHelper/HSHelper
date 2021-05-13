@@ -25,18 +25,16 @@ public class UserCoursePartRole {
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @MapsId("userId")
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     @NotNull
-    @Column(nullable = false)
     private User user;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @MapsId("coursePartId")
-    @JoinColumn(name = "course_part_id")
+    @JoinColumn(name = "course_part_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     @NotNull
-    @Column(nullable = false)
     private CoursePart coursePart;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})

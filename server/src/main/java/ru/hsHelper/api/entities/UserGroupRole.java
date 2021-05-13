@@ -24,18 +24,16 @@ public class UserGroupRole {
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @MapsId("userId")
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     @NotNull
-    @Column(nullable = false)
     private User user;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @MapsId("groupId")
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "group_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     @NotNull
-    @Column(nullable = false)
     private Group group;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})

@@ -40,7 +40,6 @@ public class Partition {
     @JoinColumn(name = "group_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     @NotNull
-    @Column(nullable = false)
     private Group group;
 
     @JsonIgnore

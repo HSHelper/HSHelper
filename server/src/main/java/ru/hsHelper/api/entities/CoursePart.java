@@ -34,7 +34,6 @@ public class CoursePart {
     @JoinColumn(name = "partition_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     @NotNull
-    @Column(nullable = false)
     private Partition partition;
 
     @JsonIgnore
@@ -48,7 +47,6 @@ public class CoursePart {
     @JoinColumn(name = "course_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     @NotNull
-    @Column(nullable = false)
     private Course course;
 
     @JsonIgnore

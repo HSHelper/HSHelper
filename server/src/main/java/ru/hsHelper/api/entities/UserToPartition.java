@@ -22,19 +22,17 @@ public class UserToPartition {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @MapsId("userId")
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     @NotNull
-    @Column(nullable = false)
     private User user;
 
     @JsonManagedReference
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @MapsId("partitionId")
-    @JoinColumn(name = "partition_id")
+    @JoinColumn(name = "partition_id", nullable = false)
     @Fetch(FetchMode.JOIN)
     @NotNull
-    @Column(nullable = false)
     private Partition partition;
 
     @NotNull
