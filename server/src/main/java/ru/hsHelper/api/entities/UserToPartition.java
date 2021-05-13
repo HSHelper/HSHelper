@@ -6,21 +6,26 @@ import org.hibernate.annotations.FetchMode;
 import ru.hsHelper.api.keys.UserToPartitionKey;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class UserToPartition {
     @EmbeddedId
+    @NotNull
     UserToPartitionKey id = new UserToPartitionKey();
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     @Fetch(FetchMode.JOIN)
+    @NotNull
+    @Column(nullable = false)
     private User user;
 
     @JsonManagedReference
@@ -28,8 +33,11 @@ public class UserToPartition {
     @MapsId("partitionId")
     @JoinColumn(name = "partition_id")
     @Fetch(FetchMode.JOIN)
+    @NotNull
+    @Column(nullable = false)
     private Partition partition;
 
+    @NotNull
     private int userPart;
 
     public UserToPartition(User user, Partition partition, int userPart) {
