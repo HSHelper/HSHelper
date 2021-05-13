@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PreRemove;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,9 +32,11 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private long id;
 
-    @Column(unique = true)
+    @Column(nullable = false)
+    @NotNull
     private RoleType roleType;
 
 
@@ -44,21 +47,29 @@ public class Role {
         joinColumns = @JoinColumn(name = "role_id"),
         inverseJoinColumns = @JoinColumn(name = "permission_id"))
     @Fetch(FetchMode.JOIN)
+    @NotNull
+    @Column(nullable = false)
     private Set<Permissions> permissions = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
+    @NotNull
+    @Column(nullable = false)
     private Set<UserGroupRole> userGroupRoles = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
+    @NotNull
+    @Column(nullable = false)
     private Set<UserCourseRole> userCourseRoles = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
+    @NotNull
+    @Column(nullable = false)
     private Set<UserCoursePartRole> userCoursePartRoles = new HashSet<>();
 
     public Role() {
