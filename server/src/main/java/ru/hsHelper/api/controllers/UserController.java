@@ -21,6 +21,7 @@ import ru.hsHelper.api.requests.add.ObjectsWithSolutionsAddRequest;
 import ru.hsHelper.api.requests.add.PartitionAddRequest;
 import ru.hsHelper.api.requests.create.UserCreateRequest;
 import ru.hsHelper.api.requests.update.UserUpdateRequest;
+import ru.hsHelper.api.requests.update.UserWorkUpdateRequest;
 import ru.hsHelper.api.services.UserService;
 
 import javax.validation.Valid;
@@ -168,5 +169,11 @@ public class UserController {
     @GetMapping("/{userId}/works")
     public Set<UserWork> getAllWorks(@PathVariable long userId) {
         return userService.getAllWorks(userId);
+    }
+
+    @PutMapping("/{userId}/works/{workId}")
+    public UserWork updateUserWork(@PathVariable long userId, @PathVariable long workId,
+                                   @RequestBody @Valid UserWorkUpdateRequest userWorkUpdateRequest) {
+        return userService.updateUserWork(userId, workId, userWorkUpdateRequest);
     }
 }
