@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,10 +22,19 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private long id;
+
+    @NotNull
+    @Column(nullable = false)
     private String firstName;
+
+    @NotNull
+    @Column(nullable = false)
     private String LastName;
-    @Column(unique = true)
+
+    @Column(unique = true, nullable = false)
+    @NotNull
     private String email;
 
     public User() {}
@@ -38,26 +48,36 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
+    @NotNull
+    @Column(nullable = false)
     private Set<UserGroupRole> groups = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
+    @NotNull
+    @Column(nullable = false)
     private  Set<UserToPartition> partitions = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
+    @NotNull
+    @Column(nullable = false)
     private Set<UserCourseRole> courses = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
+    @NotNull
+    @Column(nullable = false)
     private Set<UserCoursePartRole> courseParts = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
+    @NotNull
+    @Column(nullable = false)
     private Set<UserWork> userWorks = new HashSet<>();
 
     public long getId() {
