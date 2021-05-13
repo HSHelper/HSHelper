@@ -67,7 +67,7 @@ public class ApiApplication {
 
     }
 
-    @Bean
+    /*@Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
 
@@ -172,6 +172,6 @@ public class ApiApplication {
             userService.addWorks(user2.getId(), Set.of(cpplab1.getId()), Map.of(cpplab1.getId(), "huffman sol"));
             userService.addWorks(user3.getId(), Set.of(cpplab1.getId()), Map.of(cpplab1.getId(), "huffman archiver sol"));
         };
-    }
+    }*/
 
 }
