@@ -5,32 +5,45 @@ import org.hibernate.annotations.FetchMode;
 import ru.hsHelper.api.keys.UserWorkKey;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
 public class UserWork {
     @EmbeddedId
+    @NotNull
     UserWorkKey id = new UserWorkKey();
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     @Fetch(FetchMode.JOIN)
+    @NotNull
+    @Column(nullable = false)
     private User user;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @MapsId("workId")
     @JoinColumn(name = "work_id")
     @Fetch(FetchMode.JOIN)
+    @NotNull
+    @Column(nullable = false)
     private Work work;
 
+    @NotNull
+    @Column(nullable = false)
     private Date sendTime;
+
+    @NotNull
+    @Column(nullable = false)
     private String solution;
+
     private double mark;
 
     public UserWork() {

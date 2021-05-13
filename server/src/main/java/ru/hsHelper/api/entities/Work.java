@@ -6,6 +6,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,23 +27,45 @@ public class Work {
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private long id;
 
+    @NotNull
+    @Column(nullable = false)
     private String name;
+
+    @NotNull
+    @Column(nullable = false)
     private String description;
+
+    @NotNull
+    @Column(nullable = false)
     private Date deadline;
+
+    @NotNull
+    @Column(nullable = false)
     private double weight;
+
+    @NotNull
+    @Column(nullable = false)
     private double block;
+
+    @NotNull
+    @Column(nullable = false)
     private WorkType workType;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "course_part_id", nullable = false)
     @Fetch(FetchMode.JOIN)
+    @NotNull
+    @Column(nullable = false)
     private CoursePart coursePart;
 
     @JsonIgnore
     @OneToMany(mappedBy = "work", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
+    @NotNull
+    @Column(nullable = false)
     private Set<UserWork> users = new HashSet<>();
 
     public Work() {
