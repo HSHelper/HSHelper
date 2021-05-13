@@ -249,7 +249,7 @@ public class UserServiceImpl implements UserService {
         Set<Work> works = workRepository.findAllByIdIn(workIds);
         for (Work work : works) {
             UserWork userWork = userWorkRepository.save(new UserWork(user, work,
-                    new Date(), solutions.get(work.getId()), 0));
+                    new Date(), solutions.get(work.getId())));
             user.addWork(userWork);
             work.addUser(userWork);
         }
