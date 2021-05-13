@@ -101,7 +101,7 @@ public class WorkServiceImpl implements WorkService {
         Set<User> users = userRepository.findAllByIdIn(userIds);
         for (User user : users) {
             UserWork userWork = userWorkRepository.save(new UserWork(user, work, new Date(),
-                    solutions.get(user.getId()), 0));
+                    solutions.get(user.getId())));
             user.addWork(userWork);
             work.addUser(userWork);
         }

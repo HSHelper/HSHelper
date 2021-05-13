@@ -44,17 +44,17 @@ public class UserWork {
     @Column(nullable = false)
     private String solution;
 
-    private double mark;
+    private Double mark;
 
     public UserWork() {
     }
 
-    public UserWork(User user, Work work, Date sendTime, String solution, double mark) {
+    public UserWork(User user, Work work, Date sendTime, String solution) {
         this.user = user;
         this.work = work;
         this.sendTime = sendTime;
         this.solution = solution;
-        this.mark = mark;
+        mark = null;
     }
 
     public UserWorkKey getId() {
@@ -97,11 +97,11 @@ public class UserWork {
         this.solution = solution;
     }
 
-    public double getMark() {
+    public Double getMark() {
         return mark;
     }
 
-    public void setMark(double mark) {
+    public void setMark(Double mark) {
         this.mark = mark;
     }
 
