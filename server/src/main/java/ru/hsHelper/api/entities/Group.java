@@ -5,12 +5,14 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,8 +21,11 @@ import java.util.Set;
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private long id;
 
+    @NotNull
+    @Column(nullable = false)
     private String name;
 
     public Group() {}
@@ -32,16 +37,22 @@ public class Group {
     @JsonIgnore
     @OneToMany(mappedBy = "group", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
+    @NotNull
+    @Column(nullable = false)
     private Set<UserGroupRole> userGroupRoleSet = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "group", cascade = {CascadeType.MERGE, CascadeType.PERSIST},orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
+    @NotNull
+    @Column(nullable = false)
     private Set<Partition> partitions = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "group",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
+    @NotNull
+    @Column(nullable = false)
     private Set<Course> courses = new HashSet<>();
 
     public long getId() {

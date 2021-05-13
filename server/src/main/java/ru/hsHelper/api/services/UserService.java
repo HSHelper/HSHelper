@@ -7,6 +7,7 @@ import ru.hsHelper.api.entities.UserGroupRole;
 import ru.hsHelper.api.entities.UserToPartition;
 import ru.hsHelper.api.entities.UserWork;
 import ru.hsHelper.api.requests.update.UserUpdateRequest;
+import ru.hsHelper.api.requests.update.UserWorkUpdateRequest;
 
 import java.util.Set;
 import java.util.Map;
@@ -38,4 +39,5 @@ public interface UserService {
     Set<UserCoursePartRole> getAllCourseParts(long userId);
     UserWork getWork(long userId, long workId);
     Set<UserWork> getAllWorks(long userId);
+    UserWork updateUserWork(long userId, long workId, UserWorkUpdateRequest userWorkUpdateRequest);
 }

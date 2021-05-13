@@ -26,6 +26,7 @@ import ru.hsHelper.api.repositories.UserToPartitionRepository;
 import ru.hsHelper.api.repositories.UserWorkRepository;
 import ru.hsHelper.api.repositories.WorkRepository;
 import ru.hsHelper.api.requests.update.UserUpdateRequest;
+import ru.hsHelper.api.requests.update.UserWorkUpdateRequest;
 import ru.hsHelper.api.services.UserService;
 import ru.hsHelper.api.services.impl.util.UserCoursePartService;
 import ru.hsHelper.api.services.impl.util.UserCourseService;
@@ -249,7 +250,7 @@ public class UserServiceImpl implements UserService {
         Set<Work> works = workRepository.findAllByIdIn(workIds);
         for (Work work : works) {
             UserWork userWork = userWorkRepository.save(new UserWork(user, work,
-                    new Date(), solutions.get(work.getId()), 0));
+                    new Date(), solutions.get(work.getId())));
             user.addWork(userWork);
             work.addUser(userWork);
         }
@@ -341,5 +342,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<UserWork> getAllWorks(long userId) {
         return userWorkRepository.findAllByUser(getUserById(userId));
+    }
+
+    @Override
+    public UserWork updateUserWork(long userId, long workId, UserWorkUpdateRequest userWorkUpdateRequest) {
+        return userWorkService.updateUserWork(userId, workId, userWorkUpdateRequest);
     }
 }
