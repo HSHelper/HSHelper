@@ -29,9 +29,8 @@ public class Course {
     private String name;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "default_partition_id", nullable = false)
+    @JoinColumn(name = "default_partition_id")
     @Fetch(FetchMode.JOIN)
-    @NotNull
     private Partition defaultPartition;
 
     @JsonIgnore
