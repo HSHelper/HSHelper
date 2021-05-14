@@ -17,8 +17,8 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class User(
-    @Json(name = "email") @field:Json(name = "email") var email: String? = null,
-    @Json(name = "firstName") @field:Json(name = "firstName") var firstName: String? = null,
-    @Json(name = "id") @field:Json(name = "id") var id: Long? = null,
-    @Json(name = "lastName") @field:Json(name = "lastName") var lastName: String? = null
+    @Json(name = "email") @field:Json(name = "email") var email: String,
+    @Json(name = "firstName") @field:Json(name = "firstName") var firstName: String,
+    @Json(name = "id") @field:Json(name = "id") var id: Long,
+    @Json(name = "lastName") @field:Json(name = "lastName") var lastName: String
 )

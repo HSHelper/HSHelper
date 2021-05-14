@@ -22,6 +22,7 @@ import ru.hsHelper.androidApp.rest.codegen.models.UserGroupRole
 import ru.hsHelper.androidApp.rest.codegen.models.UserToPartition
 import ru.hsHelper.androidApp.rest.codegen.models.UserUpdateRequest
 import ru.hsHelper.androidApp.rest.codegen.models.UserWork
+import ru.hsHelper.androidApp.rest.codegen.models.UserWorkUpdateRequest
 
 @JvmSuppressWildcards
 interface UserControllerApi {
@@ -373,4 +374,21 @@ interface UserControllerApi {
         @retrofit2.http.Path("id") id: Long,
         @retrofit2.http.Body userUpdateRequest: UserUpdateRequest
     ): User
+    /**
+     * updateUserWork
+     * The endpoint is owned by server REST api service owner
+     * @param userId userId (required)
+     * @param userWorkUpdateRequest userWorkUpdateRequest (required)
+     * @param workId workId (required)
+     */
+    @Headers(
+        "X-Operation-ID: updateUserWorkUsingPUT",
+      "Content-Type: application/json"
+    )
+    @PUT("users/{userId}/works/{workId}")
+    suspend fun updateUserWorkUsingPUT(
+        @retrofit2.http.Path("userId") userId: Long,
+        @retrofit2.http.Body userWorkUpdateRequest: UserWorkUpdateRequest,
+        @retrofit2.http.Path("workId") workId: Long
+    ): UserWork
 }

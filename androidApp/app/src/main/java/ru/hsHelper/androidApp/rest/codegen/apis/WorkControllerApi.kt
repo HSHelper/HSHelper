@@ -13,6 +13,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import ru.hsHelper.androidApp.rest.codegen.models.ObjectsWithSolutionsAddRequest
 import ru.hsHelper.androidApp.rest.codegen.models.UserWork
+import ru.hsHelper.androidApp.rest.codegen.models.UserWorkUpdateRequest
 import ru.hsHelper.androidApp.rest.codegen.models.Work
 import ru.hsHelper.androidApp.rest.codegen.models.WorkCreateRequest
 import ru.hsHelper.androidApp.rest.codegen.models.WorkUpdateRequest
@@ -120,6 +121,23 @@ interface WorkControllerApi {
     suspend fun getWorkUsingGET1(
         @retrofit2.http.Path("id") id: Long
     ): Work
+    /**
+     * updateUserWork
+     * The endpoint is owned by server REST api service owner
+     * @param userId userId (required)
+     * @param userWorkUpdateRequest userWorkUpdateRequest (required)
+     * @param workId workId (required)
+     */
+    @Headers(
+        "X-Operation-ID: updateUserWorkUsingPUT_1",
+      "Content-Type: application/json"
+    )
+    @PUT("works/{workId}/users/{userId}")
+    suspend fun updateUserWorkUsingPUT1(
+        @retrofit2.http.Path("userId") userId: Long,
+        @retrofit2.http.Body userWorkUpdateRequest: UserWorkUpdateRequest,
+        @retrofit2.http.Path("workId") workId: Long
+    ): UserWork
     /**
      * updateWork
      * The endpoint is owned by server REST api service owner

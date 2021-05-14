@@ -22,14 +22,14 @@ import org.threeten.bp.ZonedDateTime
  */
 @JsonClass(generateAdapter = true)
 data class Work(
-    @Json(name = "block") @field:Json(name = "block") var block: Double? = null,
-    @Json(name = "coursePart") @field:Json(name = "coursePart") var coursePart: CoursePart? = null,
-    @Json(name = "deadline") @field:Json(name = "deadline") var deadline: ZonedDateTime? = null,
-    @Json(name = "description") @field:Json(name = "description") var description: String? = null,
-    @Json(name = "id") @field:Json(name = "id") var id: Long? = null,
-    @Json(name = "name") @field:Json(name = "name") var name: String? = null,
-    @Json(name = "weight") @field:Json(name = "weight") var weight: Double? = null,
-    @Json(name = "workType") @field:Json(name = "workType") var workType: Work.WorkTypeEnum? = null
+    @Json(name = "block") @field:Json(name = "block") var block: Double,
+    @Json(name = "coursePart") @field:Json(name = "coursePart") var coursePart: CoursePart,
+    @Json(name = "deadline") @field:Json(name = "deadline") var deadline: ZonedDateTime,
+    @Json(name = "description") @field:Json(name = "description") var description: String,
+    @Json(name = "id") @field:Json(name = "id") var id: Long,
+    @Json(name = "name") @field:Json(name = "name") var name: String,
+    @Json(name = "weight") @field:Json(name = "weight") var weight: Double,
+    @Json(name = "workType") @field:Json(name = "workType") var workType: Work.WorkTypeEnum
 ) {
     /**
      * Values: CONTROLWORK, HOMEWORK
