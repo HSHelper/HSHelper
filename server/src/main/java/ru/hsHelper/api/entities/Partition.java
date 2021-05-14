@@ -1,6 +1,5 @@
 package ru.hsHelper.api.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -29,7 +28,7 @@ public class Partition {
     @Column(nullable = false)
     private String name;
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "partition", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
     @NotNull

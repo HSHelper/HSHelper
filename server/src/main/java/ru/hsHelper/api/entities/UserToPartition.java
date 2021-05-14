@@ -1,12 +1,10 @@
 package ru.hsHelper.api.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import ru.hsHelper.api.keys.UserToPartitionKey;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -27,7 +25,6 @@ public class UserToPartition {
     @NotNull
     private User user;
 
-    @JsonManagedReference
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @MapsId("partitionId")
     @JoinColumn(name = "partition_id", nullable = false)

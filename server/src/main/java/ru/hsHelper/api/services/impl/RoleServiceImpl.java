@@ -72,4 +72,10 @@ public class RoleServiceImpl implements RoleService {
     public Set<Role> getAllRoles() {
         return roleRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<Permissions> getAllPermissions(long roleId) {
+        return getRoleById(roleId).getPermissions();
+    }
 }

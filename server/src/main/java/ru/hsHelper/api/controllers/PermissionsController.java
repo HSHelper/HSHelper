@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.hsHelper.api.entities.Permissions;
+import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.services.PermissionService;
 
 import java.util.Set;
@@ -41,5 +42,10 @@ public class PermissionsController {
     @GetMapping("/")
     public Permissions getPermissionByPermissionType(@RequestBody Permissions.PermissionType permissionType) {
         return permissionService.getPermissionByPermissionType(permissionType);
+    }
+
+    @GetMapping("/{permissionId}/roles")
+    public Set<Role> getAllRoles(@PathVariable long permissionId) {
+        return permissionService.getAllRoles(permissionId);
     }
 }
