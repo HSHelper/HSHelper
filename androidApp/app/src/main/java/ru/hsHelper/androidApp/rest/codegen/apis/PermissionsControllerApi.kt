@@ -11,6 +11,7 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import ru.hsHelper.androidApp.rest.codegen.models.Permissions
+import ru.hsHelper.androidApp.rest.codegen.models.Role
 
 @JvmSuppressWildcards
 interface PermissionsControllerApi {
@@ -52,6 +53,18 @@ interface PermissionsControllerApi {
     suspend fun deletePermissionUsingDELETE(
         @retrofit2.http.Path("id") id: Long
     ): Unit
+    /**
+     * getAllRoles
+     * The endpoint is owned by server REST api service owner
+     * @param permissionId permissionId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllRolesUsingGET"
+    )
+    @GET("permissions/{permissionId}/roles")
+    suspend fun getAllRolesUsingGET(
+        @retrofit2.http.Path("permissionId") permissionId: Long
+    ): List<Role>
     /**
      * getPermissionById
      * The endpoint is owned by server REST api service owner

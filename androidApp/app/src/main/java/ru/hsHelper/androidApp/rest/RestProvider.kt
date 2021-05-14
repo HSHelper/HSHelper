@@ -5,21 +5,21 @@ import ru.hsHelper.androidApp.rest.codegen.apis.*
 import ru.hsHelper.androidApp.rest.codegen.tools.GeneratedCodeConverters
 
 object RestProvider {
-    val userApi
+    val userApi: UserControllerApi
         get() = retrofit.create(UserControllerApi::class.java)
-    val courseApi
+    val courseApi: CourseControllerApi
         get() = retrofit.create(CourseControllerApi::class.java)
-    val coursePartApi
+    val coursePartApi: CoursePartControllerApi
         get() = retrofit.create(CoursePartControllerApi::class.java)
-    val groupApi
+    val groupApi: GroupControllerApi
         get() = retrofit.create(GroupControllerApi::class.java)
-    val partitionApi
+    val partitionApi: PartitionControllerApi
         get() = retrofit.create(PartitionControllerApi::class.java)
-    val permissionApi
+    val permissionApi: PermissionsControllerApi
         get() = retrofit.create(PermissionsControllerApi::class.java)
-    val roleApi
+    val roleApi: RoleControllerApi
         get() = retrofit.create(RoleControllerApi::class.java)
-    val workApi
+    val workApi: WorkControllerApi
         get() = retrofit.create(WorkControllerApi::class.java)
 
     private val retrofit = Retrofit.Builder()
