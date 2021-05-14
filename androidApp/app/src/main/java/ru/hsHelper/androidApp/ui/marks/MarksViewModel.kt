@@ -18,8 +18,8 @@ class MarksViewModel : ViewModel() {
         fun courseMarkRepresentation(it: Pair<Course, MarkInterval>) =
             ExpandableMark(
                 ButtonData(
-                    it.first.name!!,
-                    MarksActivity.launcher(it.first.name!!, "C${it.first.id!!}")
+                    it.first.name,
+                    MarksActivity.launcher(it.first.name, "C${it.first.id}")
                 ),
                 it.second,
                 0.0
@@ -28,22 +28,22 @@ class MarksViewModel : ViewModel() {
         fun coursePartMarkRepresentation(it: Pair<CoursePart, MarkInterval>) =
             ExpandableMark(
                 ButtonData(
-                    it.first.name!!,
-                    MarksActivity.launcher(it.first.name!!, "P${it.first.id!!}")
+                    it.first.name,
+                    MarksActivity.launcher(it.first.name, "P${it.first.id}")
                 ),
                 it.second,
-                it.first.weight!!
+                it.first.weight
             )
 
         fun userWorkRepresentation(userWork: UserWork) =
             WorkMark(
-                userWork.work?.name!!,
-                userWork.work?.deadline!!,
+                userWork.work.name,
+                userWork.work.deadline,
                 ButtonData("Assignment") {},
                 userWork.sendTime,
                 ButtonData("Solution") {},
                 userWork.mark,
-                userWork.work!!.weight!!
+                userWork.work.weight
             )
     }
 
@@ -54,11 +54,12 @@ class MarksViewModel : ViewModel() {
     val tableContent: LiveData<MarksTableContent> = _tableContent
 
     fun postData(path: String) = GlobalScope.launch {
-        val userId = AuthProvider.currentUser!!.getRestId()!!
+        val userId = AuthProvider.currentUser!!.getRestId()
         val allWorks = RestProvider.userApi.getAllWorksUsingGET1(userId)
         when (path[0]) {
             'G' -> {
                 val tableContent = getGroupTable(allWorks, path.substring(1).toLong())
+                _summary.postValue(null)
                 _tableContent.postValue(MarksTableContent.ExpandableContent(tableContent))
             }
             'C' -> {

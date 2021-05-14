@@ -6,7 +6,12 @@ data class MarkInterval(val max: Double, val average: Double, val min: Double) {
             return if (weight > 0.99) {
                 MarkInterval(sum / weight)
             } else {
-                MarkInterval(sum + 10 * (1 - weight), sum / weight, sum)
+                val average = if (weight > 0.01) {
+                    sum / weight
+                } else {
+                    10.0
+                }
+                MarkInterval(sum + 10 * (1 - weight), average, sum)
             }
         }
     }
