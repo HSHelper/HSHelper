@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "676750732341",
-    "project_id": "hshelper-934a6",
-    "storage_bucket": "hshelper-934a6.appspot.com"
+    "project_number": "608349084013",
+    "project_id": "xenon-tracer-313714",
+    "storage_bucket": "xenon-tracer-313714.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:676750732341:android:c5ba6d9d8fbc76bc2c157c",
+        "mobilesdk_app_id": "1:608349084013:android:3465aed68cbf14adc8e264",
         "android_client_info": {
           "package_name": "ru.hsHelper.androidApp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "676750732341-jr4hulina537t74p562mo7barp66m81m.apps.googleusercontent.com",
+          "client_id": "608349084013-9us8qru1cd7qgtmlu72qdu6g3vnst8kq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "ru.hsHelper.androidApp",
-            "certificate_hash": "526773aaf68806961c44171963f2354ec768ae6e"
+            "certificate_hash": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
           }
         },
         {
-          "client_id": "676750732341-2tqla80gs7grtis0kmh946q8i785knq9.apps.googleusercontent.com",
+          "client_id": "608349084013-b5l1vfsdhfm5dckjmbhjqc14jqa78gsu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCFEstWQOWmVFA58vw_8gpnv_AQmXhwrfk"
+          "current_key": "AIzaSyDnIPBtZlGMIDkwmGvKb4ojbn6HSm2cKIA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "676750732341-2tqla80gs7grtis0kmh946q8i785knq9.apps.googleusercontent.com",
+              "client_id": "608349084013-b5l1vfsdhfm5dckjmbhjqc14jqa78gsu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
