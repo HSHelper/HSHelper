@@ -45,6 +45,7 @@ class MarksActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         toolbar.title = intent.getStringExtra(titleKey)!!
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun setView() {
@@ -57,9 +58,11 @@ class MarksActivity : AppCompatActivity() {
 
     private fun setSummary(data: MarkInterval?) {
         val summary = findViewById<TextView>(R.id.mark_summary)
-        summary.clearComposingText()
         if (data != null) {
             summary.text = data.toString()
+        } else {
+            summary.text = ""
+            summary.height = 0
         }
     }
 
@@ -141,7 +144,7 @@ class MarksActivity : AppCompatActivity() {
             addView(Space(this@MarksActivity), rowSmallSpaceLayoutParams)
             addView(makeInTableButton(data.solution), rowElementLayoutParams)
             addView(Space(this@MarksActivity), rowSmallSpaceLayoutParams)
-            addView(makeTextView(data.mark.toString()), rowElementLayoutParams)
+            addView(makeTextView(data.mark?.toString() ?: "-"), rowElementLayoutParams)
             addView(Space(this@MarksActivity), rowSmallSpaceLayoutParams)
             addView(makeTextView(data.weight.toString()), rowElementLayoutParams)
         }
@@ -164,6 +167,7 @@ class MarksActivity : AppCompatActivity() {
                 Toast
                     .makeText(this, "Contributions is TODO", Toast.LENGTH_SHORT)
                     .show() // TODO: Run contributions mode
+            android.R.id.home -> this.finish()
             else -> return false
         }
         return true
