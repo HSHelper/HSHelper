@@ -15,6 +15,6 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class Group(
-    @Json(name = "id") @field:Json(name = "id") var id: Long? = null,
-    @Json(name = "name") @field:Json(name = "name") var name: String? = null
+    @Json(name = "id") @field:Json(name = "id") var id: Long,
+    @Json(name = "name") @field:Json(name = "name") var name: String
 )

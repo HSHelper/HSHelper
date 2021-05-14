@@ -17,8 +17,8 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class Partition(
-    @Json(name = "group") @field:Json(name = "group") var group: Group? = null,
-    @Json(name = "id") @field:Json(name = "id") var id: Long? = null,
-    @Json(name = "name") @field:Json(name = "name") var name: String? = null,
-    @Json(name = "users") @field:Json(name = "users") var users: List<UserToPartition>? = null
+    @Json(name = "group") @field:Json(name = "group") var group: Group,
+    @Json(name = "id") @field:Json(name = "id") var id: Long,
+    @Json(name = "name") @field:Json(name = "name") var name: String,
+    @Json(name = "users") @field:Json(name = "users") var users: List<UserToPartition>
 )

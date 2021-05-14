@@ -16,9 +16,9 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class Permissions(
-    @Json(name = "id") @field:Json(name = "id") var id: Long? = null,
-    @Json(name = "permissionType") @field:Json(name = "permissionType") var permissionType: Permissions.PermissionTypeEnum? = null,
-    @Json(name = "roles") @field:Json(name = "roles") var roles: List<Role>? = null
+    @Json(name = "id") @field:Json(name = "id") var id: Long,
+    @Json(name = "permissionType") @field:Json(name = "permissionType") var permissionType: Permissions.PermissionTypeEnum,
+    @Json(name = "roles") @field:Json(name = "roles") var roles: List<Role>
 ) {
     /**
      * Values: COMMENT, CREATE, UPDATE, VIEW

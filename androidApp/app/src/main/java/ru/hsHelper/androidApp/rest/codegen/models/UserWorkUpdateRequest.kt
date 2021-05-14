@@ -8,22 +8,13 @@ package ru.hsHelper.androidApp.rest.codegen.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import org.threeten.bp.ZonedDateTime
 
 /**
- * @property id
  * @property mark
- * @property sendTime
  * @property solution
- * @property user
- * @property work
  */
 @JsonClass(generateAdapter = true)
-data class UserWork(
-    @Json(name = "id") @field:Json(name = "id") var id: UserWorkKey,
-    @Json(name = "sendTime") @field:Json(name = "sendTime") var sendTime: ZonedDateTime,
+data class UserWorkUpdateRequest(
     @Json(name = "solution") @field:Json(name = "solution") var solution: String,
-    @Json(name = "user") @field:Json(name = "user") var user: User,
-    @Json(name = "work") @field:Json(name = "work") var work: Work,
     @Json(name = "mark") @field:Json(name = "mark") var mark: Double? = null
 )

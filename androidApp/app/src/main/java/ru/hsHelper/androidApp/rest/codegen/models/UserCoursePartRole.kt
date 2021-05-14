@@ -17,8 +17,8 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class UserCoursePartRole(
-    @Json(name = "coursePart") @field:Json(name = "coursePart") var coursePart: CoursePart? = null,
-    @Json(name = "id") @field:Json(name = "id") var id: UserCoursePartRoleKey? = null,
-    @Json(name = "roles") @field:Json(name = "roles") var roles: List<Role>? = null,
-    @Json(name = "user") @field:Json(name = "user") var user: User? = null
+    @Json(name = "coursePart") @field:Json(name = "coursePart") var coursePart: CoursePart,
+    @Json(name = "id") @field:Json(name = "id") var id: UserCoursePartRoleKey,
+    @Json(name = "roles") @field:Json(name = "roles") var roles: List<Role>,
+    @Json(name = "user") @field:Json(name = "user") var user: User
 )

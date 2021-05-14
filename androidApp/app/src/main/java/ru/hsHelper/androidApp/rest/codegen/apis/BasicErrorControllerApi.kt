@@ -7,76 +7,75 @@
 package ru.hsHelper.androidApp.rest.codegen.apis
 
 import retrofit2.http.*
-import ru.hsHelper.androidApp.rest.codegen.models.ModelAndView
 
 @JvmSuppressWildcards
 interface BasicErrorControllerApi {
     /**
-     * errorHtml
+     * error
      * The endpoint is owned by server REST api service owner
      */
     @Headers(
-        "X-Operation-ID: errorHtmlUsingDELETE"
+        "X-Operation-ID: errorUsingDELETE"
     )
     @DELETE("error")
-    suspend fun errorHtmlUsingDELETE(): ModelAndView
+    suspend fun errorUsingDELETE(): Map<String, Map<String, Any?>>
     /**
-     * errorHtml
+     * error
      * The endpoint is owned by server REST api service owner
      */
     @Headers(
-        "X-Operation-ID: errorHtmlUsingGET"
+        "X-Operation-ID: errorUsingGET"
     )
     @GET("error")
-    suspend fun errorHtmlUsingGET(): ModelAndView
+    suspend fun errorUsingGET(): Map<String, Map<String, Any?>>
     /**
-     * errorHtml
+     * error
      * The endpoint is owned by server REST api service owner
      */
     @Headers(
-        "X-Operation-ID: errorHtmlUsingHEAD",
+        "X-Operation-ID: errorUsingHEAD",
       "Content-Type: application/json"
     )
     @HEAD("error")
-    suspend fun errorHtmlUsingHEAD(): ModelAndView
+    suspend fun errorUsingHEAD(): Map<String, Map<String, Any?>>
     /**
-     * errorHtml
+     * error
      * The endpoint is owned by server REST api service owner
      */
     @Headers(
-        "X-Operation-ID: errorHtmlUsingOPTIONS",
+        "X-Operation-ID: errorUsingOPTIONS",
       "Content-Type: application/json"
     )
     @OPTIONS("error")
-    suspend fun errorHtmlUsingOPTIONS(): ModelAndView
+    suspend fun errorUsingOPTIONS(): Map<String, Map<String, Any?>>
     /**
-     * errorHtml
+     * error
      * The endpoint is owned by server REST api service owner
      */
     @Headers(
-        "X-Operation-ID: errorHtmlUsingPATCH",
+        "X-Operation-ID: errorUsingPATCH",
       "Content-Type: application/json"
     )
     @PATCH("error")
-    suspend fun errorHtmlUsingPATCH(): ModelAndView
+    suspend fun errorUsingPATCH(): Map<String, Map<String, Any?>>
     /**
-     * errorHtml
+     * error
      * The endpoint is owned by server REST api service owner
      */
     @Headers(
-        "X-Operation-ID: errorHtmlUsingPOST",
+        "X-Operation-ID: errorUsingPOST",
       "Content-Type: application/json"
     )
     @POST("error")
-    suspend fun errorHtmlUsingPOST(): ModelAndView
+    suspend fun errorUsingPOST(): Map<String, Map<String, Any?>>
     /**
-     * errorHtml
+     * error
      * The endpoint is owned by server REST api service owner
      */
     @Headers(
-        "X-Operation-ID: errorHtmlUsingPUT",
+        "X-Operation-ID: errorUsingPUT",
       "Content-Type: application/json"
     )
     @PUT("error")
-    suspend fun errorHtmlUsingPUT(): ModelAndView
+    suspend fun errorUsingPUT(): Map<String, Map<String, Any?>>
 }
