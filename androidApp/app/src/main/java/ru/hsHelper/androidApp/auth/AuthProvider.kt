@@ -1,7 +1,12 @@
 package ru.hsHelper.androidApp.auth
 
 import android.util.Patterns
-import com.google.firebase.auth.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import ru.hsHelper.androidApp.rest.RestProvider
+import ru.hsHelper.androidApp.rest.codegen.models.UserCreateRequest
 
 object AuthProvider {
     private val auth = FirebaseAuth.getInstance()
@@ -19,9 +24,20 @@ object AuthProvider {
 
     fun authWithGoogleToken(token: String) =
         auth.signInWithCredential(GoogleAuthProvider.getCredential(token, null))
+            .addOnSuccessListener {
+                if (it.additionalUserInfo!!.isNewUser) {
+                    val map = it.additionalUserInfo!!.profile!!
+                    registerUser(
+                        it.user!!.email!!,
+                        map["given_name"] as String?,
+                        map["family_name"] as String?
+                    )
+                }
+            }
 
     fun createUser(email: String, password: String) =
         auth.createUserWithEmailAndPassword(email, password)
+            .addOnSuccessListener { registerUser(it.user!!.email!!) }
 
     fun isEmailValid(email: String) =
         Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -31,4 +47,15 @@ object AuthProvider {
 
     fun isValid(email: String, password: String) =
         isEmailValid(email) && isPasswordValid(password)
+
+    private fun registerUser(email: String, firstName: String? = null, lastName: String? = null) =
+        GlobalScope.launch {
+            RestProvider.userApi.createUserUsingPOST(
+                UserCreateRequest(
+                    email,
+                    firstName ?: "firstName",
+                    lastName ?: "lastName"
+                )
+            )
+        }
 }
