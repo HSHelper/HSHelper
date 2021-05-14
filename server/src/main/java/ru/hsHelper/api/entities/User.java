@@ -31,7 +31,7 @@ public class User {
 
     @NotNull
     @Column(nullable = false)
-    private String LastName;
+    private String lastName;
 
     @Column(unique = true, nullable = false)
     @NotNull
@@ -41,7 +41,7 @@ public class User {
 
     public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
-        LastName = lastName;
+        this.lastName = lastName;
         this.email = email;
     }
 
@@ -97,11 +97,11 @@ public class User {
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     public Set<UserGroupRole> getGroups() {
