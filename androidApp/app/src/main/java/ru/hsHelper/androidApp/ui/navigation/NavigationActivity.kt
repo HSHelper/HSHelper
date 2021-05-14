@@ -36,6 +36,11 @@ class NavigationActivity : AppCompatActivity() {
 
     private lateinit var view: NavigationViewModel
 
+    private val title: String
+        get() = intent.getStringExtra(titleKey) ?: resources.getString(R.string.groups)
+    private val path: String
+        get() = intent.getStringExtra(pathKey) ?: ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,7 +50,7 @@ class NavigationActivity : AppCompatActivity() {
 
     private fun setToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        toolbar.title = intent.getStringExtra(titleKey) ?: resources.getString(R.string.groups)
+        toolbar.title = title
         setSupportActionBar(toolbar)
     }
 
@@ -55,7 +60,7 @@ class NavigationActivity : AppCompatActivity() {
                 this@NavigationActivity,
                 this@NavigationActivity::setButtons
             )
-            postData(intent.getStringExtra(pathKey) ?: "")
+            postData(path, title)
         }
     }
 
