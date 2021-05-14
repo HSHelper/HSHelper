@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.hsHelper.api.entities.Permissions;
 import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.services.RoleService;
 
@@ -53,5 +54,10 @@ public class RoleController {
     @DeleteMapping("/{roleId}/permissions/")
     public Role deletePermissions(@PathVariable long roleId, @RequestBody Set<Long> permissionIds) {
         return roleService.deletePermissions(roleId, permissionIds);
+    }
+
+    @GetMapping("/{roleId}/permissions")
+    public Set<Permissions> getAllPermissions(@PathVariable long roleId) {
+        return roleService.getAllPermissions(roleId);
     }
 }

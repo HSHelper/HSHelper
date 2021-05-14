@@ -13,4 +13,5 @@ public interface RoleService {
     Role addPermissions(long roleId, Set<Long> permissionsIds);
     Role deletePermissions(long roleId, Set<Long> permissionIds);
     Set<Role> getAllRoles();
+    Set<Permissions> getAllPermissions(long roleId);
 }

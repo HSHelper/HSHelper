@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.hsHelper.api.entities.Permissions;
+import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.repositories.PermissionsRepository;
 import ru.hsHelper.api.repositories.RoleRepository;
 import ru.hsHelper.api.services.PermissionService;
@@ -53,5 +54,11 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public Set<Permissions> getAllPermissions() {
         return permissionsRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<Role> getAllRoles(long id) {
+        return getPermissionById(id).getRoles();
     }
 }
