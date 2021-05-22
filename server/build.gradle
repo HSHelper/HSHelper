@@ -25,6 +25,8 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.20'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation "com.google.firebase:firebase-admin:7.0.0"
 }
 
 test {

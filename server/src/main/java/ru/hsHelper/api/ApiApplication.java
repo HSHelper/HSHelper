@@ -1,11 +1,16 @@
 package ru.hsHelper.api;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import ru.hsHelper.api.configs.FcmSettings;
 import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.CoursePart;
 import ru.hsHelper.api.entities.Group;
@@ -27,11 +32,12 @@ import ru.hsHelper.api.services.RoleService;
 import ru.hsHelper.api.services.UserService;
 import ru.hsHelper.api.services.WorkService;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
-import java.util.EnumMap;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -46,12 +52,13 @@ public class ApiApplication {
     private final PartitionService partitionService;
     private final PermissionService permissionService;
     private final RoleService roleService;
+    private final FcmSettings fcmSettings;
 
     @Autowired
     public ApiApplication(WorkService workService, UserService userService, GroupService groupService,
                           CourseService courseService, CoursePartService coursePartService,
                           PartitionService partitionService, PermissionService permissionService,
-                          RoleService roleService) {
+                          RoleService roleService, FcmSettings fcmSettings) {
         this.workService = workService;
         this.userService = userService;
         this.groupService = groupService;
@@ -60,6 +67,7 @@ public class ApiApplication {
         this.partitionService = partitionService;
         this.permissionService = permissionService;
         this.roleService = roleService;
+        this.fcmSettings = fcmSettings;
     }
 
     public static void main(String[] args) {
@@ -172,6 +180,18 @@ public class ApiApplication {
             userService.addWorks(user2.getId(), Set.of(cpplab1.getId()), Map.of(cpplab1.getId(), "huffman sol"));
             userService.addWorks(user3.getId(), Set.of(cpplab1.getId()), Map.of(cpplab1.getId(), "huffman archiver sol"));
         };
+    }
+
+    @Bean
+    FirebaseMessaging firebaseMessaging() throws IOException {
+        GoogleCredentials googleCredentials = GoogleCredentials
+                .fromStream(Files.newInputStream(Paths.get(fcmSettings.getServiceAccountFile())));
+        FirebaseOptions firebaseOptions = FirebaseOptions
+                .builder()
+                .setCredentials(googleCredentials)
+                .build();
+        FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions, "my-app");
+        return FirebaseMessaging.getInstance(app);
     }
 
 }
