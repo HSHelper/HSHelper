@@ -15,13 +15,26 @@ public class UserUpdateRequest implements Serializable {
     @Email
     private String email;
 
+    @NotEmpty
+    private String token;
+
     public UserUpdateRequest() {
     }
 
-    public UserUpdateRequest(@NotEmpty String firstName, @NotEmpty String lastName, @Email String email) {
+    public UserUpdateRequest(@NotEmpty String firstName, @NotEmpty String lastName, @Email String email,
+                             @NotEmpty String token) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getFirstName() {

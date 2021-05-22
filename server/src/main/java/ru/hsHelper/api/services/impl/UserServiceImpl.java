@@ -133,6 +133,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(updateRequest.getFirstName());
         user.setLastName(updateRequest.getLastName());
         user.setEmail(updateRequest.getEmail());
+        user.setFirebaseMessagingToken(updateRequest.getToken());
         return userRepository.save(user);
     }
 

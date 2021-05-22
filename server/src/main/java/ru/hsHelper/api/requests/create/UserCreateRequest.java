@@ -15,11 +15,25 @@ public class UserCreateRequest implements Serializable {
     @Email
     private String email;
 
+    @NotEmpty
+    private String token;
+
     public UserCreateRequest() {}
 
-    public UserCreateRequest(@NotEmpty String firstName, @NotEmpty String lastName) {
+    public UserCreateRequest(@NotEmpty String firstName, @NotEmpty String lastName, @Email String email,
+                             @NotEmpty String token) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getFirstName() {

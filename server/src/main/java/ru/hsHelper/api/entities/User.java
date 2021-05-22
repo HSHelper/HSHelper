@@ -37,6 +37,24 @@ public class User {
     @NotNull
     private String email;
 
+    private String firebaseMessagingToken;
+
+    public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email,
+                String firebaseMessagingToken) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.firebaseMessagingToken = firebaseMessagingToken;
+    }
+
+    public String getFirebaseMessagingToken() {
+        return firebaseMessagingToken;
+    }
+
+    public void setFirebaseMessagingToken(String firebaseMessagingToken) {
+        this.firebaseMessagingToken = firebaseMessagingToken;
+    }
+
     public User() {}
 
     public User(String firstName, String lastName, String email) {

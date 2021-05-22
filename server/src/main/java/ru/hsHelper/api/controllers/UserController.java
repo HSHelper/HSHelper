@@ -41,7 +41,7 @@ public class UserController {
     @PostMapping("/")
     public User createUser(@RequestBody @Valid UserCreateRequest userCreateRequest) {
         return userService.createUser(new User(userCreateRequest.getFirstName(), userCreateRequest.getLastName(),
-                userCreateRequest.getEmail()));
+                userCreateRequest.getEmail(), userCreateRequest.getToken()));
     }
 
     @DeleteMapping("/{id}")
