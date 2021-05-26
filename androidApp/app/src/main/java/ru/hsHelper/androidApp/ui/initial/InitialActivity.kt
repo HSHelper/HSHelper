@@ -21,7 +21,7 @@ class InitialActivity : AppCompatActivity() {
         setContentView(R.layout.activity_initial)
 
         if (AuthProvider.isNotLoggedIn) {
-            startActivityForResult(Intent(this, LoginActivity::class.java), RC_LOGIN)
+            startLogin()
         } else {
             if (intent.hasExtra("notification")) {
                 startFromNotification()
@@ -35,16 +35,22 @@ class InitialActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_LOGIN) {
             if (AuthProvider.isNotLoggedIn) {
-                Toast.makeText(
-                    this,
-                    getString(R.string.unexpected_error),
-                    Toast.LENGTH_SHORT
-                ).show()
-                startActivityForResult(Intent(this, LoginActivity::class.java), RC_LOGIN)
+                if (resultCode == RESULT_OK) {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.unexpected_error),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                startLogin()
             } else {
                 startLoggedIn()
             }
         }
+    }
+
+    private fun startLogin() {
+        startActivityForResult(Intent(this, LoginActivity::class.java), RC_LOGIN)
     }
 
     private fun startLoggedIn() {
@@ -53,8 +59,10 @@ class InitialActivity : AppCompatActivity() {
     }
 
     private fun startFromNotification() {
-        Log.d("Notification", "Starting from notification")
-        Log.d("Notification", intent.getStringExtra("notification") ?: "null")
+        Log.d(
+            "Notification",
+            "Starting from notification: ${intent.getStringExtra("notification")}"
+        )
         startLoggedIn()
     }
 }

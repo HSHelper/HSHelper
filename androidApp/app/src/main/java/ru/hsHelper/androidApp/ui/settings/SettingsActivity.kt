@@ -15,12 +15,10 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings, SettingsFragment())
-                .commit()
-        }
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.settings, SettingsFragment())
+            .commit()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -34,9 +32,27 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
+        private lateinit var observers: List<SettingsObserver>
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+            setObservers()
             setSignOut()
+        }
+
+        override fun onDestroy() {
+            super.onDestroy()
+            closeObservers()
+        }
+
+        private fun setObservers() {
+            observers = listOf(
+                PersonalDataObserver(this)
+            )
+        }
+
+        private fun closeObservers() {
+            observers.forEach(SettingsObserver::close)
         }
 
         private fun setSignOut() {

@@ -51,8 +51,8 @@ object AuthProvider {
             RestProvider.userApi.createUserUsingPOST(
                 UserCreateRequest(
                     email,
-                    firstName ?: "firstName",
-                    lastName ?: "lastName"
+                    firstName ?: "First name",
+                    lastName ?: "Last name"
                 )
             )
         }

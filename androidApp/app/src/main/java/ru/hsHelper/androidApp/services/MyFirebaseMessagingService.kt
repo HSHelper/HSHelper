@@ -9,7 +9,7 @@ import ru.hsHelper.androidApp.notifications.LocalNotificationManager
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        Log.d("FirebaseMessaging", "Message received")
+        Log.d("Firebase Messaging", "Message received")
 
         // Send notification if application in foreground
         val title = message.notification?.title
@@ -20,7 +20,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onNewToken(refreshedToken: String) {
-        Log.d("FirebaseMessaging", "Refreshed token: $refreshedToken")
+        Log.d("Firebase Messaging", "Refreshed token: $refreshedToken")
         // sendRegistrationToServer(refreshedToken)
     }
 }
