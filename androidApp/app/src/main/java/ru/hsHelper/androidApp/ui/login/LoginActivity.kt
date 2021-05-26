@@ -27,12 +27,12 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val email = findViewById<EditText>(R.id.email)
-        val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
-        val register = findViewById<Button>(R.id.register)
-        val loading = findViewById<ProgressBar>(R.id.loading)
-        val loginGoogle = findViewById<Button>(R.id.login_google)
+        val email = findViewById<EditText>(R.id.login_email)
+        val password = findViewById<EditText>(R.id.login_password)
+        val login = findViewById<Button>(R.id.login_login)
+        val register = findViewById<Button>(R.id.login_register)
+        val loading = findViewById<ProgressBar>(R.id.login_loading)
+        val loginGoogle = findViewById<Button>(R.id.login_google_login)
 
         setupViewModel(email, password, loading)
         setupLogin(email, password, login, register, loading)
@@ -112,12 +112,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupGoogleLogin(loginGoogle: Button) {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
-        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+        val googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
 
         loginGoogle.setOnClickListener {
             startActivityForResult(googleSignInClient.signInIntent, RC_GOOGLE_SIGN_IN)
@@ -138,9 +138,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUiWithUser(model: AuthUser) {
+    private fun updateUiWithUser(user: AuthUser) {
         val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
+        val displayName = user.displayName
         Toast.makeText(
             applicationContext,
             "$welcome $displayName",

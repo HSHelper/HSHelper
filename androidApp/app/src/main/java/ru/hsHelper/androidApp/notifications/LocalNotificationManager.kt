@@ -12,10 +12,9 @@ import ru.hsHelper.androidApp.ui.initial.InitialActivity
 
 object LocalNotificationManager {
     private const val DEFAULT_CHANNEL_ID = "Default"
+    private var id = 0
 
     fun simpleNotification(context: Context, title: String, text: String) {
-        createChannelIfNeeded(context)
-
         val intent = Intent(context, InitialActivity::class.java)
         intent.putExtra("notification", "Simple notification")
 
@@ -37,13 +36,12 @@ object LocalNotificationManager {
 
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(0, notification)
+        createChannelIfNeeded(notificationManager)
+        notificationManager.notify(id++, notification)
     }
 
-    private fun createChannelIfNeeded(context: Context) {
+    private fun createChannelIfNeeded(notificationManager: NotificationManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             if (notificationManager.getNotificationChannel(DEFAULT_CHANNEL_ID) == null) {
                 val channel = NotificationChannel(
                     DEFAULT_CHANNEL_ID,

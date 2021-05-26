@@ -1,6 +1,7 @@
 package ru.hsHelper.androidApp.ui.navigation
 
 import android.content.Intent
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,7 +25,7 @@ class NavigationViewModel : ViewModel() {
                     'G' -> getMainButtonsCourses(path.substring(1).toLong())
                     'C' -> getMainButtonsCourse(path.substring(1).toLong())
                     'P' -> getMainButtonsCoursePart(path.substring(1).toLong())
-                    else -> TODO()
+                    else -> throw AssertionError("Unknown path")
                 }
             }
 
@@ -75,32 +76,43 @@ class NavigationViewModel : ViewModel() {
                 }
             )
         }
+
+        private fun marksButton(activity: NavigationActivity) =
+            ButtonData("Marks", MarksActivity.launcher(activity.title, activity.path))
+
+        private fun returnButton(activity: NavigationActivity): MutableList<ButtonData> =
+            mutableListOf(
+                ButtonData("Unexpected error\n Return back") {
+                    activity.finish()
+                }
+            )
     }
 
     private val _mainButtons = MutableLiveData<List<ButtonData>>()
     val mainButtonsState: LiveData<List<ButtonData>> = _mainButtons
 
     private fun retryButton(
-        e: HttpException,
-        path: String,
-        title: String
+        e: HttpException, activity: NavigationActivity
     ): MutableList<ButtonData> =
         mutableListOf(
             ButtonData("Error ${e.code()}\n Retry") {
-                this.postData(path, title)
+                this.postData(activity)
             }
         )
 
 
-    fun postData(path: String, title: String) = GlobalScope.launch {
+    fun postData(activity: NavigationActivity) = GlobalScope.launch {
         val mainButtons = try {
-            val buttons = getMainButtons(path)
-            if (path.isNotEmpty()) {
-                buttons.add(ButtonData("Marks", MarksActivity.launcher(title, path)))
+            val buttons = getMainButtons(activity.path)
+            if (activity.path.isNotEmpty()) {
+                buttons.add(marksButton(activity))
             }
             buttons
         } catch (e: HttpException) {
-            retryButton(e, path, title)
+            retryButton(e, activity)
+        } catch (e: AssertionError) {
+            Log.e("Bad path", "NavigationViewModel: ${e.message}")
+            returnButton(activity)
         }
         _mainButtons.postValue(mainButtons)
     }

@@ -9,9 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <include
-        layout="@layout/content_main"
+    <TableLayout
+        android:id="@+id/navigation_main_buttons"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/navigation_button_padding" />
 
 </LinearLayout>

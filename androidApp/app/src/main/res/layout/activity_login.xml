@@ -12,7 +12,7 @@
     tools:context=".androidApp.ui.login.LoginActivity">
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/login_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/login_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -43,52 +43,52 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintTop_toBottomOf="@+id/login_email" />
 
     <ProgressBar
-        android:id="@+id/loading"
+        android:id="@+id/login_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="64dp"
         android:layout_marginBottom="48dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/login"
+        app:layout_constraintBottom_toTopOf="@id/login_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password" />
+        app:layout_constraintTop_toBottomOf="@id/login_password" />
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/login_login"
         android:layout_width="192dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/sign_in"
-        app:layout_constraintBottom_toTopOf="@id/register"
+        app:layout_constraintBottom_toTopOf="@id/login_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/login_password"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
-        android:id="@+id/register"
+        android:id="@+id/login_register"
         android:layout_width="192dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/register"
-        app:layout_constraintBottom_toTopOf="@id/login_google"
+        app:layout_constraintBottom_toTopOf="@id/login_google_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login"
+        app:layout_constraintTop_toBottomOf="@+id/login_login"
         app:layout_constraintVertical_bias="0.2"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
-        android:id="@+id/login_google"
+        android:id="@+id/login_google_login"
         android:layout_width="192dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -98,6 +98,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register"
+        app:layout_constraintTop_toBottomOf="@+id/login_register"
         app:layout_constraintVertical_chainStyle="packed" />
 </androidx.constraintlayout.widget.ConstraintLayout>
