@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.CoursePart;
 import ru.hsHelper.api.entities.Group;
+import ru.hsHelper.api.entities.Notification;
 import ru.hsHelper.api.entities.Partition;
 import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserCoursePartRole;
@@ -17,6 +18,7 @@ import ru.hsHelper.api.entities.Work;
 import ru.hsHelper.api.repositories.CoursePartRepository;
 import ru.hsHelper.api.repositories.CourseRepository;
 import ru.hsHelper.api.repositories.GroupRepository;
+import ru.hsHelper.api.repositories.NotificationRepository;
 import ru.hsHelper.api.repositories.PartitionRepository;
 import ru.hsHelper.api.repositories.UserCoursePartRoleRepository;
 import ru.hsHelper.api.repositories.UserCourseRoleRepository;
@@ -57,6 +59,7 @@ public class UserServiceImpl implements UserService {
     private final UserCoursePartService userCoursePartService;
     private final UserPartitionService userPartitionService;
     private final UserWorkService userWorkService;
+    private final NotificationRepository notificationRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, GroupRepository groupRepository,
@@ -68,7 +71,7 @@ public class UserServiceImpl implements UserService {
                            UserCoursePartRoleRepository userCoursePartRoleRepository, WorkRepository workRepository,
                            UserWorkRepository userWorkRepository, UserGroupService userGroupService,
                            UserCourseService userCourseService, UserCoursePartService userCoursePartService,
-                           UserPartitionService userPartitionService, UserWorkService userWorkService) {
+                           UserPartitionService userPartitionService, UserWorkService userWorkService, NotificationRepository notificationRepository) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.userGroupRoleRepository = userGroupRoleRepository;
@@ -85,6 +88,7 @@ public class UserServiceImpl implements UserService {
         this.userCourseService = userCourseService;
         this.userPartitionService = userPartitionService;
         this.userWorkService = userWorkService;
+        this.notificationRepository = notificationRepository;
     }
 
     @Transactional
@@ -122,6 +126,9 @@ public class UserServiceImpl implements UserService {
             userWork.removeUserAndWork();
         }
         userWorkRepository.deleteAll(userWorks);
+        for (Notification notification : user.getNotifications()) {
+            notification.removeUser(user);
+        }
         userRepository.delete(user);
     }
 
@@ -348,5 +355,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserWork updateUserWork(long userId, long workId, UserWorkUpdateRequest userWorkUpdateRequest) {
         return userWorkService.updateUserWork(userId, workId, userWorkUpdateRequest);
+    }
+
+    @Transactional
+    @Override
+    public User addNotifications(long userId, Set<Long> notificationsIds) {
+        User user = getUserById(userId);
+        Set<Notification> notifications = notificationRepository.findAllByIdIn(notificationsIds);
+        for (Notification notification : notifications) {
+            notification.addUser(user);
+            user.addNotification(notification);
+        }
+        return user;
+    }
+
+    @Transactional
+    @Override
+    public User deleteNotifications(long userId, Set<Long> notificationIds) {
+        User user = getUserById(userId);
+        Set<Notification> notifications = notificationRepository.findAllByIdIn(notificationIds);
+        for (Notification notification : notifications) {
+            notification.removeUser(user);
+            user.removeNotification(notification);
+        }
+        return user;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<Notification> getAllNotifications(long id) {
+        return getUserById(id).getNotifications();
     }
 }

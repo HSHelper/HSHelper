@@ -1,5 +1,6 @@
 package ru.hsHelper.api.services;
 
+import ru.hsHelper.api.entities.Notification;
 import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserCoursePartRole;
 import ru.hsHelper.api.entities.UserCourseRole;
@@ -40,4 +41,7 @@ public interface UserService {
     UserWork getWork(long userId, long workId);
     Set<UserWork> getAllWorks(long userId);
     UserWork updateUserWork(long userId, long workId, UserWorkUpdateRequest userWorkUpdateRequest);
+    User addNotifications(long userId, Set<Long> notificationsIds);
+    User deleteNotifications(long userId, Set<Long> notificationIds);
+    Set<Notification> getAllNotifications(long id);
 }
