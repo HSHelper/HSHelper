@@ -7,6 +7,9 @@ import com.google.firebase.messaging.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hsHelper.api.configs.PushNotifyConf;
+import ru.hsHelper.api.entities.User;
+
+import java.util.Set;
 
 @Service
 public class PushNotificationService {
@@ -33,5 +36,16 @@ public class PushNotificationService {
                 .build();
 
         return firebaseMessaging.send(message);
+    }
+
+    public void processNotifications(PushNotifyConf note, Set<User> users, ru.hsHelper.api.entities.Notification notification) {
+        users.stream().filter(u -> u.getNotifications().contains(notification)).
+                forEach(u -> {
+                    try {
+                        sendNotification(note, u.getFirebaseMessagingToken());
+                    } catch (FirebaseMessagingException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 }
