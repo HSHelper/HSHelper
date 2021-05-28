@@ -26,13 +26,13 @@ public class ApiApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ApiApplication.class, args);
-
     }
 
     @Bean
     FirebaseMessaging firebaseMessaging() throws IOException {
+        System.out.println(fcmSettings.getServiceAccountFile());
         GoogleCredentials googleCredentials = GoogleCredentials
-                .fromStream(Files.newInputStream(Paths.get(fcmSettings.getServiceAccountFile())));
+                .fromStream(ApiApplication.class.getResourceAsStream(fcmSettings.getServiceAccountFile()));
         FirebaseOptions firebaseOptions = FirebaseOptions
                 .builder()
                 .setCredentials(googleCredentials)
