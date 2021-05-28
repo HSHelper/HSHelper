@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.hsHelper.api.entities.Notification;
 import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserCoursePartRole;
 import ru.hsHelper.api.entities.UserCourseRole;
@@ -41,7 +42,7 @@ public class UserController {
     @PostMapping("/")
     public User createUser(@RequestBody @Valid UserCreateRequest userCreateRequest) {
         return userService.createUser(new User(userCreateRequest.getFirstName(), userCreateRequest.getLastName(),
-                userCreateRequest.getEmail()));
+                userCreateRequest.getEmail(), userCreateRequest.getToken()));
     }
 
     @DeleteMapping("/{id}")
@@ -175,5 +176,20 @@ public class UserController {
     public UserWork updateUserWork(@PathVariable long userId, @PathVariable long workId,
                                    @RequestBody @Valid UserWorkUpdateRequest userWorkUpdateRequest) {
         return userService.updateUserWork(userId, workId, userWorkUpdateRequest);
+    }
+
+    @PutMapping("/{userId}/notifications")
+    public User addNotifications(@PathVariable long userId, @RequestBody Set<Long> notificationIds) {
+        return userService.addNotifications(userId, notificationIds);
+    }
+
+    @DeleteMapping("/{userId}/notifications")
+    public User deleteNotifications(@PathVariable long userId, @RequestBody Set<Long> notificationIds) {
+        return userService.deleteNotifications(userId, notificationIds);
+    }
+
+    @GetMapping("/{id}/notifications")
+    public Set<Notification> getAllNotifications(@PathVariable long id) {
+        return userService.getAllNotifications(id);
     }
 }
