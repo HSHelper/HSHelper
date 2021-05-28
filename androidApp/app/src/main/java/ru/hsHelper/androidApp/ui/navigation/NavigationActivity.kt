@@ -1,7 +1,10 @@
 package ru.hsHelper.androidApp.ui.navigation
 
+import android.content.ContentUris
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -130,10 +133,15 @@ class NavigationActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.navigation_settings ->
                 startActivity(Intent(this, SettingsActivity::class.java))
-            R.id.navigation_calendar ->
-                Toast
-                    .makeText(this, "Calendar is TODO", Toast.LENGTH_SHORT)
-                    .show() // TODO: Run calendar activity
+            R.id.navigation_calendar -> {
+                val startMillis: Long = System.currentTimeMillis()
+                val builder: Uri.Builder = CalendarContract.CONTENT_URI.buildUpon()
+                    .appendPath("time")
+                ContentUris.appendId(builder, startMillis)
+                val intent = Intent(Intent.ACTION_VIEW)
+                    .setData(builder.build())
+                startActivity(intent)
+            }
             R.id.navigation_contribute ->
                 Toast
                     .makeText(this, "Contributions is TODO", Toast.LENGTH_SHORT)

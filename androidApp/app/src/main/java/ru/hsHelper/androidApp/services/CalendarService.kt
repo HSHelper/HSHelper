@@ -65,7 +65,7 @@ object CalendarService {
         description: String,
         start: DateTime,
         end: DateTime,
-        attendeeEmails: List<String>
+        attendeeEmails: List<String> = listOf()
     ): String? {
         val event = Event()
 
@@ -93,12 +93,28 @@ object CalendarService {
         return addEvent(event)
     }
 
+    fun addSimpleEventWithIntTime(
+        summary: String,
+        description: String,
+        start: Long,
+        end: Long,
+        attendeeEmails: List<String> = listOf()
+    ): String? {
+        return addSimpleEvent(
+            summary,
+            description,
+            DateTime(start),
+            DateTime(end),
+            attendeeEmails
+        )
+    }
+
     fun updateEvent(event: Event, eventId: String, calendarId: String = defaultCalendarId) {
         service.events().update(calendarId, eventId, event).execute()
     }
 
     fun deleteEvent(eventId: String, calendarId: String = defaultCalendarId) {
-        service.events().delete(calendarId, eventId).execute();
+        service.events().delete(calendarId, eventId).execute()
     }
 
     fun getExampleEvent(): Event {
@@ -106,12 +122,12 @@ object CalendarService {
             .setSummary("Google I/O 2015")
             .setLocation("800 Howard St., San Francisco, CA 94103")
             .setDescription("A chance to hear more about Google's developer products.")
-        val startDateTime: DateTime = DateTime("2015-05-28T09:00:00-07:00")
+        val startDateTime = DateTime("2015-05-28T09:00:00-07:00")
         val start: EventDateTime = EventDateTime()
             .setDateTime(startDateTime)
             .setTimeZone("America/Los_Angeles")
         event.start = start
-        val endDateTime: DateTime = DateTime("2015-05-28T17:00:00-07:00")
+        val endDateTime = DateTime("2015-05-28T17:00:00-07:00")
         val end: EventDateTime = EventDateTime()
             .setDateTime(endDateTime)
             .setTimeZone("America/Los_Angeles")
