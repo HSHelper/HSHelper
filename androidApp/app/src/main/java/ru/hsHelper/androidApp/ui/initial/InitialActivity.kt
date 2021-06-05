@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.auth.AuthProvider
+import ru.hsHelper.androidApp.services.MyFirebaseMessagingService
 import ru.hsHelper.androidApp.ui.login.LoginActivity
 import ru.hsHelper.androidApp.ui.navigation.NavigationActivity
 
@@ -54,6 +55,7 @@ class InitialActivity : AppCompatActivity() {
     }
 
     private fun startLoggedIn() {
+        MyFirebaseMessagingService.updateToken()
         startActivity(Intent(this, NavigationActivity::class.java))
         finish()
     }
