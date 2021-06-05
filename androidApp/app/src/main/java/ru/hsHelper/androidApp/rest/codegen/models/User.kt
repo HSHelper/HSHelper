@@ -11,6 +11,7 @@ import com.squareup.moshi.JsonClass
 
 /**
  * @property email
+ * @property firebaseMessagingToken
  * @property firstName
  * @property id
  * @property lastName
@@ -20,5 +21,6 @@ data class User(
     @Json(name = "email") @field:Json(name = "email") var email: String,
     @Json(name = "firstName") @field:Json(name = "firstName") var firstName: String,
     @Json(name = "id") @field:Json(name = "id") var id: Long,
-    @Json(name = "lastName") @field:Json(name = "lastName") var lastName: String
+    @Json(name = "lastName") @field:Json(name = "lastName") var lastName: String,
+    @Json(name = "firebaseMessagingToken") @field:Json(name = "firebaseMessagingToken") var firebaseMessagingToken: String? = null
 )
