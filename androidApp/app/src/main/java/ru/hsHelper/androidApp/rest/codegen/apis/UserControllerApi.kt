@@ -11,6 +11,7 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import ru.hsHelper.androidApp.rest.codegen.models.Notification
 import ru.hsHelper.androidApp.rest.codegen.models.ObjectsWithRoleAddRequest
 import ru.hsHelper.androidApp.rest.codegen.models.ObjectsWithSolutionsAddRequest
 import ru.hsHelper.androidApp.rest.codegen.models.PartitionAddRequest
@@ -70,6 +71,21 @@ interface UserControllerApi {
     suspend fun addGroupsUsingPUT(
         @retrofit2.http.Path("id") id: Long,
         @retrofit2.http.Body objectsWithRoleAddRequest: ObjectsWithRoleAddRequest
+    ): User
+    /**
+     * addNotifications
+     * The endpoint is owned by server REST api service owner
+     * @param notificationIds notificationIds (required)
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: addNotificationsUsingPUT",
+      "Content-Type: application/json"
+    )
+    @PUT("users/{userId}/notifications")
+    suspend fun addNotificationsUsingPUT(
+        @retrofit2.http.Body notificationIds: List<Long>,
+        @retrofit2.http.Path("userId") userId: Long
     ): User
     /**
      * addToPartitions
@@ -157,6 +173,20 @@ interface UserControllerApi {
         @retrofit2.http.Path("id") id: Long
     ): User
     /**
+     * deleteNotifications
+     * The endpoint is owned by server REST api service owner
+     * @param notificationIds notificationIds (required)
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: deleteNotificationsUsingDELETE"
+    )
+    @DELETE("users/{userId}/notifications")
+    suspend fun deleteNotificationsUsingDELETE(
+        @retrofit2.http.Body notificationIds: List<Long>,
+        @retrofit2.http.Path("userId") userId: Long
+    ): User
+    /**
      * deletePartitions
      * The endpoint is owned by server REST api service owner
      * @param id id (required)
@@ -232,6 +262,18 @@ interface UserControllerApi {
     suspend fun getAllGroupsUsingGET(
         @retrofit2.http.Path("userId") userId: Long
     ): List<UserGroupRole>
+    /**
+     * getAllNotifications
+     * The endpoint is owned by server REST api service owner
+     * @param id id (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllNotificationsUsingGET_1"
+    )
+    @GET("users/{id}/notifications")
+    suspend fun getAllNotificationsUsingGET1(
+        @retrofit2.http.Path("id") id: Long
+    ): List<Notification>
     /**
      * getAllPartitions
      * The endpoint is owned by server REST api service owner
