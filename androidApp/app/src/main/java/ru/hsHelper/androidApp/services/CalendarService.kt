@@ -5,7 +5,6 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
 import com.google.api.client.json.jackson2.JacksonFactory
@@ -24,13 +23,13 @@ import java.io.InputStreamReader
 
 
 object CalendarService {
-    private const val APPLICATION_NAME = "Google Calendar API Java Quickstart"
+    private const val APPLICATION_NAME = "HSHelper Google Calendar"
     private val JSON_FACTORY: JsonFactory = JacksonFactory.getDefaultInstance()
     private const val TOKENS_DIRECTORY_PATH = "CalendarTokens"
     private val SCOPES: List<String> = listOf(CalendarScopes.CALENDAR)
     private const val CREDENTIALS_FILE_PATH = "/CalendarCredentials.json"
-    private val HTTP_TRANSPORT: NetHttpTransport = GoogleNetHttpTransport.newTrustedTransport()
-    private const val defaultCalendarId = "primary"
+    private val HTTP_TRANSPORT: NetHttpTransport = NetHttpTransport()
+    private const val defaultCalendarId = "Main"
 
     private fun getCredentials(): Credential {
         // Load client secrets.
