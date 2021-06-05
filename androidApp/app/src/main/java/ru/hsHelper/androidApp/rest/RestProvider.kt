@@ -23,7 +23,7 @@ object RestProvider {
         get() = retrofit.create(WorkControllerApi::class.java)
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080/")
+        .baseUrl("http://84.252.137.106:1337/")
         .addConverterFactory(GeneratedCodeConverters.converterFactory())
         .build()
 }

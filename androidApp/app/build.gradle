@@ -37,7 +37,7 @@ android {
 
 generateSwagger {
     download {
-        src "http://127.0.0.1:8080/v2/api-docs"
+        src "http://84.252.137.106:1337/v2/api-docs"
         dest "./swagger-doc.json"
         onlyIfModified true
     }
