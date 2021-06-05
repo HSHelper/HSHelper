@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import ru.hsHelper.androidApp.rest.RestProvider
 import ru.hsHelper.androidApp.rest.codegen.models.UserCreateRequest
 
@@ -50,12 +51,16 @@ object AuthProvider {
 
     private fun registerUser(email: String, firstName: String? = null, lastName: String? = null) =
         GlobalScope.launch {
-            RestProvider.userApi.createUserUsingPOST(
-                UserCreateRequest(
-                    email,
-                    firstName ?: "First name",
-                    lastName ?: "Last name"
+            try {
+                RestProvider.userApi.getUserByEmailUsingGET(email)
+            } catch (e: HttpException) {
+                RestProvider.userApi.createUserUsingPOST(
+                    UserCreateRequest(
+                        email,
+                        firstName ?: "First name",
+                        lastName ?: "Last name"
+                    )
                 )
-            )
+            }
         }
 }
