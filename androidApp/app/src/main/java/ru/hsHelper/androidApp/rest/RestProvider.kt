@@ -21,6 +21,8 @@ object RestProvider {
         get() = retrofit.create(RoleControllerApi::class.java)
     val workApi: WorkControllerApi
         get() = retrofit.create(WorkControllerApi::class.java)
+    val notificationApi: NotificationControllerApi
+        get() = retrofit.create(NotificationControllerApi::class.java)
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://84.252.137.106:1337/")
