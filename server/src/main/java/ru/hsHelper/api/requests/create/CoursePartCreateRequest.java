@@ -25,6 +25,9 @@ public class CoursePartCreateRequest implements Serializable {
     @NotNull
     private double block;
 
+    public CoursePartCreateRequest() {
+    }
+
     public CoursePartCreateRequest(@NotEmpty String name, @NotEmpty String gSheetLink, @NotNull long partitionId,
                                    @NotNull long courseId,
                                    @NotNull @Min(value = 0L, message = "weight should be positive") double weight,

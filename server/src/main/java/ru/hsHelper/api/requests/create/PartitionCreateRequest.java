@@ -11,6 +11,9 @@ public class PartitionCreateRequest implements Serializable {
     @NotNull
     private long groupId;
 
+    public PartitionCreateRequest() {
+    }
+
     public PartitionCreateRequest(@NotEmpty String name, @NotNull long groupId) {
         this.name = name;
         this.groupId = groupId;

@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -31,7 +32,7 @@ public class Notification {
     @Fetch(FetchMode.JOIN)
     @NotNull
     @Column(nullable = false)
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
 
     @Column(unique = true, nullable = false)
     @NotNull
