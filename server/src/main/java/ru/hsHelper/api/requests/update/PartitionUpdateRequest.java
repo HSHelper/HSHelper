@@ -8,6 +8,9 @@ public class PartitionUpdateRequest implements Serializable {
     @NotEmpty
     private String name;
 
+    public PartitionUpdateRequest() {
+    }
+
     public PartitionUpdateRequest(@NotEmpty String name) {
         this.name = name;
     }

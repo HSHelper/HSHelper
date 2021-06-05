@@ -14,6 +14,9 @@ public class CourseCreateRequest implements Serializable {
     @NotNull
     private long groupId;
 
+    public CourseCreateRequest() {
+    }
+
     public CourseCreateRequest(@NotEmpty String name, @NotNull long partitionId, @NotNull long groupId) {
         this.name = name;
         this.partitionId = partitionId;

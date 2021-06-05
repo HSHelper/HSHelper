@@ -31,6 +31,9 @@ public class WorkCreateRequest implements Serializable {
     @NotNull
     private long coursePartId;
 
+    public WorkCreateRequest() {
+    }
+
     public WorkCreateRequest(@NotEmpty String name, @NotEmpty String description, @NotNull Date date,
                              @Min(value = 0L, message = "weight should be positive")
                              @Max(value = 1L, message = "weight should be in range [0, 1]") double weight, double block,

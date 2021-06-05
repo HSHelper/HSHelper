@@ -10,6 +10,9 @@ public class NotificationCreateRequest implements Serializable {
     @NotNull
     private Notification.NotificationType notificationType;
 
+    public NotificationCreateRequest() {
+    }
+
     public NotificationCreateRequest(@NotNull Notification.NotificationType notificationType) {
         this.notificationType = notificationType;
     }
