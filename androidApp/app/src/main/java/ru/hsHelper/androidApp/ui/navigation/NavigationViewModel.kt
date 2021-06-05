@@ -12,21 +12,19 @@ import retrofit2.HttpException
 import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.auth.getRestId
 import ru.hsHelper.androidApp.data.ButtonData
+import ru.hsHelper.androidApp.data.Path
 import ru.hsHelper.androidApp.rest.RestProvider
 import ru.hsHelper.androidApp.ui.marks.MarksActivity
 
 
 class NavigationViewModel : ViewModel() {
     companion object {
-        private suspend fun getMainButtons(path: String): MutableList<ButtonData> =
-            when {
-                path.isEmpty() -> getMainButtonsGroups()
-                else -> when (path[0]) {
-                    'G' -> getMainButtonsCourses(path.substring(1).toLong())
-                    'C' -> getMainButtonsCourse(path.substring(1).toLong())
-                    'P' -> getMainButtonsCoursePart(path.substring(1).toLong())
-                    else -> throw AssertionError("Unknown path")
-                }
+        private suspend fun getMainButtons(path: Path): MutableList<ButtonData> =
+            when (path) {
+                is Path.Root -> getMainButtonsGroups()
+                is Path.Group -> getMainButtonsCourses(path.id)
+                is Path.Course -> getMainButtonsCourse(path.id)
+                is Path.CoursePart -> getMainButtonsCoursePart(path.id)
             }
 
         private suspend fun getMainButtonsGroups(): MutableList<ButtonData> {
@@ -37,7 +35,7 @@ class NavigationViewModel : ViewModel() {
                 .map { group ->
                     ButtonData(
                         group.name,
-                        NavigationActivity.launcher(group.name, "G${group.id}")
+                        NavigationActivity.launcher(group.name, Path.Group(group.id))
                     )
                 }
                 .toMutableList()
@@ -49,7 +47,7 @@ class NavigationViewModel : ViewModel() {
                 .map { course ->
                     ButtonData(
                         course.name,
-                        NavigationActivity.launcher(course.name, "C${course.id}")
+                        NavigationActivity.launcher(course.name, Path.Course(course.id))
                     )
                 }
                 .toMutableList()
@@ -61,7 +59,7 @@ class NavigationViewModel : ViewModel() {
                 .map { coursePart ->
                     ButtonData(
                         coursePart.name,
-                        NavigationActivity.launcher(coursePart.name, "P${coursePart.id}")
+                        NavigationActivity.launcher(coursePart.name, Path.CoursePart(coursePart.id))
                     )
                 }
                 .toMutableList()
@@ -104,7 +102,7 @@ class NavigationViewModel : ViewModel() {
     fun postData(activity: NavigationActivity) = GlobalScope.launch {
         val mainButtons = try {
             val buttons = getMainButtons(activity.path)
-            if (activity.path.isNotEmpty()) {
+            if (activity.path !is Path.Root) {
                 buttons.add(marksButton(activity))
             }
             buttons

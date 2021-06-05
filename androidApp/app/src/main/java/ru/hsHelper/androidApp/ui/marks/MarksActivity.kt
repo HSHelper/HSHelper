@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import ru.hsHelper.R
+import ru.hsHelper.androidApp.data.Path
+import ru.hsHelper.androidApp.data.serialize
 import ru.hsHelper.androidApp.ui.settings.SettingsActivity
 
 class MarksActivity : AppCompatActivity() {
@@ -17,10 +19,10 @@ class MarksActivity : AppCompatActivity() {
         private const val titleKey = "TITLE"
         private const val pathKey = "PATH"
 
-        fun launcher(name: String, path: String) = { view: View ->
+        fun launcher(name: String, path: Path) = { view: View ->
             val intent = Intent(view.context, MarksActivity::class.java).apply {
                 putExtra(titleKey, name)
-                putExtra(pathKey, path)
+                putExtra(pathKey, path.serialize())
             }
             view.context.startActivity(intent)
         }
@@ -48,7 +50,7 @@ class MarksActivity : AppCompatActivity() {
         marksViewModel = ViewModelProvider(this).get(MarksViewModel::class.java).apply {
             summary.observe(this@MarksActivity, summaryObserver)
             tableContent.observe(this@MarksActivity, marksTableObserver)
-            postData(intent.getStringExtra(pathKey)!!)
+            postData(Path.deserialize(intent.getStringExtra(pathKey)!!))
         }
     }
 
