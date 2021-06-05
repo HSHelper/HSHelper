@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import ru.hsHelper.R
+import ru.hsHelper.androidApp.data.Path
+import ru.hsHelper.androidApp.data.serialize
 import ru.hsHelper.androidApp.ui.settings.SettingsActivity
 
 
@@ -17,10 +19,10 @@ class NavigationActivity : AppCompatActivity() {
         private const val titleKey = "TITLE"
         private const val pathKey = "PATH"
 
-        fun launcher(name: String, path: String) = { view: View ->
+        fun launcher(name: String, path: Path) = { view: View ->
             val intent = Intent(view.context, NavigationActivity::class.java).apply {
                 putExtra(titleKey, name)
-                putExtra(pathKey, path)
+                putExtra(pathKey, path.serialize())
             }
             view.context.startActivity(intent)
         }
@@ -29,7 +31,7 @@ class NavigationActivity : AppCompatActivity() {
     private lateinit var navigationViewModel: NavigationViewModel
 
     internal lateinit var title: String
-    internal lateinit var path: String
+    internal lateinit var path: Path
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +43,7 @@ class NavigationActivity : AppCompatActivity() {
 
     private fun readIntent() {
         title = intent.getStringExtra(titleKey) ?: resources.getString(R.string.groups)
-        path = intent.getStringExtra(pathKey) ?: ""
+        path = Path.deserialize(intent.getStringExtra(pathKey) ?: "")
     }
 
     private fun setToolbar() {

@@ -1,6 +1,7 @@
 package ru.hsHelper.androidApp.ui.marks
 
 import ru.hsHelper.androidApp.data.ButtonData
+import ru.hsHelper.androidApp.data.Path
 import ru.hsHelper.androidApp.rest.codegen.models.UserWork
 
 object ContentBuilder {
@@ -57,7 +58,7 @@ object ContentBuilder {
     private fun coursePartRow(userWorks: List<UserWork>): MarksRowContent.CoursePart {
         val coursePart = userWorks[0].work.coursePart
         val name = coursePart.name
-        val path = "P${coursePart.id}"
+        val path = Path.CoursePart(coursePart.id)
         val launcher = ButtonData(name, MarksActivity.launcher(name, path))
         val weight = coursePart.weight
         val mark = coursePartMark(userWorks)
@@ -67,7 +68,7 @@ object ContentBuilder {
     private fun courseRow(userWorks: List<UserWork>): MarksRowContent.Course {
         val course = userWorks[0].work.coursePart.course
         val name = course.name
-        val path = "C${course.id}"
+        val path = Path.Course(course.id)
         val launcher = ButtonData(name, MarksActivity.launcher(name, path))
         val mark = courseMark(userWorks)
         return MarksRowContent.Course(launcher, mark)
