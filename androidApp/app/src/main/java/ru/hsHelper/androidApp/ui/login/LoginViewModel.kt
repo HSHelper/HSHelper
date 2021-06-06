@@ -69,7 +69,7 @@ class LoginViewModel : ViewModel() {
     }
 
     fun authWithGoogle(idToken: String) {
-        AuthProvider.authWithGoogleToken(idToken).addOnSuccessListener {
+        AuthProvider.signInWithGoogleToken(idToken).addOnSuccessListener {
             _loginResult.value = LoginResult.Success(AuthProvider.currentUser!!)
         }
     }
