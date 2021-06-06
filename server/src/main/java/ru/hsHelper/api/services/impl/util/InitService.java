@@ -60,8 +60,7 @@ public class InitService {
         Map<Permissions.PermissionType, Long> pm = new HashMap<>();
 
         for (Permissions.PermissionType permissionType : Permissions.PermissionType.values()) {
-            pm.put(permissionType,
-                    permissionService.createPermission(new Permissions(permissionType)).getId());
+            pm.put(permissionType, permissionService.createPermission(new Permissions(permissionType)).getId());
         }
 
         Map<Role.RoleType, Long> rm = new HashMap<>();
@@ -72,21 +71,21 @@ public class InitService {
             switch (roleType) {
                 case ADMIN:
                     roleService.addPermissions(role.getId(), Set.of(pm.get(Permissions.PermissionType.COMMENT),
-                            pm.get(Permissions.PermissionType.UPDATE), pm.get(Permissions.PermissionType.CREATE),
-                            pm.get(Permissions.PermissionType.VIEW)));
+                        pm.get(Permissions.PermissionType.UPDATE), pm.get(Permissions.PermissionType.CREATE),
+                        pm.get(Permissions.PermissionType.VIEW)));
                     break;
                 case STUDENT:
                     roleService.addPermissions(role.getId(), Set.of(pm.get(Permissions.PermissionType.COMMENT),
-                            pm.get(Permissions.PermissionType.VIEW)));
+                        pm.get(Permissions.PermissionType.VIEW)));
                     break;
                 case OBSERVER:
                     roleService.addPermissions(role.getId(), Set.of(
-                            pm.get(Permissions.PermissionType.VIEW)));
+                        pm.get(Permissions.PermissionType.VIEW)));
                     break;
                 case TEACHER:
                     roleService.addPermissions(role.getId(), Set.of(pm.get(Permissions.PermissionType.COMMENT),
-                            pm.get(Permissions.PermissionType.UPDATE),
-                            pm.get(Permissions.PermissionType.VIEW)));
+                        pm.get(Permissions.PermissionType.UPDATE),
+                        pm.get(Permissions.PermissionType.VIEW)));
                     break;
             }
         }
@@ -97,24 +96,34 @@ public class InitService {
         User user4 = userService.createUser(new User("Egor", "Suvorov", "egor@gmail.com"));
         User user5 = userService.createUser(new User("Kuzya", "Kuznetsov", "kuzya@gmail.com"));
 
-        Group group = groupService.createGroup(new Group("TestGroup"));
+        Group group = groupService.createGroup(new Group("Test Group"));
 
-        Partition partition = partitionService.createPartition(new PartitionCreateRequest("TestPartition", group.getId()));
+        Partition partition = partitionService.createPartition(new PartitionCreateRequest("Test Partition", group.getId()));
 
-        Course cpp = courseService.createCourse(new CourseCreateRequest("cplusplus", partition.getId(), group.getId()));
-        Course java = courseService.createCourse(new CourseCreateRequest("java", partition.getId(), group.getId()));
+        Course cpp = courseService.createCourse(new CourseCreateRequest("C++", partition.getId(), group.getId()));
+        Course java = courseService.createCourse(new CourseCreateRequest("Java", partition.getId(), group.getId()));
 
-        CoursePart cpplabs = coursePartService.createCoursePart(new CoursePartCreateRequest("cplusplus labs",
-                "https://docs.google.com/spreadsheets/d/1WsAUNXAIl-k2hI6GUD5gbhb1DA_wo3MXK0h5BNzTFUw/edit#gid=336654144",
-                partition.getId(), cpp.getId(), 1, 0.5));
+        CoursePart cpplabs = coursePartService.createCoursePart(new CoursePartCreateRequest("C++ labs",
+            "https://docs.google.com/spreadsheets/d/1WsAUNXAIl-k2hI6GUD5gbhb1DA_wo3MXK0h5BNzTFUw",
+            partition.getId(), cpp.getId(), 0.5, 0.5));
+        CoursePart cpphws = coursePartService.createCoursePart(new CoursePartCreateRequest("C++ hws",
+            "https://docs.google.com/spreadsheets/d/1Z5N0DidQBTpxYdIpxAUkwvIk-jwQ9jQQUoj2Gwv9Aew",
+            partition.getId(), cpp.getId(), 0.5, 0.5));
 
-        CoursePart javalabs = coursePartService.createCoursePart(new CoursePartCreateRequest("java labs",
-                "https://docs.google.com/spreadsheets/d/1556pILWqmmwvKdkJBm_VHPXRXkA7d6omuB8zRB3aucs/edit#gid=2084554136",
-                partition.getId(), java.getId(), 1, 0.5));
+        CoursePart javalabs = coursePartService.createCoursePart(new CoursePartCreateRequest("Java labs",
+            "https://docs.google.com/spreadsheets/d/1556pILWqmmwvKdkJBm_VHPXRXkA7d6omuB8zRB3aucs",
+            partition.getId(), java.getId(), 1, 0.5));
+
         Work cpplab1 = workService.createWork(new WorkCreateRequest("lab1", "huffman archiver",
-                new Date(), 0.5, 0.5, Work.WorkType.HOMEWORK, cpplabs.getId()));
+            new Date(), 0.5, 0.5, Work.WorkType.HOMEWORK, cpplabs.getId()));
         Work javalab1 = workService.createWork(new WorkCreateRequest("lab1", "git",
-                new Date(), 0.5, 0.5, Work.WorkType.HOMEWORK, javalabs.getId()));
+            new Date(), 0.5, 0.5, Work.WorkType.HOMEWORK, javalabs.getId()));
+        Work cpphw1 = workService.createWork(new WorkCreateRequest("hw1", "", new Date(),
+            0.5, 0.4, Work.WorkType.HOMEWORK, cpphws.getId()));
+        Work cpphw2 = workService.createWork(new WorkCreateRequest("hw2", "", new Date(),
+            0.25, 0.5, Work.WorkType.HOMEWORK, cpphws.getId()));
+        Work cpphw3 = workService.createWork(new WorkCreateRequest("hw3", "", new Date(),
+            0.25, 0.5, Work.WorkType.HOMEWORK, cpphws.getId()));
 
         userService.addToPartitions(user1.getId(), Set.of(partition.getId()), Map.of(partition.getId(), 1));
         userService.addToPartitions(user2.getId(), Set.of(partition.getId()), Map.of(partition.getId(), 2));
@@ -154,8 +163,14 @@ public class InitService {
         userService.addCourseParts(user4.getId(), Set.of(cpplabs.getId()), Map.of(cpplabs.getId(), Set.of(rm.get(Role.RoleType.TEACHER))));
         coursePartConsumer.accept(cpplabs);
 
-        userService.addWorks(user1.getId(), Set.of(javalab1.getId()), Map.of(javalab1.getId(), "git sol"));
-        userService.addWorks(user2.getId(), Set.of(cpplab1.getId()), Map.of(cpplab1.getId(), "huffman sol"));
-        userService.addWorks(user3.getId(), Set.of(cpplab1.getId()), Map.of(cpplab1.getId(), "huffman archiver sol"));
+        userService.addWorks(user1.getId(), Set.of(javalab1.getId()), Map.of(javalab1.getId(), "https://github.com/"));
+        userService.addWorks(user2.getId(), Set.of(cpplab1.getId()), Map.of(cpplab1.getId(), "https://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%B4_%D0%A5%D0%B0%D1%84%D1%84%D0%BC%D0%B0%D0%BD%D0%B0"));
+        userService.addWorks(user3.getId(), Set.of(cpplab1.getId()), Map.of(cpplab1.getId(), "https://en.wikipedia.org/wiki/Huffman_coding"));
+
+        var set = Set.of(cpphw1.getId(), cpphw2.getId(), cpphw3.getId());
+        var map = Map.of(cpphw1.getId(), " ", cpphw2.getId(), " ", cpphw3.getId(), " ");
+        userService.addWorks(user1.getId(), set, map);
+        userService.addWorks(user2.getId(), set, map);
+        userService.addWorks(user3.getId(), set, map);
     }
 }
