@@ -55,7 +55,6 @@ class InitialActivity : AppCompatActivity() {
     }
 
     private fun startLoggedIn() {
-        MyFirebaseMessagingService.updateToken()
         startActivity(Intent(this, NavigationActivity::class.java))
         finish()
     }
