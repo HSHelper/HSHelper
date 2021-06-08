@@ -7,12 +7,15 @@ import java.io.Serializable;
 
 public class CoursePartCreateRequest implements Serializable {
     @NotEmpty
+    @NotNull
     private String name;
     
     @NotEmpty
+    @NotNull
     private String gSheetId;
 
     @NotEmpty
+    @NotNull
     private String gSheetPage;
 
     @NotNull

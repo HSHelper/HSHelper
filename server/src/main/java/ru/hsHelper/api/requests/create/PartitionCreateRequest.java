@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class PartitionCreateRequest implements Serializable {
     @NotEmpty
+    @NotNull
     private String name;
 
     @NotNull

@@ -11,9 +11,11 @@ import java.util.Date;
 
 public class WorkUpdateRequest implements Serializable {
     @NotEmpty
+    @NotNull
     private String name;
 
     @NotEmpty
+    @NotNull
     private String description;
 
     @NotNull
