@@ -10,7 +10,10 @@ public class CoursePartCreateRequest implements Serializable {
     private String name;
     
     @NotEmpty
-    private String gSheetLink;
+    private String gSheetId;
+
+    @NotEmpty
+    private String gSheetPage;
 
     @NotNull
     private long partitionId;
@@ -28,24 +31,25 @@ public class CoursePartCreateRequest implements Serializable {
     public CoursePartCreateRequest() {
     }
 
-    public CoursePartCreateRequest(@NotEmpty String name, @NotEmpty String gSheetLink, @NotNull long partitionId,
+    public CoursePartCreateRequest(@NotEmpty String name, @NotEmpty String gSheetId, @NotEmpty String gSheetPage, @NotNull long partitionId,
                                    @NotNull long courseId,
                                    @NotNull @Min(value = 0L, message = "weight should be positive") double weight,
                                    @NotNull double block) {
         this.name = name;
-        this.gSheetLink = gSheetLink;
+        this.gSheetId = gSheetId;
+        this.gSheetPage = gSheetPage;
         this.partitionId = partitionId;
         this.courseId = courseId;
         this.weight = weight;
         this.block = block;
     }
 
-    public String getGSheetLink() {
-        return gSheetLink;
+    public String getGSheetId() {
+        return gSheetId;
     }
 
-    public void setGSheetLink(String gSheetLink) {
-        this.gSheetLink = gSheetLink;
+    public void setGSheetId(String gSheetId) {
+        this.gSheetId = gSheetId;
     }
 
     public String getName() {
@@ -86,5 +90,14 @@ public class CoursePartCreateRequest implements Serializable {
 
     public void setBlock(double block) {
         this.block = block;
+    }
+
+
+    public String getGSheetPage() {
+        return gSheetPage;
+    }
+
+    public void setGSheetPage(String gSheetPage) {
+        this.gSheetPage = gSheetPage;
     }
 }
