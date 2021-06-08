@@ -61,7 +61,8 @@ public class CoursePartServiceImpl implements CoursePartService {
         Course course = courseRepository.findById(coursePartCreateRequest.getCourseId()).orElseThrow(
                 () -> new IllegalArgumentException("No partition with such id")
         );
-        CoursePart coursePart = coursePartRepository.save(new CoursePart(coursePartCreateRequest.getName(), coursePartCreateRequest.getGSheetLink(), partition,
+        CoursePart coursePart = coursePartRepository.save(new CoursePart(coursePartCreateRequest.getName(),
+                coursePartCreateRequest.getGSheetId(), coursePartCreateRequest.getGSheetPage(), partition,
                 course, coursePartCreateRequest.getWeight(), coursePartCreateRequest.getBlock()));
         partition.addCoursePart(coursePart);
         course.addCoursePart(coursePart);

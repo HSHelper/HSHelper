@@ -28,7 +28,11 @@ public class CoursePart {
     @Column(nullable = false)
     private String name;
 
-    private String gSheetLink;
+    @NotNull
+    private String gSheetId;
+
+    @NotNull
+    private String gSheetPage;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "partition_id", nullable = false)
@@ -66,21 +70,23 @@ public class CoursePart {
     public CoursePart() {
     }
 
-    public CoursePart(String name, String gSheetLink, Partition partition, Course course, double weight, double block) {
+    public CoursePart(String name, String gSheetId, String gSheetPage,
+                      Partition partition, Course course, double weight, double block) {
         this.name = name;
-        this.gSheetLink = gSheetLink;
+        this.gSheetId = gSheetId;
+        this.gSheetPage = gSheetPage;
         this.partition = partition;
         this.course = course;
         this.weight = weight;
         this.block = block;
     }
 
-    public String getGSheetLink() {
-        return gSheetLink;
+    public String getGSheetId() {
+        return gSheetId;
     }
 
-    public void setGSheetLink(String gSheetLink) {
-        this.gSheetLink = gSheetLink;
+    public void setGSheetId(String gSheetId) {
+        this.gSheetId = gSheetId;
     }
 
     public long getId() {
@@ -161,5 +167,13 @@ public class CoursePart {
 
     public void removeWork(Work work) {
         works.remove(work);
+    }
+
+    public String getGSheetPage() {
+        return gSheetPage;
+    }
+
+    public void setGSheetPage(String gSheetPage) {
+        this.gSheetPage = gSheetPage;
     }
 }

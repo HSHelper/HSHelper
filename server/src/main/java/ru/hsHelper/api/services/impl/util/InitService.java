@@ -57,7 +57,7 @@ public class InitService {
 
     @Transactional
     public void initialize() {
-        Map<Permissions.PermissionType, Long> pm = new HashMap<>();
+        /*Map<Permissions.PermissionType, Long> pm = new HashMap<>();
 
         for (Permissions.PermissionType permissionType : Permissions.PermissionType.values()) {
             pm.put(permissionType, permissionService.createPermission(new Permissions(permissionType)).getId());
@@ -171,6 +171,6 @@ public class InitService {
         var map = Map.of(cpphw1.getId(), " ", cpphw2.getId(), " ", cpphw3.getId(), " ");
         userService.addWorks(user1.getId(), set, map);
         userService.addWorks(user2.getId(), set, map);
-        userService.addWorks(user3.getId(), set, map);
+        userService.addWorks(user3.getId(), set, map);*/
     }
 }
