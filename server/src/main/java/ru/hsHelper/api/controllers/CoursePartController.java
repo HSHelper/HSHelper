@@ -56,7 +56,7 @@ public class CoursePartController {
         return coursePartService.addUsers(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
-    @DeleteMapping("/{id}/users")
+    @PostMapping("/{id}/users")
     public CoursePart deleteUsers(@PathVariable long id, @RequestBody Set<Long> userIds) {
         return coursePartService.deleteUsers(id, userIds);
     }

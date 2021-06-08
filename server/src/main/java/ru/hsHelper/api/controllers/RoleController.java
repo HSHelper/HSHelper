@@ -51,7 +51,7 @@ public class RoleController {
         return roleService.addPermissions(roleId, permissionIds);
     }
 
-    @DeleteMapping("/{roleId}/permissions/")
+    @PostMapping("/{roleId}/permissions/")
     public Role deletePermissions(@PathVariable long roleId, @RequestBody Set<Long> permissionIds) {
         return roleService.deletePermissions(roleId, permissionIds);
     }

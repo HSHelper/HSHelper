@@ -59,7 +59,7 @@ public class WorkController {
                 objectsWithSolutionsAddRequest.getSolutions());
     }
 
-    @DeleteMapping("/{id}/users")
+    @PostMapping("/{id}/users")
     public Work deleteUsers(@PathVariable long id, @RequestBody Set<Long> userIds) {
         return workService.deleteUsers(id, userIds);
     }

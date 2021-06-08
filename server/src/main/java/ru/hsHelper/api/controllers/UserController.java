@@ -65,7 +65,7 @@ public class UserController {
         return userService.addGroups(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
-    @DeleteMapping("/{id}/groups")
+    @PostMapping("/{id}/groups")
     public User deleteGroups(@PathVariable long id, @RequestBody Set<Long> groupIds) {
         return userService.deleteGroups(id, groupIds);
     }
@@ -75,7 +75,7 @@ public class UserController {
         return userService.addToPartitions(id, partitionAddRequest.getPartitionIds(), partitionAddRequest.getUserParts());
     }
 
-    @DeleteMapping("/{id}/partitions")
+    @PostMapping("/{id}/partitions")
     public User deletePartitions(@PathVariable long id, @RequestBody Set<Long> partitionIds) {
         return userService.deletePartitions(id, partitionIds);
     }
@@ -85,7 +85,7 @@ public class UserController {
         return userService.addCourses(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
-    @DeleteMapping("/{id}/courses")
+    @PostMapping("/{id}/courses")
     public User deleteCourses(@PathVariable long id, @RequestBody Set<Long> courseIds) {
         return userService.deleteCourses(id, courseIds);
     }
@@ -95,7 +95,7 @@ public class UserController {
         return userService.addCourseParts(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
-    @DeleteMapping("/{id}/course-parts")
+    @PostMapping("/{id}/course-parts")
     public User deleteCourseParts(@PathVariable long id, @RequestBody Set<Long> coursePartIds) {
         return userService.deleteCourseParts(id, coursePartIds);
     }
@@ -107,7 +107,7 @@ public class UserController {
                 objectsWithSolutionsAddRequest.getSolutions());
     }
 
-    @DeleteMapping("/{id}/works")
+    @PostMapping("/{id}/works")
     public User deleteWorks(@PathVariable long id, @RequestBody Set<Long> groupIds) {
         return userService.deleteWorks(id, groupIds);
     }
@@ -183,7 +183,7 @@ public class UserController {
         return userService.addNotifications(userId, notificationIds);
     }
 
-    @DeleteMapping("/{userId}/notifications")
+    @PostMapping("/{userId}/notifications")
     public User deleteNotifications(@PathVariable long userId, @RequestBody Set<Long> notificationIds) {
         return userService.deleteNotifications(userId, notificationIds);
     }
