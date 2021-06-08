@@ -1,5 +1,6 @@
 package ru.hsHelper.api.services.impl.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.hsHelper.api.entities.Course;
@@ -41,6 +42,7 @@ public class InitService {
     private final PermissionService permissionService;
     private final RoleService roleService;
 
+    @Autowired
     public InitService(WorkService workService, UserService userService, GroupService groupService,
                        CourseService courseService, CoursePartService coursePartService,
                        PartitionService partitionService, PermissionService permissionService, RoleService roleService) {
