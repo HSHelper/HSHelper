@@ -56,7 +56,7 @@ public class PartitionController {
         return partitionService.addUsers(id, partitionAddRequest.getPartitionIds(), partitionAddRequest.getUserParts());
     }
 
-    @DeleteMapping("/{id}/users")
+    @PostMapping("/{id}/users")
     public Partition deleteUsers(@PathVariable long id, @RequestBody Set<Long> userIds) {
         return partitionService.deleteUsers(id, userIds);
     }

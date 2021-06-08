@@ -58,7 +58,7 @@ public class GroupController {
         return groupService.addUsers(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
-    @DeleteMapping("/{id}/users")
+    @PostMapping("/{id}/users")
     public Group deleteUsers(@PathVariable long id, @RequestBody Set<Long> userIds) {
         return groupService.deleteUsers(id, userIds);
     }
