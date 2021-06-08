@@ -1,5 +1,6 @@
 package ru.hsHelper.api.services.impl.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.hsHelper.api.entities.Notification;
@@ -17,6 +18,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final UserRepository userRepository;
 
 
+    @Autowired
     public NotificationServiceImpl(NotificationRepository notificationRepository, UserRepository userRepository) {
         this.notificationRepository = notificationRepository;
         this.userRepository = userRepository;

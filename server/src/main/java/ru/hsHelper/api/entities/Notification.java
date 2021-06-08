@@ -68,4 +68,12 @@ public class Notification {
     public void removeUser(User user) {
         users.remove(user);
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }
