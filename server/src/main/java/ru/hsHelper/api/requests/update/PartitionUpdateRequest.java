@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class PartitionUpdateRequest implements Serializable {
     @NotEmpty
+    @NotNull
     private String name;
 
     public PartitionUpdateRequest() {

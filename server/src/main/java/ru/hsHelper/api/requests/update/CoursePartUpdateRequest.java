@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 public class CoursePartUpdateRequest implements Serializable {
     @NotEmpty
+    @NotNull
     private String name;
 
     @NotNull

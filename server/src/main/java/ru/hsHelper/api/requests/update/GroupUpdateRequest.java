@@ -1,10 +1,12 @@
 package ru.hsHelper.api.requests.update;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class GroupUpdateRequest implements Serializable {
     @NotEmpty
+    @NotNull
     private String name;
 
     public GroupUpdateRequest() {}

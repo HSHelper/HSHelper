@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class CourseCreateRequest implements Serializable {
     @NotEmpty
+    @NotNull
     private String name;
 
     @NotNull

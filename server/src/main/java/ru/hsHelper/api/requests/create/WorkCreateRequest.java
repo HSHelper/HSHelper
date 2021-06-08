@@ -11,18 +11,23 @@ import java.util.Date;
 
 public class WorkCreateRequest implements Serializable {
     @NotEmpty
+    @NotNull
     private String name;
 
     @NotEmpty
+    @NotNull
     private String description;
 
+    @NotNull
     @NotNull
     private Date date;
 
     @Min(value = 0L, message = "weight should be positive")
     @Max(value = 1L, message = "weight should be in range [0, 1]")
+    @NotNull
     private double weight;
 
+    @NotNull
     private double block;
 
     @NotNull

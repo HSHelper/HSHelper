@@ -2,20 +2,25 @@ package ru.hsHelper.api.requests.update;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class UserUpdateRequest implements Serializable {
 
     @NotEmpty
+    @NotNull
     private String firstName;
 
     @NotEmpty
+    @NotNull
     private String lastName;
 
     @Email
+    @NotNull
     private String email;
 
     @NotEmpty
+    @NotNull
     private String token;
 
     public UserUpdateRequest() {
