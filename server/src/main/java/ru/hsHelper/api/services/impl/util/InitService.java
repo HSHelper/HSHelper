@@ -14,11 +14,13 @@ import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.Work;
 import ru.hsHelper.api.requests.create.CourseCreateRequest;
 import ru.hsHelper.api.requests.create.CoursePartCreateRequest;
+import ru.hsHelper.api.requests.create.NotificationCreateRequest;
 import ru.hsHelper.api.requests.create.PartitionCreateRequest;
 import ru.hsHelper.api.requests.create.WorkCreateRequest;
 import ru.hsHelper.api.services.CoursePartService;
 import ru.hsHelper.api.services.CourseService;
 import ru.hsHelper.api.services.GroupService;
+import ru.hsHelper.api.services.NotificationService;
 import ru.hsHelper.api.services.PartitionService;
 import ru.hsHelper.api.services.PermissionService;
 import ru.hsHelper.api.services.RoleService;
@@ -41,11 +43,13 @@ public class InitService {
     private final PartitionService partitionService;
     private final PermissionService permissionService;
     private final RoleService roleService;
+    private final NotificationService notificationService;
 
     @Autowired
     public InitService(WorkService workService, UserService userService, GroupService groupService,
                        CourseService courseService, CoursePartService coursePartService,
-                       PartitionService partitionService, PermissionService permissionService, RoleService roleService) {
+                       PartitionService partitionService, PermissionService permissionService, RoleService roleService,
+                       NotificationService notificationService) {
         this.workService = workService;
         this.userService = userService;
         this.groupService = groupService;
@@ -54,6 +58,7 @@ public class InitService {
         this.partitionService = partitionService;
         this.permissionService = permissionService;
         this.roleService = roleService;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -173,8 +178,8 @@ public class InitService {
         userService.addWorks(user2.getId(), set, map);
         userService.addWorks(user3.getId(), set, map);
 
-        long newMarkId = new Notification(Notification.NotificationType.USERWORKUPDATE).getId();
-        long newWorkId = new Notification(Notification.NotificationType.WORKUPDATE).getId();
+        long newMarkId = notificationService.createNotification(new NotificationCreateRequest(Notification.NotificationType.USERWORKUPDATE)).getId();
+        long newWorkId = notificationService.createNotification(new NotificationCreateRequest(Notification.NotificationType.WORKUPDATE)).getId();
         userService.addNotifications(user1.getId(), Set.of(newMarkId, newWorkId));
         userService.addNotifications(user2.getId(), Set.of(newWorkId));
         userService.addNotifications(user3.getId(), Set.of(newMarkId));
