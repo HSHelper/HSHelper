@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.CoursePart;
 import ru.hsHelper.api.entities.Group;
+import ru.hsHelper.api.entities.Notification;
 import ru.hsHelper.api.entities.Partition;
 import ru.hsHelper.api.entities.Permissions;
 import ru.hsHelper.api.entities.Role;
@@ -29,7 +30,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-
 @Service
 public class InitService {
     private final WorkService workService;
@@ -40,7 +40,6 @@ public class InitService {
     private final PartitionService partitionService;
     private final PermissionService permissionService;
     private final RoleService roleService;
-
 
     public InitService(WorkService workService, UserService userService, GroupService groupService,
                        CourseService courseService, CoursePartService coursePartService,
@@ -57,7 +56,7 @@ public class InitService {
 
     @Transactional
     public void initialize() {
-        /*Map<Permissions.PermissionType, Long> pm = new HashMap<>();
+        Map<Permissions.PermissionType, Long> pm = new HashMap<>();
 
         for (Permissions.PermissionType permissionType : Permissions.PermissionType.values()) {
             pm.put(permissionType, permissionService.createPermission(new Permissions(permissionType)).getId());
@@ -104,14 +103,13 @@ public class InitService {
         Course java = courseService.createCourse(new CourseCreateRequest("Java", partition.getId(), group.getId()));
 
         CoursePart cpplabs = coursePartService.createCoursePart(new CoursePartCreateRequest("C++ labs",
-            "https://docs.google.com/spreadsheets/d/1WsAUNXAIl-k2hI6GUD5gbhb1DA_wo3MXK0h5BNzTFUw",
+            "1WsAUNXAIl-k2hI6GUD5gbhb1DA_wo3MXK0h5BNzTFUw", "336654144",
             partition.getId(), cpp.getId(), 0.5, 0.5));
         CoursePart cpphws = coursePartService.createCoursePart(new CoursePartCreateRequest("C++ hws",
-            "https://docs.google.com/spreadsheets/d/1Z5N0DidQBTpxYdIpxAUkwvIk-jwQ9jQQUoj2Gwv9Aew",
+            "1Z5N0DidQBTpxYdIpxAUkwvIk-jwQ9jQQUoj2Gwv9Aew", "0",
             partition.getId(), cpp.getId(), 0.5, 0.5));
-
         CoursePart javalabs = coursePartService.createCoursePart(new CoursePartCreateRequest("Java labs",
-            "https://docs.google.com/spreadsheets/d/1556pILWqmmwvKdkJBm_VHPXRXkA7d6omuB8zRB3aucs",
+            "1556pILWqmmwvKdkJBm_VHPXRXkA7d6omuB8zRB3aucs", "2084554136",
             partition.getId(), java.getId(), 1, 0.5));
 
         Work cpplab1 = workService.createWork(new WorkCreateRequest("lab1", "huffman archiver",
@@ -171,6 +169,12 @@ public class InitService {
         var map = Map.of(cpphw1.getId(), " ", cpphw2.getId(), " ", cpphw3.getId(), " ");
         userService.addWorks(user1.getId(), set, map);
         userService.addWorks(user2.getId(), set, map);
-        userService.addWorks(user3.getId(), set, map);*/
+        userService.addWorks(user3.getId(), set, map);
+
+        long newMarkId = new Notification(Notification.NotificationType.USERWORKUPDATE).getId();
+        long newWorkId = new Notification(Notification.NotificationType.WORKUPDATE).getId();
+        userService.addNotifications(user1.getId(), Set.of(newMarkId, newWorkId));
+        userService.addNotifications(user2.getId(), Set.of(newWorkId));
+        userService.addNotifications(user3.getId(), Set.of(newMarkId));
     }
 }
