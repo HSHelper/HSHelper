@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="navigation_main_button_color">#FF3F3FFF</color>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="night_primary">#FF101014</color>
+    <color name="night_primary_variant">#FF0F0F3F</color>
+    <color name="night_secondary">#0000AF</color>
+
+    <color name="light_primary">#FF0E0ED8</color>
+    <color name="light_primary_variant">#FF0F0FEA</color>
+    <color name="light_secondary">#FF0E0ECA</color>
+    <color name="light_background">#FFE3E3FF</color>
 </resources>
