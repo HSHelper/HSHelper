@@ -9,6 +9,10 @@ import androidx.preference.PreferenceFragmentCompat
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.ui.initial.InitialActivity
+import ru.hsHelper.androidApp.ui.settings.observers.MarksNotificationObserver
+import ru.hsHelper.androidApp.ui.settings.observers.PersonalDataObserver
+import ru.hsHelper.androidApp.ui.settings.observers.SettingsObserver
+import ru.hsHelper.androidApp.ui.settings.observers.WorksNotificationObserver
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -41,13 +45,15 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         override fun onDestroy() {
-            super.onDestroy()
             closeObservers()
+            super.onDestroy()
         }
 
         private fun setObservers() {
             observers = listOf(
-                PersonalDataObserver(this)
+                PersonalDataObserver(this),
+                WorksNotificationObserver(this),
+                MarksNotificationObserver(this)
             )
         }
 
