@@ -17,6 +17,6 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CourseCreateRequest(
     @Json(name = "groupId") @field:Json(name = "groupId") var groupId: Long,
-    @Json(name = "partitionId") @field:Json(name = "partitionId") var partitionId: Long,
-    @Json(name = "name") @field:Json(name = "name") var name: String? = null
+    @Json(name = "name") @field:Json(name = "name") var name: String,
+    @Json(name = "partitionId") @field:Json(name = "partitionId") var partitionId: Long
 )

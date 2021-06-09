@@ -71,7 +71,8 @@ object AuthProvider {
                 UserCreateRequest(
                     email,
                     firstName ?: "First name",
-                    lastName ?: "Last name"
+                    lastName ?: "Last name",
+                    "empty"
                 )
             )
         }

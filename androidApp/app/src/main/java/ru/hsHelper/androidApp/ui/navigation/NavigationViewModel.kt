@@ -1,8 +1,6 @@
 package ru.hsHelper.androidApp.ui.navigation
 
-import android.content.Intent
 import android.util.Log
-import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +11,7 @@ import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.auth.getRestId
 import ru.hsHelper.androidApp.data.ButtonData
 import ru.hsHelper.androidApp.data.Path
+import ru.hsHelper.androidApp.integrations.GoogleSheet
 import ru.hsHelper.androidApp.rest.RestProvider
 import ru.hsHelper.androidApp.ui.marks.MarksActivity
 
@@ -68,10 +67,10 @@ class NavigationViewModel : ViewModel() {
         private suspend fun getMainButtonsCoursePart(coursePartId: Long): MutableList<ButtonData> {
             val coursePart = RestProvider.coursePartApi.getCoursePartUsingGET(coursePartId)
             return mutableListOf(
-                ButtonData("Spreadsheet") { view ->
-                    val browserIntent = Intent(Intent.ACTION_VIEW, coursePart.gsheetLink?.toUri())
-                    view.context.startActivity(browserIntent)
-                }
+                ButtonData(
+                    "Spreadsheet",
+                    GoogleSheet.sheetViewAction(coursePart.gsheetId!!, coursePart.gsheetPage!!)
+                )
             )
         }
 

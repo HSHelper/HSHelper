@@ -137,10 +137,11 @@ interface UserControllerApi {
      * @param id id (required)
      */
     @Headers(
-        "X-Operation-ID: deleteCoursePartsUsingDELETE"
+        "X-Operation-ID: deleteCoursePartsUsingPOST",
+      "Content-Type: application/json"
     )
-    @DELETE("users/{id}/course-parts")
-    suspend fun deleteCoursePartsUsingDELETE(
+    @POST("users/{id}/course-parts")
+    suspend fun deleteCoursePartsUsingPOST(
         @retrofit2.http.Body coursePartIds: List<Long>,
         @retrofit2.http.Path("id") id: Long
     ): User
@@ -151,10 +152,11 @@ interface UserControllerApi {
      * @param id id (required)
      */
     @Headers(
-        "X-Operation-ID: deleteCoursesUsingDELETE"
+        "X-Operation-ID: deleteCoursesUsingPOST",
+      "Content-Type: application/json"
     )
-    @DELETE("users/{id}/courses")
-    suspend fun deleteCoursesUsingDELETE(
+    @POST("users/{id}/courses")
+    suspend fun deleteCoursesUsingPOST(
         @retrofit2.http.Body courseIds: List<Long>,
         @retrofit2.http.Path("id") id: Long
     ): User
@@ -165,10 +167,11 @@ interface UserControllerApi {
      * @param id id (required)
      */
     @Headers(
-        "X-Operation-ID: deleteGroupsUsingDELETE"
+        "X-Operation-ID: deleteGroupsUsingPOST",
+      "Content-Type: application/json"
     )
-    @DELETE("users/{id}/groups")
-    suspend fun deleteGroupsUsingDELETE(
+    @POST("users/{id}/groups")
+    suspend fun deleteGroupsUsingPOST(
         @retrofit2.http.Body groupIds: List<Long>,
         @retrofit2.http.Path("id") id: Long
     ): User
@@ -179,10 +182,11 @@ interface UserControllerApi {
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: deleteNotificationsUsingDELETE"
+        "X-Operation-ID: deleteNotificationsUsingPOST",
+      "Content-Type: application/json"
     )
-    @DELETE("users/{userId}/notifications")
-    suspend fun deleteNotificationsUsingDELETE(
+    @POST("users/{userId}/notifications")
+    suspend fun deleteNotificationsUsingPOST(
         @retrofit2.http.Body notificationIds: List<Long>,
         @retrofit2.http.Path("userId") userId: Long
     ): User
@@ -193,10 +197,11 @@ interface UserControllerApi {
      * @param partitionIds partitionIds (required)
      */
     @Headers(
-        "X-Operation-ID: deletePartitionsUsingDELETE"
+        "X-Operation-ID: deletePartitionsUsingPOST",
+      "Content-Type: application/json"
     )
-    @DELETE("users/{id}/partitions")
-    suspend fun deletePartitionsUsingDELETE(
+    @POST("users/{id}/partitions")
+    suspend fun deletePartitionsUsingPOST(
         @retrofit2.http.Path("id") id: Long,
         @retrofit2.http.Body partitionIds: List<Long>
     ): User
@@ -219,10 +224,11 @@ interface UserControllerApi {
      * @param id id (required)
      */
     @Headers(
-        "X-Operation-ID: deleteWorksUsingDELETE"
+        "X-Operation-ID: deleteWorksUsingPOST",
+      "Content-Type: application/json"
     )
-    @DELETE("users/{id}/works")
-    suspend fun deleteWorksUsingDELETE(
+    @POST("users/{id}/works")
+    suspend fun deleteWorksUsingPOST(
         @retrofit2.http.Body groupIds: List<Long>,
         @retrofit2.http.Path("id") id: Long
     ): User
