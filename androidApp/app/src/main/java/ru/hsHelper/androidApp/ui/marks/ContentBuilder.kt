@@ -84,6 +84,9 @@ object ContentBuilder {
     }
 
     private fun coursePartMark(works: List<UserWork>): MarkInterval {
+        if (works.isEmpty()) {
+            return MarkInterval(10.0, 10.0, 0.0)
+        }
         return works.asSequence()
             .map(::weighedUserWorkMark)
             .reduce(MarkInterval::plus)
