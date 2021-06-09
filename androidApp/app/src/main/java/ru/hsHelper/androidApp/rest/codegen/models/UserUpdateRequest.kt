@@ -17,8 +17,8 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class UserUpdateRequest(
-    @Json(name = "email") @field:Json(name = "email") var email: String? = null,
-    @Json(name = "firstName") @field:Json(name = "firstName") var firstName: String? = null,
-    @Json(name = "lastName") @field:Json(name = "lastName") var lastName: String? = null,
-    @Json(name = "token") @field:Json(name = "token") var token: String? = null
+    @Json(name = "email") @field:Json(name = "email") var email: String,
+    @Json(name = "firstName") @field:Json(name = "firstName") var firstName: String,
+    @Json(name = "lastName") @field:Json(name = "lastName") var lastName: String,
+    @Json(name = "token") @field:Json(name = "token") var token: String
 )

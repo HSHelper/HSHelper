@@ -64,10 +64,11 @@ interface RoleControllerApi {
      * @param roleId roleId (required)
      */
     @Headers(
-        "X-Operation-ID: deletePermissionsUsingDELETE"
+        "X-Operation-ID: deletePermissionsUsingPOST",
+      "Content-Type: application/json"
     )
-    @DELETE("roles/{roleId}/permissions/")
-    suspend fun deletePermissionsUsingDELETE(
+    @POST("roles/{roleId}/permissions/")
+    suspend fun deletePermissionsUsingPOST(
         @retrofit2.http.Body permissionIds: List<Long>,
         @retrofit2.http.Path("roleId") roleId: Long
     ): Role

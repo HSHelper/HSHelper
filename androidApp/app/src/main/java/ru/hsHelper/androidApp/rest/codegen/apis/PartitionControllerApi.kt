@@ -68,10 +68,11 @@ interface PartitionControllerApi {
      * @param userIds userIds (required)
      */
     @Headers(
-        "X-Operation-ID: deleteUsersUsingDELETE_3"
+        "X-Operation-ID: deleteUsersUsingPOST_3",
+      "Content-Type: application/json"
     )
-    @DELETE("partitions/{id}/users")
-    suspend fun deleteUsersUsingDELETE3(
+    @POST("partitions/{id}/users")
+    suspend fun deleteUsersUsingPOST3(
         @retrofit2.http.Path("id") id: Long,
         @retrofit2.http.Body userIds: List<Long>
     ): Partition

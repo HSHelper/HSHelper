@@ -55,10 +55,11 @@ interface WorkControllerApi {
      * @param userIds userIds (required)
      */
     @Headers(
-        "X-Operation-ID: deleteUsersUsingDELETE_4"
+        "X-Operation-ID: deleteUsersUsingPOST_4",
+      "Content-Type: application/json"
     )
-    @DELETE("works/{id}/users")
-    suspend fun deleteUsersUsingDELETE4(
+    @POST("works/{id}/users")
+    suspend fun deleteUsersUsingPOST4(
         @retrofit2.http.Path("id") id: Long,
         @retrofit2.http.Body userIds: List<Long>
     ): Work

@@ -12,7 +12,8 @@ import com.squareup.moshi.JsonClass
 /**
  * @property block
  * @property course
- * @property gsheetLink
+ * @property gsheetId
+ * @property gsheetPage
  * @property id
  * @property name
  * @property partition
@@ -26,5 +27,6 @@ data class CoursePart(
     @Json(name = "name") @field:Json(name = "name") var name: String,
     @Json(name = "partition") @field:Json(name = "partition") var partition: Partition,
     @Json(name = "weight") @field:Json(name = "weight") var weight: Double,
-    @Json(name = "gsheetLink") @field:Json(name = "gsheetLink") var gsheetLink: String? = null
+    @Json(name = "gsheetId") @field:Json(name = "gsheetId") var gsheetId: String? = null,
+    @Json(name = "gsheetPage") @field:Json(name = "gsheetPage") var gsheetPage: String? = null
 )

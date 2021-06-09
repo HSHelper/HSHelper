@@ -10,10 +10,12 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
+ * @property id
  * @property notificationType
  */
 @JsonClass(generateAdapter = true)
 data class Notification(
+    @Json(name = "id") @field:Json(name = "id") var id: Long,
     @Json(name = "notificationType") @field:Json(name = "notificationType") var notificationType: Notification.NotificationTypeEnum
 ) {
     /**

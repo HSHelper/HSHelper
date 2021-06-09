@@ -68,10 +68,11 @@ interface GroupControllerApi {
      * @param userIds userIds (required)
      */
     @Headers(
-        "X-Operation-ID: deleteUsersUsingDELETE_2"
+        "X-Operation-ID: deleteUsersUsingPOST_2",
+      "Content-Type: application/json"
     )
-    @DELETE("groups/{id}/users")
-    suspend fun deleteUsersUsingDELETE2(
+    @POST("groups/{id}/users")
+    suspend fun deleteUsersUsingPOST2(
         @retrofit2.http.Path("id") id: Long,
         @retrofit2.http.Body userIds: List<Long>
     ): Group

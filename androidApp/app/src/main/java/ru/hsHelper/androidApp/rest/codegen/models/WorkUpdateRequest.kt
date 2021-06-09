@@ -20,8 +20,8 @@ import org.threeten.bp.ZonedDateTime
 @JsonClass(generateAdapter = true)
 data class WorkUpdateRequest(
     @Json(name = "date") @field:Json(name = "date") var date: ZonedDateTime,
+    @Json(name = "description") @field:Json(name = "description") var description: String,
+    @Json(name = "name") @field:Json(name = "name") var name: String,
     @Json(name = "block") @field:Json(name = "block") var block: Double? = null,
-    @Json(name = "description") @field:Json(name = "description") var description: String? = null,
-    @Json(name = "name") @field:Json(name = "name") var name: String? = null,
     @Json(name = "weight") @field:Json(name = "weight") var weight: Double? = null
 )
