@@ -1,6 +1,7 @@
 package ru.hsHelper.androidApp.ui.navigation
 
 import android.app.Activity
+import android.util.TypedValue
 import android.view.View
 import android.widget.Space
 import android.widget.TableLayout
@@ -83,7 +84,11 @@ class MainButtonsObserver(
 
     private fun makeMainButton(button: ButtonData): AppCompatButton {
         return AppCompatButton(context).apply {
-            setBackgroundColor(resources.getColor(R.color.navigation_main_button_color))
+            val typedValue = TypedValue()
+            context.theme.resolveAttribute(R.attr.colorPrimaryVariant, typedValue, true)
+            setBackgroundColor(typedValue.data)
+            context.theme.resolveAttribute(R.attr.colorOnPrimary, typedValue, true)
+            setTextColor(typedValue.data)
             text = button.mainText
             setOnClickListener(button.listener)
         }
