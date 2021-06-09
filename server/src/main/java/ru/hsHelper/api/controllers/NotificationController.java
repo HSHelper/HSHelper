@@ -33,8 +33,8 @@ public class NotificationController {
         return notificationService.getNotificationById(id);
     }
 
-    @GetMapping("/permission-types")
-    public Notification getNotificaionByNotificationType(@RequestBody Notification.NotificationType notificationType) {
+    @GetMapping("/permission-types/{notificationType}")
+    public Notification getNotificationByNotificationType(@PathVariable Notification.NotificationType notificationType) {
         return notificationService.getNotificationByNotificationType(notificationType);
     }
 
