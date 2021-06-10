@@ -11,7 +11,7 @@ import ru.hsHelper.androidApp.auth.AuthUser
 import ru.hsHelper.androidApp.auth.getRestUser
 import ru.hsHelper.androidApp.notifications.LocalNotificationManager
 import ru.hsHelper.androidApp.rest.RestProvider
-import ru.hsHelper.androidApp.rest.codegen.models.UserUpdateRequest
+import ru.hsHelper.androidApp.rest.userPartialUpdateRequest
 
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
@@ -51,15 +51,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         private fun sendRegistrationToServer(user: AuthUser, refreshedToken: String) = runBlocking {
             val restUser = user.getRestUser()
             if (restUser.firebaseMessagingToken != refreshedToken) {
-                RestProvider.userApi.updateUserUsingPUT(
-                    restUser.id,
-                    UserUpdateRequest(
-                        restUser.email,
-                        restUser.firstName,
-                        restUser.lastName,
-                        refreshedToken
-                    )
-                )
+                val userUpdateRequest = userPartialUpdateRequest(restUser)
+                userUpdateRequest.token = refreshedToken
+                RestProvider.userApi.updateUserUsingPUT(restUser.id, userUpdateRequest)
             }
         }
     }

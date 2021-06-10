@@ -8,6 +8,7 @@ import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.auth.getRestUser
 import ru.hsHelper.androidApp.rest.RestProvider
 import ru.hsHelper.androidApp.rest.codegen.models.UserUpdateRequest
+import ru.hsHelper.androidApp.rest.userPartialUpdateRequest
 
 class PersonalDataObserver(preference: PreferenceFragmentCompat) : SettingsObserver() {
     private val firstName = find<EditTextPreference>(preference, R.string.first_name)
@@ -25,14 +26,9 @@ class PersonalDataObserver(preference: PreferenceFragmentCompat) : SettingsObser
 
     override suspend fun send() {
         val user = AuthProvider.currentUser!!.getRestUser()
-        RestProvider.userApi.updateUserUsingPUT(
-            user.id,
-            UserUpdateRequest(
-                user.email,
-                firstName.text,
-                secondName.text,
-                user.firebaseMessagingToken!!
-            )
-        )
+        val userUpdateRequest = userPartialUpdateRequest(user)
+        userUpdateRequest.firstName = firstName.text
+        userUpdateRequest.lastName = secondName.text
+        RestProvider.userApi.updateUserUsingPUT(user.id, userUpdateRequest)
     }
 }
