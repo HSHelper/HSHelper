@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import ru.hsHelper.androidApp.rest.RestProvider
 import ru.hsHelper.androidApp.rest.codegen.models.Group
 
-class GetExistGroupNameActivity : AppCompatActivity() {
+class GetExistGroupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_get_exist_group_name)

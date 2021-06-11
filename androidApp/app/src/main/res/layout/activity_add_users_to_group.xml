@@ -4,23 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".androidApp.ui.contributions.groups.GroupActivity"
+    tools:context=".androidApp.ui.contributions.groups.AddUsersToGroupActivity"
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/createGroupButton"
-        android:layout_height="100dp"
+        android:id="@+id/selectGroupButton"
+        android:text="@string/select_group"
         android:layout_width="match_parent"
-        android:text="@string/create_new_group"/>
+        android:layout_height="100dp" />
 
     <Button
-        android:id="@+id/deleteGroupButton"
-        android:layout_height="100dp"
-        android:layout_width="match_parent"
-        android:text="@string/delete_group"/>
-    <Button
-        android:id="@+id/addUsersButton"
-        android:text="@string/add_users_to_group"
+        android:id="@+id/selectUsersButton"
+        android:text="@string/select_users"
         android:layout_width="match_parent"
         android:layout_height="100dp"/>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:text="@string/submit"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
+
 </LinearLayout>

@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_group.*
 import kotlinx.coroutines.launch
 import ru.hsHelper.androidApp.rest.RestProvider
 import ru.hsHelper.androidApp.rest.codegen.models.GroupCreateRequest
+import ru.hsHelper.androidApp.rest.codegen.models.ObjectsWithRoleAddRequest
 
 class GroupActivity : AppCompatActivity() {
     var createGroupLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -38,6 +39,20 @@ class GroupActivity : AppCompatActivity() {
         }
     }
 
+    var addUsersToGroupLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            if (data == null) return@registerForActivityResult
+            val group = data.getLongExtra("group", -1)
+            val roles: Map<Long, List<Long>>? = data.getSerializableExtra("roles") as HashMap<Long, List<Long>>?
+            val users: List<Long>? = data.getSerializableExtra("users") as ArrayList<Long>?
+            if (users == null || roles == null || group == -1L) return@registerForActivityResult
+            lifecycleScope.launch {
+                RestProvider.groupApi.addUsersUsingPUT2(group, ObjectsWithRoleAddRequest(users, roles.mapKeys { it.toString() }))
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group)
@@ -47,8 +62,12 @@ class GroupActivity : AppCompatActivity() {
             createGroupLauncher.launch(intent)
         }
         deleteGroupButton.setOnClickListener {
-            val intent = Intent(this, GetExistGroupNameActivity::class.java)
+            val intent = Intent(this, GetExistGroupActivity::class.java)
             deleteGroupLauncher.launch(intent)
+        }
+        addUsersButton.setOnClickListener {
+            val intent = Intent(this, AddUsersToGroupActivity::class.java)
+            addUsersToGroupLauncher.launch(intent)
         }
     }
 }

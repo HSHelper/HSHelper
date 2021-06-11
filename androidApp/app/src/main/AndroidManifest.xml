@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".androidApp.ui.contributions.groups.GetExistGroupNameActivity"></activity>
+        <activity android:name=".androidApp.ui.contributions.groups.AddUsersToGroupActivity"></activity>
+        <activity android:name=".androidApp.ui.contributions.groups.GetManyRolesActivity" />
+        <activity android:name=".androidApp.ui.contributions.groups.GetManyUsersActivity" />
+        <activity android:name=".androidApp.ui.contributions.groups.GetExistGroupActivity" />
         <activity android:name=".androidApp.ui.contributions.groups.GetNewGroupNameActivity" />
         <activity android:name=".androidApp.ui.contributions.groups.GroupActivity" />
         <activity

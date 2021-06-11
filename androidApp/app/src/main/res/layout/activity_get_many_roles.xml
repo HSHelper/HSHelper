@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".androidApp.ui.contributions.groups.GetExistGroupActivity"
+    tools:context=".androidApp.ui.contributions.groups.GetManyRolesActivity"
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/groupListView"
+        android:id="@+id/roleListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
