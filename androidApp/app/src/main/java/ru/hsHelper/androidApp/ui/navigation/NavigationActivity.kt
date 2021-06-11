@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.data.Path
 import ru.hsHelper.androidApp.data.serialize
+import ru.hsHelper.androidApp.ui.contributions.groups.GroupActivity
 import ru.hsHelper.androidApp.ui.settings.SettingsActivity
 
 
@@ -40,6 +41,8 @@ class NavigationActivity : AppCompatActivity() {
         readIntent()
         setToolbar()
         setView()
+        val myIntent = Intent(this, GroupActivity::class.java)
+        startActivity(myIntent)
     }
 
     private fun readIntent() {

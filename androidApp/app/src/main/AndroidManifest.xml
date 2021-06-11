@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
+        <activity android:name=".androidApp.ui.contributions.groups.GetExistGroupNameActivity"></activity>
+        <activity android:name=".androidApp.ui.contributions.groups.GetNewGroupNameActivity" />
+        <activity android:name=".androidApp.ui.contributions.groups.GroupActivity" />
         <activity
             android:name=".androidApp.ui.initial.InitialActivity"
             android:label="@string/initial_activity_title">
@@ -43,4 +46,5 @@
             </intent-filter>
         </service>
     </application>
+
 </manifest>

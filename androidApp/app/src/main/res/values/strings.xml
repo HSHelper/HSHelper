@@ -29,4 +29,9 @@
     <string name="account">Account</string>
     <string name="groups">Groups</string>
     <string name="downloading">Downloading</string>
+    <string name="input_the_following_prompts">Input the following prompts</string>
+    <string name="example_group_name">Name (2 курс. 2020-2021)</string>
+    <string name="submit">Submit</string>
+    <string name="create_new_group">Create new group</string>
+    <string name="delete_group">Delete Group</string>
 </resources>
