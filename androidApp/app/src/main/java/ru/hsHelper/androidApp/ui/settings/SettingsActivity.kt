@@ -9,6 +9,7 @@ import androidx.preference.PreferenceFragmentCompat
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.ui.initial.InitialActivity
+import ru.hsHelper.androidApp.utils.calendarAddDefaultEvent
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -22,6 +23,8 @@ class SettingsActivity : AppCompatActivity() {
                 .commit()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        calendarAddDefaultEvent()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
