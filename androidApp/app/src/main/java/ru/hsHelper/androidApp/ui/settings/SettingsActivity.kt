@@ -10,6 +10,7 @@ import ru.hsHelper.R
 import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.ui.initial.InitialActivity
 import ru.hsHelper.androidApp.utils.calendarAddDefaultEvent
+import ru.hsHelper.androidApp.utils.calendarGetAllCalendars
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -24,7 +25,8 @@ class SettingsActivity : AppCompatActivity() {
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        calendarAddDefaultEvent()
+        //calendarAddDefaultEvent()
+        calendarGetAllCalendars()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
