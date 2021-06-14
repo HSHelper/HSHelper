@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,42 +36,35 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(unique = true, nullable = false)
     @NotNull
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @NotNull
+    @Column(nullable = false)
     private String firebaseMessagingToken;
 
     public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email,
-                String firebaseMessagingToken) {
+                @NotNull String firebaseMessagingToken) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.firebaseMessagingToken = firebaseMessagingToken;
     }
 
-    public String getFirebaseMessagingToken() {
-        return firebaseMessagingToken;
-    }
-
-    public void setFirebaseMessagingToken(String firebaseMessagingToken) {
-        this.firebaseMessagingToken = firebaseMessagingToken;
+    // For internal usage only
+    public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email) {
+        this(firstName, lastName, email, "empty");
     }
 
     public User() {}
 
-    public User(String firstName, String lastName, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
     @JsonIgnore
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
-            name = "user_notification",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "notification_id"))
+        name = "user_notification",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "notification_id"))
     @Fetch(FetchMode.JOIN)
     @NotNull
     @Column(nullable = false)
@@ -191,6 +183,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getFirebaseMessagingToken() {
+        return firebaseMessagingToken;
+    }
+
+    public void setFirebaseMessagingToken(String firebaseMessagingToken) {
+        this.firebaseMessagingToken = firebaseMessagingToken;
     }
 
     public void addUserGroupRole(UserGroupRole userGroupRole) {
