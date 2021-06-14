@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.4.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
 }
 
 group = 'backend'
@@ -27,8 +28,29 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation "com.google.firebase:firebase-admin:7.0.0"
+
+    implementation 'org.redisson:redisson:3.15.6'
+
+    implementation 'com.google.api-client:google-api-client:1.30.4'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.30.6'
+    implementation 'com.google.apis:google-api-services-sheets:v4-rev581-1.25.0'
+    implementation 'com.google.apis:google-api-services-drive:v3-rev110-1.23.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.0'
 }
 
 test {
     useJUnitPlatform()
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
