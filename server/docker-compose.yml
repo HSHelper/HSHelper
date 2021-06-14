@@ -8,8 +8,10 @@ services:
       - "1337:1337"
     networks:
       - hshelper-mysql
+      - hshelper-redis
     depends_on:
       - mysqldb
+      - redis
 
   mysqldb:
     image: mysql:8
@@ -20,5 +22,15 @@ services:
       - MYSQL_ROOT_PASSWORD=hshelper
       - MYSQL_DATABASE=hshelperdb
 
+  redis:
+    image: "redis:alpine"
+    command: "redis-server --port 6381"
+    restart: always
+    ports:
+      - "6381:6381"
+    networks:
+      - hshelper-redis
+
 networks:
   hshelper-mysql:
+  hshelper-redis:
