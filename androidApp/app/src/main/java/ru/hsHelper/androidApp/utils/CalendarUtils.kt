@@ -20,7 +20,7 @@ fun AppCompatActivity.calendarAddDefaultEvent() {
             Manifest.permission.WRITE_CALENDAR
         )
     ) {
-        val calID: Long = 1
+        val calID: Long = 4
         val startMillis: Long = Calendar.getInstance().run {
             set(2021, 9, 14, 7, 30)
             timeInMillis
@@ -54,7 +54,7 @@ fun AppCompatActivity.calendarAddDefaultEvent() {
     }
 }
 
-fun AppCompatActivity.calendarGetAllCalendars() {
+fun AppCompatActivity.calendarShowAllCalendars() {
     withPermissions(
         arrayOf(
             Manifest.permission.READ_CALENDAR,
@@ -63,7 +63,7 @@ fun AppCompatActivity.calendarGetAllCalendars() {
     ) {
         val EVENT_PROJECTION: Array<String> = arrayOf(
             CalendarContract.Calendars._ID,                     // 0
-            CalendarContract.Calendars.ACCOUNT_NAME,            // 1
+            CalendarContract.Calendars.NAME,            // 1
             CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,   // 2
             CalendarContract.Calendars.OWNER_ACCOUNT            // 3
         )
@@ -96,7 +96,49 @@ fun AppCompatActivity.calendarGetAllCalendars() {
             Log.i("Calendar", "Cursor == null")
         }
         cur?.close()
+
+        println("ID = ${getCalendarId()}")
     }
+}
+
+private fun AppCompatActivity.getCalendarId() : Long? {
+    val projection = arrayOf(CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
+
+    var calCursor = contentResolver.query(
+        CalendarContract.Calendars.CONTENT_URI,
+        projection,
+        CalendarContract.Calendars.VISIBLE + " = 1 AND " + CalendarContract.Calendars.IS_PRIMARY + "=1",
+        null,
+        CalendarContract.Calendars._ID + " ASC"
+    )
+
+    if (calCursor != null && calCursor.count <= 0) {
+        calCursor = contentResolver.query(
+            CalendarContract.Calendars.CONTENT_URI,
+            projection,
+            CalendarContract.Calendars.VISIBLE + " = 1",
+            null,
+            CalendarContract.Calendars._ID + " ASC"
+        )
+    }
+
+    if (calCursor != null) {
+        if (calCursor.moveToFirst()) {
+            val calName: String
+            val calID: String
+            val nameCol = calCursor.getColumnIndex(projection[1])
+            val idCol = calCursor.getColumnIndex(projection[0])
+
+            calName = calCursor.getString(nameCol)
+            calID = calCursor.getString(idCol)
+
+            Log.d("Calendar", "Calendar name = $calName Calendar ID = $calID")
+
+            calCursor.close()
+            return calID.toLong()
+        }
+    }
+    return null
 }
 
 fun AppCompatActivity.withPermissions(permissions: Array<String>, action: () -> Unit) {
@@ -108,7 +150,7 @@ fun AppCompatActivity.withPermissions(permissions: Array<String>, action: () -> 
                 Log.i("Calendar", "got permission")
                 action()
             } else {
-                Log.i("Calendar", "no permission")
+                Log.i("Calendar", "permission not granted")
             }
         }
 
