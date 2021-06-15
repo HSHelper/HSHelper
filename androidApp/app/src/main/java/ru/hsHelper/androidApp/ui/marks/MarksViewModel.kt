@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.GlobalScope
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.auth.getRestId
@@ -18,7 +18,7 @@ class MarksViewModel : ViewModel() {
     private val _tableContent = MutableLiveData<MarksTableContent>()
     val tableContent: LiveData<MarksTableContent> = _tableContent
 
-    fun postData(path: Path) = GlobalScope.launch {
+    fun postData(path: Path) = viewModelScope.launch {
         val userId = AuthProvider.currentUser!!.getRestId()
         val allWorks = RestProvider.userApi.getAllWorksUsingGET1(userId)
         when (path) {

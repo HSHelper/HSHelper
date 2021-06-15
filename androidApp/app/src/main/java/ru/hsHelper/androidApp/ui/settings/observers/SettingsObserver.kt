@@ -1,11 +1,12 @@
 package ru.hsHelper.androidApp.ui.settings.observers
 
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 abstract class SettingsObserver : AutoCloseable {
     override fun close() {
         if (changed) {
-            runBlocking {
+            GlobalScope.launch {
                 send()
             }
         }
