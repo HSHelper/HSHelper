@@ -2,8 +2,8 @@ package ru.hsHelper.androidApp.utils
 
 import android.app.Activity
 import android.content.pm.PackageManager
-import android.util.DisplayMetrics
 import android.os.Build
+import android.util.DisplayMetrics
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity

@@ -3,141 +3,177 @@ package ru.hsHelper.androidApp.utils
 import android.Manifest
 import android.content.ContentValues
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.icu.util.Calendar
 import android.net.Uri
 import android.provider.CalendarContract
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 
-fun AppCompatActivity.calendarAddDefaultEvent() {
-    withPermissions(
-        arrayOf(
-            Manifest.permission.READ_CALENDAR,
-            Manifest.permission.WRITE_CALENDAR
-        )
+object CalendarUtils {
+    fun addEvent(
+        activity: AppCompatActivity, title: String, description: String,
+        startMillis: Long, endMillis: Long, timeZone: String = "Europe/Moscow"
     ) {
-        val calID: Long = 4
-        val startMillis: Long = Calendar.getInstance().run {
-            set(2021, 9, 14, 7, 30)
-            timeInMillis
-        }
-        val endMillis: Long = Calendar.getInstance().run {
-            set(2021, 9, 14, 8, 45)
-            timeInMillis
-        }
+        activity.withPermissions(
+            arrayOf(
+                Manifest.permission.READ_CALENDAR,
+                Manifest.permission.WRITE_CALENDAR
+            )
+        ) {
+            val calID: Long = getCalendarDefaultId(activity) ?: 4
 
-        val values = ContentValues().apply {
-            put(CalendarContract.Events.DTSTART, startMillis)
-            put(CalendarContract.Events.DTEND, endMillis)
-            put(CalendarContract.Events.TITLE, "Jazzercise")
-            put(CalendarContract.Events.DESCRIPTION, "Group workout")
-            put(CalendarContract.Events.CALENDAR_ID, calID)
-            put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles")
-        }
-        val uri: Uri? = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
-        val eventID: Long? = uri?.lastPathSegment?.toLong()
-
-        if (uri == null) {
-            Log.i("Calendar", "uri == null")
-        } else if (eventID == null) {
-            Log.i("Calendar", "eventId == null")
-        } else {
-            Log.i("Calendar", "event added: $uri, $eventID")
-        }
-
-        val intent = Intent(Intent.ACTION_VIEW).setData(uri)
-        startActivity(intent)
-    }
-}
-
-fun AppCompatActivity.calendarShowAllCalendars() {
-    withPermissions(
-        arrayOf(
-            Manifest.permission.READ_CALENDAR,
-            Manifest.permission.WRITE_CALENDAR
-        )
-    ) {
-        val EVENT_PROJECTION: Array<String> = arrayOf(
-            CalendarContract.Calendars._ID,                     // 0
-            CalendarContract.Calendars.NAME,            // 1
-            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,   // 2
-            CalendarContract.Calendars.OWNER_ACCOUNT            // 3
-        )
-
-        val PROJECTION_ID_INDEX: Int = 0
-        val PROJECTION_ACCOUNT_NAME_INDEX: Int = 1
-        val PROJECTION_DISPLAY_NAME_INDEX: Int = 2
-        val PROJECTION_OWNER_ACCOUNT_INDEX: Int = 3
-
-        // Run query
-        val uri: Uri = CalendarContract.Calendars.CONTENT_URI
-        val selection: String = "((${CalendarContract.Calendars.ACCOUNT_NAME} = ?) AND (" +
-                "${CalendarContract.Calendars.ACCOUNT_TYPE} = ?) AND (" +
-                "${CalendarContract.Calendars.OWNER_ACCOUNT} = ?))"
-        val selectionArgs: Array<String> =
-            arrayOf("hshelper.test@gmail.com", "com.gmail", "hshelper.test@gmail.com")
-        val cur: Cursor? =
-            contentResolver.query(uri, EVENT_PROJECTION,null, null, null)
-
-        if (cur != null) {
-            Log.i("Calendar", "iterating:")
-            while (cur.moveToNext()) {
-                val calID: Long = cur.getLong(PROJECTION_ID_INDEX)
-                val displayName: String = cur.getString(PROJECTION_DISPLAY_NAME_INDEX)
-                val accountName: String = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX)
-                val ownerName: String = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX)
-                println("$calID | $displayName | $accountName | $ownerName")
+            val values = ContentValues().apply {
+                put(CalendarContract.Events.CALENDAR_ID, calID)
+                put(CalendarContract.Events.TITLE, title)
+                put(CalendarContract.Events.DESCRIPTION, description)
+                put(CalendarContract.Events.DTSTART, startMillis)
+                put(CalendarContract.Events.DTEND, endMillis)
+                put(CalendarContract.Events.EVENT_TIMEZONE, timeZone)
             }
-        } else {
-            Log.i("Calendar", "Cursor == null")
+            val uri: Uri? =
+                activity.contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
+            val eventID: Long? = uri?.lastPathSegment?.toLong()
+
+            if (uri == null) {
+                Log.i("Calendar", "uri == null")
+            } else if (eventID == null) {
+                Log.i("Calendar", "eventId == null")
+            } else {
+                Log.i("Calendar", "event added: $uri, $eventID")
+            }
         }
-        cur?.close()
-
-        println("ID = ${getCalendarId()}")
     }
-}
 
-fun AppCompatActivity.getCalendarId() : Long? {
-    val projection = arrayOf(CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
+    fun addDefaultEvent(activity: AppCompatActivity) {
+        activity.withPermissions(
+            arrayOf(
+                Manifest.permission.READ_CALENDAR,
+                Manifest.permission.WRITE_CALENDAR
+            )
+        ) {
+            val calID: Long = getCalendarDefaultId(activity) ?: 4
+            val startMillis: Long = Calendar.getInstance().run {
+                set(2021, 9, 14, 7, 30)
+                timeInMillis
+            }
+            val endMillis: Long = Calendar.getInstance().run {
+                set(2021, 9, 14, 8, 45)
+                timeInMillis
+            }
 
-    var calCursor = contentResolver.query(
-        CalendarContract.Calendars.CONTENT_URI,
-        projection,
-        CalendarContract.Calendars.VISIBLE + " = 1 AND " + CalendarContract.Calendars.IS_PRIMARY + "=1",
-        null,
-        CalendarContract.Calendars._ID + " ASC"
-    )
+            val values = ContentValues().apply {
+                put(CalendarContract.Events.DTSTART, startMillis)
+                put(CalendarContract.Events.DTEND, endMillis)
+                put(CalendarContract.Events.TITLE, "Jazzercise")
+                put(CalendarContract.Events.DESCRIPTION, "Group workout")
+                put(CalendarContract.Events.CALENDAR_ID, calID)
+                put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles")
+            }
+            val uri: Uri? =
+                activity.contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
+            val eventID: Long? = uri?.lastPathSegment?.toLong()
 
-    if (calCursor != null && calCursor.count <= 0) {
-        calCursor = contentResolver.query(
+            if (uri == null) {
+                Log.i("Calendar", "uri == null")
+            } else if (eventID == null) {
+                Log.i("Calendar", "eventId == null")
+            } else {
+                Log.i("Calendar", "event added: $uri, $eventID")
+            }
+
+//            val intent = Intent(Intent.ACTION_VIEW).setData(uri)
+//            activity.startActivity(intent)
+        }
+    }
+
+    fun showAllCalendars(activity: AppCompatActivity) {
+        activity.withPermissions(
+            arrayOf(
+                Manifest.permission.READ_CALENDAR,
+                Manifest.permission.WRITE_CALENDAR
+            )
+        ) {
+            val EVENT_PROJECTION: Array<String> = arrayOf(
+                CalendarContract.Calendars._ID,                     // 0
+                CalendarContract.Calendars.NAME,            // 1
+                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,   // 2
+                CalendarContract.Calendars.OWNER_ACCOUNT            // 3
+            )
+
+            val PROJECTION_ID_INDEX: Int = 0
+            val PROJECTION_ACCOUNT_NAME_INDEX: Int = 1
+            val PROJECTION_DISPLAY_NAME_INDEX: Int = 2
+            val PROJECTION_OWNER_ACCOUNT_INDEX: Int = 3
+
+            // Run query
+            val uri: Uri = CalendarContract.Calendars.CONTENT_URI
+            val selection: String = "((${CalendarContract.Calendars.ACCOUNT_NAME} = ?) AND (" +
+                    "${CalendarContract.Calendars.ACCOUNT_TYPE} = ?) AND (" +
+                    "${CalendarContract.Calendars.OWNER_ACCOUNT} = ?))"
+            val selectionArgs: Array<String> =
+                arrayOf("hshelper.test@gmail.com", "com.gmail", "hshelper.test@gmail.com")
+            val cur: Cursor? =
+                activity.contentResolver.query(uri, EVENT_PROJECTION, null, null, null)
+
+            if (cur != null) {
+                Log.i("Calendar", "iterating:")
+                while (cur.moveToNext()) {
+                    val calID: Long = cur.getLong(PROJECTION_ID_INDEX)
+                    val displayName: String = cur.getString(PROJECTION_DISPLAY_NAME_INDEX)
+                    val accountName: String = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX)
+                    val ownerName: String = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX)
+                    println("$calID | $displayName | $accountName | $ownerName")
+                }
+            } else {
+                Log.i("Calendar", "Cursor == null")
+            }
+            cur?.close()
+
+            println("ID = ${getCalendarDefaultId(activity)}")
+        }
+    }
+
+    private fun getCalendarDefaultId(activity: AppCompatActivity): Long? {
+        val projection = arrayOf(
+            CalendarContract.Calendars._ID,
+            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME
+        )
+
+        var calCursor = activity.contentResolver.query(
             CalendarContract.Calendars.CONTENT_URI,
             projection,
-            CalendarContract.Calendars.VISIBLE + " = 1",
+            CalendarContract.Calendars.VISIBLE + " = 1 AND " + CalendarContract.Calendars.IS_PRIMARY + "=1",
             null,
             CalendarContract.Calendars._ID + " ASC"
         )
-    }
 
-    if (calCursor != null) {
-        if (calCursor.moveToFirst()) {
-            val calName: String
-            val calID: String
-            val nameCol = calCursor.getColumnIndex(projection[1])
-            val idCol = calCursor.getColumnIndex(projection[0])
-
-            calName = calCursor.getString(nameCol)
-            calID = calCursor.getString(idCol)
-
-            Log.d("Calendar", "Calendar name = $calName Calendar ID = $calID")
-
-            calCursor.close()
-            return calID.toLong()
+        if (calCursor != null && calCursor.count <= 0) {
+            calCursor = activity.contentResolver.query(
+                CalendarContract.Calendars.CONTENT_URI,
+                projection,
+                CalendarContract.Calendars.VISIBLE + " = 1",
+                null,
+                CalendarContract.Calendars._ID + " ASC"
+            )
         }
-    }
-    return null
-}
 
+        if (calCursor != null) {
+            if (calCursor.moveToFirst()) {
+                val calName: String
+                val calID: String
+                val nameCol = calCursor.getColumnIndex(projection[1])
+                val idCol = calCursor.getColumnIndex(projection[0])
+
+                calName = calCursor.getString(nameCol)
+                calID = calCursor.getString(idCol)
+
+                Log.d("Calendar", "Calendar name = $calName Calendar ID = $calID")
+
+                calCursor.close()
+                return calID.toLong()
+            }
+        }
+        return null
+    }
+}
