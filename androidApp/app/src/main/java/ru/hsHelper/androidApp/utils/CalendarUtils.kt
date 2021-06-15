@@ -101,7 +101,7 @@ fun AppCompatActivity.calendarShowAllCalendars() {
     }
 }
 
-private fun AppCompatActivity.getCalendarId() : Long? {
+fun AppCompatActivity.getCalendarId() : Long? {
     val projection = arrayOf(CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
 
     var calCursor = contentResolver.query(
@@ -141,33 +141,3 @@ private fun AppCompatActivity.getCalendarId() : Long? {
     return null
 }
 
-fun AppCompatActivity.withPermissions(permissions: Array<String>, action: () -> Unit) {
-    val requestPermissionLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) {
-            if (!it.values.contains(false)) {
-                Log.i("Calendar", "got permission")
-                action()
-            } else {
-                Log.i("Calendar", "permission not granted")
-            }
-        }
-
-    var isGranted = true
-    for (permission in permissions) {
-        if (ContextCompat.checkSelfPermission(this, permission)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            isGranted = false
-        }
-    }
-
-    if (isGranted) {
-        Log.i("Calendar", "got permission")
-        action()
-    } else {
-        Log.i("Calendar", "ask permission")
-        requestPermissionLauncher.launch(permissions)
-    }
-}
