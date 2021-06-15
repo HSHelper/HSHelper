@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.auth.AuthProvider
+import ru.hsHelper.androidApp.auth.getRestUser
 import ru.hsHelper.androidApp.ui.login.LoginActivity
 import ru.hsHelper.androidApp.ui.navigation.NavigationActivity
 
@@ -44,6 +47,7 @@ class InitialActivity : AppCompatActivity() {
                 }
                 startLogin()
             } else {
+                welcomeUser()
                 startLoggedIn()
             }
         }
@@ -64,5 +68,17 @@ class InitialActivity : AppCompatActivity() {
             "Starting from notification: ${intent.getStringExtra("notification")}"
         )
         startLoggedIn()
+    }
+
+    private fun welcomeUser() {
+        lifecycleScope.launch {
+            val welcome = getString(R.string.welcome)
+            val displayName = AuthProvider.currentUser!!.getRestUser().firstName
+            Toast.makeText(
+                applicationContext,
+                "$welcome $displayName",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 }

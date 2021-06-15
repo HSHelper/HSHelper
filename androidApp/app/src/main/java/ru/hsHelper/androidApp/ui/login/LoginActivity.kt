@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import ru.hsHelper.R
-import ru.hsHelper.androidApp.auth.AuthUser
 
 class LoginActivity : AppCompatActivity() {
     companion object {
@@ -72,7 +71,6 @@ class LoginActivity : AppCompatActivity() {
 
             when (loginResult) {
                 is LoginResult.Success -> {
-                    updateUiWithUser(loginResult.success)
                     setResult(RESULT_OK)
                     finish()
                 }
@@ -144,16 +142,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun updateUiWithUser(user: AuthUser) {
-        val welcome = getString(R.string.welcome)
-        val displayName = user.displayName
-        Toast.makeText(
-            applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
