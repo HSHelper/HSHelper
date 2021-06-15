@@ -51,18 +51,6 @@ interface NotificationControllerApi {
     @GET("notifications/")
     suspend fun getAllNotificationsUsingGET(): List<Notification>
     /**
-     * getNotificaionByNotificationType
-     * The endpoint is owned by server REST api service owner
-     * @param notificationType notificationType (required)
-     */
-    @Headers(
-        "X-Operation-ID: getNotificaionByNotificationTypeUsingGET"
-    )
-    @GET("notifications/permission-types")
-    suspend fun getNotificaionByNotificationTypeUsingGET(
-        @retrofit2.http.Body notificationType: String
-    ): Notification
-    /**
      * getNotificationById
      * The endpoint is owned by server REST api service owner
      * @param id id (required)
@@ -73,6 +61,18 @@ interface NotificationControllerApi {
     @GET("notifications/{id}")
     suspend fun getNotificationByIdUsingGET(
         @retrofit2.http.Path("id") id: Long
+    ): Notification
+    /**
+     * getNotificationByNotificationType
+     * The endpoint is owned by server REST api service owner
+     * @param notificationType notificationType (required)
+     */
+    @Headers(
+        "X-Operation-ID: getNotificationByNotificationTypeUsingGET"
+    )
+    @GET("notifications/permission-types/{notificationType}")
+    suspend fun getNotificationByNotificationTypeUsingGET(
+        @retrofit2.http.Path("notificationType") notificationType: String
     ): Notification
     /**
      * getUsers

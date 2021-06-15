@@ -35,17 +35,19 @@ android {
     }
 }
 
-generateSwagger {
-    download {
-        src "http://84.252.137.106:1337/v2/api-docs"
-        dest "./swagger-doc.json"
-        onlyIfModified true
+task updateSwagger {
+    doFirst {
+        exec {
+            commandLine('wget', '--no-check-certificate', '-q', '--output-document=./swagger-doc.json', 'https://84.252.137.106:1337/v2/api-docs')
+        }
     }
-    platform = "kotlin-coroutines"
-    packageName = "ru.hsHelper.androidApp.rest.codegen"
-    specName = "server REST api"
-    inputFile = file("./swagger-doc.json")
-    outputDir = file("./src/main/java/")
+    generateSwagger {
+        platform = "kotlin-coroutines"
+        packageName = "ru.hsHelper.androidApp.rest.codegen"
+        specName = "server REST api"
+        inputFile = file("./swagger-doc.json")
+        outputDir = file("./src/main/java/")
+    }
 }
 
 dependencies {
