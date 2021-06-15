@@ -8,6 +8,6 @@ fun userPartialUpdateRequest(user: User): UserUpdateRequest {
         user.email,
         user.firstName,
         user.lastName,
-        user.firebaseMessagingToken ?: "empty"
+        user.firebaseMessagingToken
     )
 }
