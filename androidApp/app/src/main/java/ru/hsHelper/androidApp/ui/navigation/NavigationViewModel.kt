@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.GlobalScope
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import ru.hsHelper.androidApp.auth.AuthProvider
@@ -98,7 +98,7 @@ class NavigationViewModel : ViewModel() {
         )
 
 
-    fun postData(activity: NavigationActivity) = GlobalScope.launch {
+    fun postData(activity: NavigationActivity) = viewModelScope.launch {
         val mainButtons = try {
             val buttons = getMainButtons(activity.path)
             if (activity.path !is Path.Root) {

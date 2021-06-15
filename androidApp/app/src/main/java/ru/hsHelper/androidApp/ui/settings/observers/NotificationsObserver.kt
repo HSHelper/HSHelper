@@ -1,9 +1,10 @@
 package ru.hsHelper.androidApp.ui.settings.observers
 
 import androidx.annotation.StringRes
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.auth.getRestId
 import ru.hsHelper.androidApp.rest.RestProvider
@@ -17,7 +18,7 @@ abstract class NotificationsObserver(
     private val newMark = find<SwitchPreferenceCompat>(preference, settingsId)
 
     init {
-        runBlocking {
+        preference.lifecycleScope.launch {
             val id = AuthProvider.currentUser!!.getRestId()
             val notifications = RestProvider.userApi.getAllNotificationsUsingGET1(id)
             val notification = notifications.find { it.notificationType == type }
@@ -28,8 +29,8 @@ abstract class NotificationsObserver(
 
     override suspend fun send() {
         val newVal = newMark.isChecked
-        val id = (type.ordinal + 1).toLong()
-        //TODO: RestProvider.notificationApi.getNotificationByNotificationTypeUsingGET(type.value).id
+        val id =
+            RestProvider.notificationApi.getNotificationByNotificationTypeUsingGET(type.value).id
         val userId = AuthProvider.currentUser!!.getRestId()
         if (newVal) {
             RestProvider.userApi.addNotificationsUsingPUT(listOf(id), userId)

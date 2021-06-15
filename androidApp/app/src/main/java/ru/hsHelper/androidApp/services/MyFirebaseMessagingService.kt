@@ -5,7 +5,8 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.auth.AuthUser
 import ru.hsHelper.androidApp.auth.getRestUser
@@ -41,21 +42,22 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             }
         }
 
-        private fun sendRegistrationToServer(refreshedToken: String) = runBlocking {
+        private fun sendRegistrationToServer(refreshedToken: String) {
             val user = AuthProvider.currentUser
             if (user != null) {
                 sendRegistrationToServer(user, refreshedToken)
             }
         }
 
-        private fun sendRegistrationToServer(user: AuthUser, refreshedToken: String) = runBlocking {
-            val restUser = user.getRestUser()
-            if (restUser.firebaseMessagingToken != refreshedToken) {
-                val userUpdateRequest = userPartialUpdateRequest(restUser)
-                userUpdateRequest.token = refreshedToken
-                RestProvider.userApi.updateUserUsingPUT(restUser.id, userUpdateRequest)
+        private fun sendRegistrationToServer(user: AuthUser, refreshedToken: String) =
+            GlobalScope.launch {
+                val restUser = user.getRestUser()
+                if (restUser.firebaseMessagingToken != refreshedToken) {
+                    val userUpdateRequest = userPartialUpdateRequest(restUser)
+                    userUpdateRequest.token = refreshedToken
+                    RestProvider.userApi.updateUserUsingPUT(restUser.id, userUpdateRequest)
+                }
             }
-        }
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
