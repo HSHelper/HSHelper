@@ -97,6 +97,9 @@ object ContentBuilder {
     }
 
     private fun courseMark(works: List<UserWork>): MarkInterval {
+        if (works.isEmpty()) {
+            return MarkInterval(10.0, 10.0, 0.0)
+        }
         return works
             .groupBy { it.work.coursePart.id }
             .values.asSequence()
