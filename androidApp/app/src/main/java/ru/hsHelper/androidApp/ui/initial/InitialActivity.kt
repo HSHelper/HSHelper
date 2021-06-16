@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.auth.getRestUser
@@ -73,7 +74,11 @@ class InitialActivity : AppCompatActivity() {
     private fun welcomeUser() {
         lifecycleScope.launch {
             val welcome = getString(R.string.welcome)
-            val displayName = AuthProvider.currentUser!!.getRestUser().firstName
+            val displayName = try {
+                AuthProvider.currentUser!!.getRestUser().firstName
+            } catch (e: HttpException) {
+                "new user"
+            }
             Toast.makeText(
                 applicationContext,
                 "$welcome $displayName",
