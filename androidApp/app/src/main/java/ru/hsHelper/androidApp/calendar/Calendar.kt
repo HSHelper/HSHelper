@@ -1,4 +1,4 @@
-package ru.hsHelper.androidApp.utils
+package ru.hsHelper.androidApp.calendar
 
 import android.Manifest
 import android.content.ContentValues
@@ -7,8 +7,9 @@ import android.net.Uri
 import android.provider.CalendarContract
 import android.util.Log
 import androidx.activity.ComponentActivity
+import ru.hsHelper.androidApp.utils.withPermissions
 
-object CalendarUtils {
+object Calendar {
     fun addEvent(
         activity: ComponentActivity,
         title: String, description: String,
