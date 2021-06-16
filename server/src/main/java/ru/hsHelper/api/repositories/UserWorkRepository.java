@@ -9,8 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Set;
 
 public interface UserWorkRepository extends CrudRepository<UserWork, UserWorkKey> {
-    void deleteByUser(User user);
-    
+
     Set<UserWork> findAllByUser(User user);
 
     Set<UserWork> findAllByUserAndWorkIn(User user, Set<Work> works);

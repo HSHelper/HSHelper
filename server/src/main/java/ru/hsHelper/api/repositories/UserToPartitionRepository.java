@@ -9,7 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Set;
 
 public interface UserToPartitionRepository extends CrudRepository<UserToPartition, UserToPartitionKey> {
-    void deleteByUser(User user);
     Set<UserToPartition> findAllByUserAndPartitionIn(User user, Set<Partition> partitionSet);
     void deleteAllByUserAndPartitionIn(User user, Set<Partition> partitionSet);
     Set<UserToPartition> findAllByUser(User user);

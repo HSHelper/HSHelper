@@ -22,7 +22,6 @@ import ru.hsHelper.api.services.CoursePartService;
 import ru.hsHelper.api.services.CourseService;
 import ru.hsHelper.api.services.impl.util.UserCourseService;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,7 +35,6 @@ public class CourseServiceImpl implements CourseService {
     private final UserRepository userRepository;
     private final CoursePartService coursePartService;
     private final CoursePartRepository coursePartRepository;
-    private final RoleRepository roleRepository;
     private final UserCourseService userCourseService;
 
     @Autowired
@@ -52,7 +50,6 @@ public class CourseServiceImpl implements CourseService {
         this.userRepository = userRepository;
         this.coursePartService = coursePartService;
         this.coursePartRepository = coursePartRepository;
-        this.roleRepository = roleRepository;
         this.userCourseService = userCourseService;
     }
 
@@ -73,8 +70,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Transactional
     @Override
-    public Course updateCourse(long id, CourseUpdateRequest courseUpdateRequest) {
-        Course course = getCourseById(id);
+    public Course updateCourse(long courseId, CourseUpdateRequest courseUpdateRequest) {
+        Course course = getCourseById(courseId);
         course.setName(courseUpdateRequest.getName());
         Partition partition = partitionRepository.findById(courseUpdateRequest.getPartitionId()).orElseThrow(
                 () -> new IllegalArgumentException("No partition with such id")
@@ -87,16 +84,16 @@ public class CourseServiceImpl implements CourseService {
 
     @Transactional(readOnly = true)
     @Override
-    public Course getCourseById(long id) {
-        return courseRepository.findById(id).orElseThrow(
+    public Course getCourseById(long courseId) {
+        return courseRepository.findById(courseId).orElseThrow(
                 () -> new IllegalArgumentException("No course with such id")
         );
     }
 
     @Transactional
     @Override
-    public void deleteCourse(long id) {
-        Course course = courseRepository.findById(id).orElseThrow(
+    public void deleteCourse(long courseId) {
+        Course course = courseRepository.findById(courseId).orElseThrow(
                 () -> new IllegalArgumentException("No course with such id")
         );
         preDeleteCourse(course);
@@ -146,19 +143,19 @@ public class CourseServiceImpl implements CourseService {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<Course> getAll() {
+    public Set<Course> getAllCourses() {
         return courseRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public UserCourseRole getUser(long courseId, long userId) {
+    public UserCourseRole getUserCourseRole(long courseId, long userId) {
         return userCourseService.getUserCourseRole(userId, courseId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Set<UserCourseRole> getAllUsers(long courseId) {
+    public Set<UserCourseRole> getAllUserCourseRoles(long courseId) {
         return userCourseRoleRepository.findAllByCourse(getCourseById(courseId));
     }
 

@@ -11,14 +11,14 @@ import java.util.Map;
 
 public interface CoursePartService {
     CoursePart createCoursePart(CoursePartCreateRequest coursePartCreateRequest);
-    CoursePart getCoursePartById(long id);
-    CoursePart updateCoursePart(long id, CoursePartUpdateRequest coursePartUpdateRequest);
-    void deleteCoursePart(long id);
+    CoursePart getCoursePartById(long coursePartId);
+    CoursePart updateCoursePart(long coursePartId, CoursePartUpdateRequest coursePartUpdateRequest);
+    void deleteCoursePart(long coursePartId);
     void preDeleteCoursePart(CoursePart coursePart);
     CoursePart addUsers(long coursePartId, Set<Long> userIds, Map<Long, Set<Long>> roleIds);
     CoursePart deleteUsers(long coursePartId, Set<Long> userIds);
-    Set<CoursePart> getAll();
-    UserCoursePartRole getUser(long coursePartId, long userId);
-    Set<UserCoursePartRole> getAllUsers(long coursePartId);
+    Set<CoursePart> getAllCourseParts();
+    UserCoursePartRole getUserCoursePartRole(long coursePartId, long userId);
+    Set<UserCoursePartRole> getAllUserCoursePartRoles(long coursePartId);
     Set<Work> getAllWorks(long coursePartId);
 }

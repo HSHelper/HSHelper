@@ -39,13 +39,18 @@ public class PermissionsController {
         return permissionService.getPermissionById(id);
     }
     
-    @GetMapping("/")
-    public Permissions getPermissionByPermissionType(@RequestBody Permissions.PermissionType permissionType) {
+    @GetMapping("/{permissionType}")
+    public Permissions getPermissionByPermissionType(@PathVariable Permissions.PermissionType permissionType) {
         return permissionService.getPermissionByPermissionType(permissionType);
     }
 
-    @GetMapping("/{permissionId}/roles")
-    public Set<Role> getAllRoles(@PathVariable long permissionId) {
-        return permissionService.getAllRoles(permissionId);
+    @GetMapping("/{id}/roles")
+    public Set<Role> getAllRoles(@PathVariable long id) {
+        return permissionService.getAllRoles(id);
+    }
+
+    @GetMapping("/")
+    public Set<Permissions> getAllPermissions() {
+        return permissionService.getAllPermissions();
     }
 }

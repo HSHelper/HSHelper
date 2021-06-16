@@ -1,5 +1,6 @@
 package ru.hsHelper.api.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import java.util.Set;
 public class NotificationController {
     private final NotificationService notificationService;
 
+    @Autowired
     public NotificationController(NotificationService notificationService) {
         this.notificationService = notificationService;
     }
@@ -28,9 +30,9 @@ public class NotificationController {
         return notificationService.createNotification(notificationCreateRequest);
     }
 
-    @GetMapping("/{id}")
-    public Notification getNotificationById(@PathVariable long id) {
-        return notificationService.getNotificationById(id);
+    @GetMapping("/{notificationId}")
+    public Notification getNotificationById(@PathVariable long notificationId) {
+        return notificationService.getNotificationById(notificationId);
     }
 
     @GetMapping("/permission-types/{notificationType}")
@@ -43,13 +45,13 @@ public class NotificationController {
         return notificationService.getAllNotifications();
     }
 
-    @GetMapping("/{id}/users")
-    public Set<User> getUsers(@PathVariable long id) {
-        return notificationService.getAllUsers(id);
+    @GetMapping("/{notificationId}/users")
+    public Set<User> getAllUsers(@PathVariable long notificationId) {
+        return notificationService.getAllUsers(notificationId);
     }
 
-    @DeleteMapping("/{id}")
-    public void deletePermission(@PathVariable long id) {
-        notificationService.deleteNotification(id);
+    @DeleteMapping("/{notificationId}")
+    public void deletePermission(@PathVariable long notificationId) {
+        notificationService.deleteNotification(notificationId);
     }
 }

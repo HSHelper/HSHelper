@@ -1,7 +1,6 @@
 package ru.hsHelper.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import javax.persistence.CascadeType;
@@ -20,7 +19,6 @@ import java.util.Set;
 
 
 @Entity
-@EqualsAndHashCode
 public class User {
 
     @Id
@@ -44,21 +42,6 @@ public class User {
     @Column(nullable = false)
     private String firebaseMessagingToken;
 
-    public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email,
-                @NotNull String firebaseMessagingToken) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.firebaseMessagingToken = firebaseMessagingToken;
-    }
-
-    // For internal usage only
-    public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email) {
-        this(firstName, lastName, email, "empty");
-    }
-
-    public User() {}
-
     @JsonIgnore
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
@@ -69,14 +52,6 @@ public class User {
     @NotNull
     @Column(nullable = false)
     private Set<Notification> notifications = new HashSet<>();
-
-    public Set<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(Set<Notification> notifications) {
-        this.notifications = notifications;
-    }
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -112,6 +87,29 @@ public class User {
     @NotNull
     @Column(nullable = false)
     private Set<UserWork> userWorks = new HashSet<>();
+
+    public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email,
+                @NotNull String firebaseMessagingToken) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.firebaseMessagingToken = firebaseMessagingToken;
+    }
+
+    // For internal usage only
+    public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email) {
+        this(firstName, lastName, email, "empty");
+    }
+
+    public User() {}
+
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
+    }
 
     public long getId() {
         return id;

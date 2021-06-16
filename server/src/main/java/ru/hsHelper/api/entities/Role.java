@@ -36,7 +36,6 @@ public class Role {
     @NotNull
     private RoleType roleType;
 
-
     @JsonIgnore
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(

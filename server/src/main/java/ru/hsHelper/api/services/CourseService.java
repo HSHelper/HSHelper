@@ -11,14 +11,14 @@ import java.util.Set;
 
 public interface CourseService {
     Course createCourse(CourseCreateRequest courseCreateRequest);
-    Course updateCourse(long id, CourseUpdateRequest courseUpdateRequest);
-    Course getCourseById(long id);
-    void deleteCourse(long id);
+    Course updateCourse(long courseId, CourseUpdateRequest courseUpdateRequest);
+    Course getCourseById(long courseId);
+    void deleteCourse(long courseId);
     void preDeleteCourse(Course course);
     Course addUsers(long courseId, Set<Long> userIds, Map<Long, Set<Long>> roleIds);
     Course deleteUsers(long courseId, Set<Long> userIds);
-    Set<Course> getAll();
-    UserCourseRole getUser(long courseId, long userId);
-    Set<UserCourseRole> getAllUsers(long courseId);
+    Set<Course> getAllCourses();
+    UserCourseRole getUserCourseRole(long courseId, long userId);
+    Set<UserCourseRole> getAllUserCourseRoles(long courseId);
     Set<CoursePart> getAllCourseParts(long courseId);
 }

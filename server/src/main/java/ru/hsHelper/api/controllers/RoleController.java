@@ -30,18 +30,18 @@ public class RoleController {
         return roleService.createRole(new Role(roleType));
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteRole(@PathVariable long id) {
-        roleService.deleteRole(id);
+    @DeleteMapping("/{roleId}")
+    public void deleteRole(@PathVariable long roleId) {
+        roleService.deleteRole(roleId);
     }
 
-    @GetMapping("/{id}")
-    public Role getRoleById(@PathVariable long id) {
-        return roleService.getRoleById(id);
+    @GetMapping("/{roleId}")
+    public Role getRoleById(@PathVariable long roleId) {
+        return roleService.getRoleById(roleId);
     }
 
-    @GetMapping("/")
-    public Set<Role> getRoleByRoleType(@RequestBody Role.RoleType roleType) {
+    @GetMapping("/{roleType}")
+    public Set<Role> getRoleByRoleType(@PathVariable Role.RoleType roleType) {
         return roleService.getRoleByRoleType(roleType);
     }
 
@@ -59,5 +59,10 @@ public class RoleController {
     @GetMapping("/{roleId}/permissions")
     public Set<Permissions> getAllPermissions(@PathVariable long roleId) {
         return roleService.getAllPermissions(roleId);
+    }
+
+    @GetMapping("/")
+    public Set<Role> getAllRoles() {
+        return roleService.getAllRoles();
     }
 }

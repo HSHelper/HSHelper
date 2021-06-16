@@ -36,44 +36,44 @@ public class PartitionController {
         return partitionService.createPartition(partitionCreateRequest);
     }
 
-    @GetMapping("/{id}")
-    public Partition getPartition(@PathVariable long id) {
-        return partitionService.getPartitionById(id);
+    @GetMapping("/{partitionId}")
+    public Partition getPartition(@PathVariable long partitionId) {
+        return partitionService.getPartitionById(partitionId);
     }
 
-    @PutMapping("/{id}")
-    public Partition updatePartition(@PathVariable long id, @RequestBody @Valid PartitionUpdateRequest partitionUpdateRequest) {
-        return partitionService.updatePartition(id, partitionUpdateRequest);
+    @PutMapping("/{partitionId}")
+    public Partition updatePartition(@PathVariable long partitionId, @RequestBody @Valid PartitionUpdateRequest partitionUpdateRequest) {
+        return partitionService.updatePartition(partitionId, partitionUpdateRequest);
     }
 
-    @DeleteMapping("/{id}")
-    public void deletePartition(@PathVariable long id) {
-        partitionService.deletePartition(id);
+    @DeleteMapping("/{partitionId}")
+    public void deletePartition(@PathVariable long partitionId) {
+        partitionService.deletePartition(partitionId);
     }
 
-    @PutMapping("/{id}/users")
-    public Partition addUsers(@PathVariable long id, @RequestBody @Valid PartitionAddRequest partitionAddRequest) {
-        return partitionService.addUsers(id, partitionAddRequest.getPartitionIds(), partitionAddRequest.getUserParts());
+    @PutMapping("/{partitionId}/users")
+    public Partition addUsers(@PathVariable long partitionId, @RequestBody @Valid PartitionAddRequest partitionAddRequest) {
+        return partitionService.addUsers(partitionId, partitionAddRequest.getPartitionIds(), partitionAddRequest.getUserParts());
     }
 
-    @PostMapping("/{id}/users")
-    public Partition deleteUsers(@PathVariable long id, @RequestBody Set<Long> userIds) {
-        return partitionService.deleteUsers(id, userIds);
+    @PostMapping("/{partitionId}/users")
+    public Partition deleteUsers(@PathVariable long partitionId, @RequestBody Set<Long> userIds) {
+        return partitionService.deleteUsers(partitionId, userIds);
     }
 
     @GetMapping("/")
-    public Set<Partition> getAll() {
-        return partitionService.getAll();
+    public Set<Partition> getAllPartitions() {
+        return partitionService.getAllPartitions();
     }
 
     @GetMapping("/{partitionId}/users/{userId}")
-    public UserToPartition getUser(@PathVariable long partitionId, @PathVariable long userId) {
-        return partitionService.getUser(partitionId, userId);
+    public UserToPartition getUserToPartition(@PathVariable long partitionId, @PathVariable long userId) {
+        return partitionService.getUserToPartition(partitionId, userId);
     }
 
     @GetMapping("/{partitionId}/users")
-    public Set<UserToPartition> getAllUsers(@PathVariable long partitionId) {
-        return partitionService.getAllUsers(partitionId);
+    public Set<UserToPartition> getAllUserToPartitions(@PathVariable long partitionId) {
+        return partitionService.getAllUserToPartitions(partitionId);
     }
 
     @GetMapping("/{partitionId}/courses")

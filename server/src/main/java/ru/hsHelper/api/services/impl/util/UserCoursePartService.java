@@ -3,16 +3,13 @@ package ru.hsHelper.api.services.impl.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.CoursePart;
 import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserCoursePartRole;
-import ru.hsHelper.api.entities.UserCourseRole;
 import ru.hsHelper.api.keys.UserCoursePartRoleKey;
 import ru.hsHelper.api.repositories.RoleRepository;
 import ru.hsHelper.api.repositories.UserCoursePartRoleRepository;
-import ru.hsHelper.api.repositories.UserCourseRoleRepository;
 
 import java.util.Set;
 

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.CoursePart;
-import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserCourseRole;
 import ru.hsHelper.api.requests.add.ObjectsWithRoleAddRequest;
 import ru.hsHelper.api.requests.create.CourseCreateRequest;
@@ -36,44 +35,44 @@ public class CourseController {
         return courseService.createCourse(courseCreateRequest);
     }
 
-    @PutMapping("/{id}")
-    public Course updateCourse(@PathVariable long id, @RequestBody @Valid CourseUpdateRequest courseUpdateRequest) {
-        return courseService.updateCourse(id, courseUpdateRequest);
+    @PutMapping("/{courseId}")
+    public Course updateCourse(@PathVariable long courseId, @RequestBody @Valid CourseUpdateRequest courseUpdateRequest) {
+        return courseService.updateCourse(courseId, courseUpdateRequest);
     }
 
-    @GetMapping("/{id}")
-    public Course getCourse(@PathVariable long id) {
-        return courseService.getCourseById(id);
+    @GetMapping("/{courseId}")
+    public Course getCourse(@PathVariable long courseId) {
+        return courseService.getCourseById(courseId);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteCourse(@PathVariable long id) {
-        courseService.deleteCourse(id);
+    @DeleteMapping("/{courseId}")
+    public void deleteCourse(@PathVariable long courseId) {
+        courseService.deleteCourse(courseId);
     }
 
-    @PutMapping("/{id}/users")
-    public Course addUsers(@PathVariable long id, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
-        return courseService.addUsers(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
+    @PutMapping("/{courseId}/users")
+    public Course addUsers(@PathVariable long courseId, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
+        return courseService.addUsers(courseId, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
-    @PostMapping("/{id}/users")
-    public Course deleteUsers(@PathVariable long id, @RequestBody Set<Long> userIds) {
-        return courseService.deleteUsers(id, userIds);
+    @PostMapping("/{courseId}/users")
+    public Course deleteUsers(@PathVariable long courseId, @RequestBody Set<Long> userIds) {
+        return courseService.deleteUsers(courseId, userIds);
     }
 
     @GetMapping("/")
-    public Set<Course> getAll() {
-        return courseService.getAll();
+    public Set<Course> getAllCourses() {
+        return courseService.getAllCourses();
     }
 
     @GetMapping("/{courseId}/users/{userId}")
-    public UserCourseRole getUser(@PathVariable long courseId, @PathVariable long userId) {
-        return courseService.getUser(courseId, userId);
+    public UserCourseRole getUserCourseRole(@PathVariable long courseId, @PathVariable long userId) {
+        return courseService.getUserCourseRole(courseId, userId);
     }
 
     @GetMapping("/{courseId}/users")
-    public Set<UserCourseRole> getAllUsers(@PathVariable long courseId) {
-        return courseService.getAllUsers(courseId);
+    public Set<UserCourseRole> getAllUserCourseRoles(@PathVariable long courseId) {
+        return courseService.getAllUserCourseRoles(courseId);
     }
 
     @GetMapping("/{courseId}/course-parts")

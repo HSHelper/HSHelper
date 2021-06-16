@@ -71,16 +71,16 @@ public class CoursePartServiceImpl implements CoursePartService {
 
     @Transactional(readOnly = true)
     @Override
-    public CoursePart getCoursePartById(long id) {
-        return coursePartRepository.findById(id).orElseThrow(
+    public CoursePart getCoursePartById(long coursePartId) {
+        return coursePartRepository.findById(coursePartId).orElseThrow(
                 () -> new IllegalArgumentException("No course with such id")
         );
     }
 
     @Transactional
     @Override
-    public CoursePart updateCoursePart(long id, CoursePartUpdateRequest coursePartUpdateRequest) {
-        CoursePart coursePart = getCoursePartById(id);
+    public CoursePart updateCoursePart(long coursePartId, CoursePartUpdateRequest coursePartUpdateRequest) {
+        CoursePart coursePart = getCoursePartById(coursePartId);
         coursePart.setBlock(coursePartUpdateRequest.getBlock());
         coursePart.setWeight(coursePartUpdateRequest.getWeight());
         coursePart.setName(coursePartUpdateRequest.getName());
@@ -95,8 +95,8 @@ public class CoursePartServiceImpl implements CoursePartService {
 
     @Transactional
     @Override
-    public void deleteCoursePart(long id) {
-        CoursePart coursePart = coursePartRepository.findById(id).orElseThrow(
+    public void deleteCoursePart(long coursePartId) {
+        CoursePart coursePart = coursePartRepository.findById(coursePartId).orElseThrow(
                 () -> new IllegalArgumentException("No coursePart with such id")
         );
         preDeleteCoursePart(coursePart);
@@ -147,19 +147,19 @@ public class CoursePartServiceImpl implements CoursePartService {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<CoursePart> getAll() {
+    public Set<CoursePart> getAllCourseParts() {
         return coursePartRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public UserCoursePartRole getUser(long coursePartId, long userId) {
+    public UserCoursePartRole getUserCoursePartRole(long coursePartId, long userId) {
         return userCoursePartService.getUserCoursePartRole(userId, coursePartId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Set<UserCoursePartRole> getAllUsers(long coursePartId) {
+    public Set<UserCoursePartRole> getAllUserCoursePartRoles(long coursePartId) {
         return userCoursePartRoleRepository.findAllByCoursePart(getCoursePartById(coursePartId));
     }
 

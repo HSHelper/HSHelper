@@ -1,7 +1,5 @@
 package ru.hsHelper.api.requests.update;
 
-import ru.hsHelper.api.entities.Work;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;

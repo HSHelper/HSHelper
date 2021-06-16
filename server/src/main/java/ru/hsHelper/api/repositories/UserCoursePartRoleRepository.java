@@ -9,7 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Set;
 
 public interface UserCoursePartRoleRepository extends CrudRepository<UserCoursePartRole, UserCoursePartRoleKey> {
-    void deleteByUser(User user);
 
     Set<UserCoursePartRole> findAllByUserAndCoursePartIn(User user, Set<CoursePart> coursesParts);
 
