@@ -1,7 +1,6 @@
 package ru.hsHelper.androidApp.ui.settings
 
 import android.content.Intent
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -9,8 +8,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.auth.AuthProvider
+import ru.hsHelper.androidApp.calendar.Calendar
 import ru.hsHelper.androidApp.ui.initial.InitialActivity
-import ru.hsHelper.androidApp.utils.CalendarUtils
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -26,15 +25,15 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         //calendarAddDefaultEvent()
-        val startMillis: Long = Calendar.getInstance().run {
+        val startMillis: Long = android.icu.util.Calendar.getInstance().run {
             set(2021, 8, 14, 7, 30)
             timeInMillis
         }
-        val endMillis: Long = Calendar.getInstance().run {
+        val endMillis: Long = android.icu.util.Calendar.getInstance().run {
             set(2021, 8, 14, 8, 45)
             timeInMillis
         }
-        CalendarUtils.addEvent(this, "kek", "lol", startMillis, endMillis)
+        Calendar.addEvent(this, "kek", "lol", startMillis, endMillis)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
