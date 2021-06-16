@@ -6,7 +6,7 @@ import ru.hsHelper.api.services.WorkService
 
 class MarkUpdate(private val workId: Long, private val userId: Long, private val mark: Double?) {
     fun submit(userService: UserService, workService: WorkService) {
-        val solution = workService.getUser(workId, userId).solution
+        val solution = workService.getUserWork(workId, userId).solution
         userService.updateUserWork(userId, workId, UserWorkUpdateRequest(solution, mark))
     }
 }

@@ -13,7 +13,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(value = {IllegalArgumentException.class, IllegalStateException.class})
     protected ResponseEntity<Object> handleNotFound(RuntimeException ex, WebRequest request) {
-        String bodyOfResponse = "Such object not found";
+        String bodyOfResponse = ex.getMessage();
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 }

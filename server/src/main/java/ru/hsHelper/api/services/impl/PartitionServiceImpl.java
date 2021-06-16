@@ -68,16 +68,16 @@ public class PartitionServiceImpl implements PartitionService {
 
     @Transactional
     @Override
-    public Partition getPartitionById(long id) {
-        return partitionRepository.findById(id).orElseThrow(
+    public Partition getPartitionById(long partitionId) {
+        return partitionRepository.findById(partitionId).orElseThrow(
                 () -> new IllegalArgumentException("No partition with such id")
         );
     }
 
     @Transactional
     @Override
-    public Partition updatePartition(long id, PartitionUpdateRequest partitionUpdateRequest) {
-        Partition partition = partitionRepository.findById(id).orElseThrow(
+    public Partition updatePartition(long partitionId, PartitionUpdateRequest partitionUpdateRequest) {
+        Partition partition = partitionRepository.findById(partitionId).orElseThrow(
                 () -> new IllegalArgumentException("No partition with such id")
         );
         partition.setName(partitionUpdateRequest.getName());
@@ -86,8 +86,8 @@ public class PartitionServiceImpl implements PartitionService {
 
     @Transactional
     @Override
-    public void deletePartition(long id) {
-        Partition partition = partitionRepository.findById(id).orElseThrow(
+    public void deletePartition(long partitionId) {
+        Partition partition = partitionRepository.findById(partitionId).orElseThrow(
                 () -> new IllegalArgumentException("No partition with such id")
         );
         preDeletePartition(partition);
@@ -144,19 +144,19 @@ public class PartitionServiceImpl implements PartitionService {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<Partition> getAll() {
+    public Set<Partition> getAllPartitions() {
         return partitionRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public UserToPartition getUser(long partitionId, long userId) {
+    public UserToPartition getUserToPartition(long partitionId, long userId) {
         return userPartitionService.getUserToPartition(userId, partitionId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Set<UserToPartition> getAllUsers(long partitionId) {
+    public Set<UserToPartition> getAllUserToPartitions(long partitionId) {
         return userToPartitionRepository.findAllByPartition(getPartitionById(partitionId));
     }
 

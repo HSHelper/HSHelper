@@ -31,14 +31,14 @@ public class RoleServiceImpl implements RoleService {
 
     @Transactional
     @Override
-    public void deleteRole(long id) {
-        roleRepository.deleteById(id);
+    public void deleteRole(long roleId) {
+        roleRepository.deleteById(roleId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Role getRoleById(long id) {
-        return roleRepository.findById(id).orElseThrow(
+    public Role getRoleById(long roleId) {
+        return roleRepository.findById(roleId).orElseThrow(
                 () -> new IllegalArgumentException("No role with such id")
         );
     }

@@ -45,76 +45,76 @@ public class UserController {
                 userCreateRequest.getEmail(), userCreateRequest.getToken()));
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable long id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/{userId}")
+    public void deleteUser(@PathVariable long userId) {
+        userService.deleteUser(userId);
     }
 
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable long id, @RequestBody @Valid UserUpdateRequest userUpdateRequest) {
-        return userService.updateUser(id, userUpdateRequest);
+    @PutMapping("/{userId}")
+    public User updateUser(@PathVariable long userId, @RequestBody @Valid UserUpdateRequest userUpdateRequest) {
+        return userService.updateUser(userId, userUpdateRequest);
     }
 
-    @GetMapping("/{id}")
-    public User getUser(@PathVariable long id) {
-        return userService.getUserById(id);
+    @GetMapping("/{userId}")
+    public User getUser(@PathVariable long userId) {
+        return userService.getUserById(userId);
     }
 
-    @PutMapping("/{id}/groups")
-    public User addGroups(@PathVariable long id, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
-        return userService.addGroups(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
+    @PutMapping("/{userId}/groups")
+    public User addGroups(@PathVariable long userId, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
+        return userService.addGroups(userId, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
-    @PostMapping("/{id}/groups")
-    public User deleteGroups(@PathVariable long id, @RequestBody Set<Long> groupIds) {
-        return userService.deleteGroups(id, groupIds);
+    @PostMapping("/{userId}/groups")
+    public User deleteGroups(@PathVariable long userId, @RequestBody Set<Long> groupIds) {
+        return userService.deleteGroups(userId, groupIds);
     }
 
-    @PutMapping("/{id}/partitions")
-    public User addToPartitions(@PathVariable long id, @RequestBody @Valid PartitionAddRequest partitionAddRequest) {
-        return userService.addToPartitions(id, partitionAddRequest.getPartitionIds(), partitionAddRequest.getUserParts());
+    @PutMapping("/{userId}/partitions")
+    public User addToPartitions(@PathVariable long userId, @RequestBody @Valid PartitionAddRequest partitionAddRequest) {
+        return userService.addToPartitions(userId, partitionAddRequest.getPartitionIds(), partitionAddRequest.getUserParts());
     }
 
-    @PostMapping("/{id}/partitions")
-    public User deletePartitions(@PathVariable long id, @RequestBody Set<Long> partitionIds) {
-        return userService.deletePartitions(id, partitionIds);
+    @PostMapping("/{userId}/partitions")
+    public User deletePartitions(@PathVariable long userId, @RequestBody Set<Long> partitionIds) {
+        return userService.deletePartitions(userId, partitionIds);
     }
 
-    @PutMapping("/{id}/courses")
-    public User addCourses(@PathVariable long id, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
-        return userService.addCourses(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
+    @PutMapping("/{userId}/courses")
+    public User addCourses(@PathVariable long userId, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
+        return userService.addCourses(userId, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
-    @PostMapping("/{id}/courses")
-    public User deleteCourses(@PathVariable long id, @RequestBody Set<Long> courseIds) {
-        return userService.deleteCourses(id, courseIds);
+    @PostMapping("/{userId}/courses")
+    public User deleteCourses(@PathVariable long userId, @RequestBody Set<Long> courseIds) {
+        return userService.deleteCourses(userId, courseIds);
     }
 
-    @PutMapping("/{id}/course-parts")
-    public User addCourseParts(@PathVariable long id, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
-        return userService.addCourseParts(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
+    @PutMapping("/{userId}/course-parts")
+    public User addCourseParts(@PathVariable long userId, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
+        return userService.addCourseParts(userId, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
-    @PostMapping("/{id}/course-parts")
-    public User deleteCourseParts(@PathVariable long id, @RequestBody Set<Long> coursePartIds) {
-        return userService.deleteCourseParts(id, coursePartIds);
+    @PostMapping("/{userId}/course-parts")
+    public User deleteCourseParts(@PathVariable long userId, @RequestBody Set<Long> coursePartIds) {
+        return userService.deleteCourseParts(userId, coursePartIds);
     }
 
-    @PutMapping("/{id}/works")
-    public User addWorks(@PathVariable long id,
+    @PutMapping("/{userId}/works")
+    public User addWorks(@PathVariable long userId,
                          @RequestBody @Valid ObjectsWithSolutionsAddRequest objectsWithSolutionsAddRequest) {
-        return userService.addWorks(id, objectsWithSolutionsAddRequest.getObjectsIds(),
+        return userService.addWorks(userId, objectsWithSolutionsAddRequest.getObjectsIds(),
                 objectsWithSolutionsAddRequest.getSolutions());
     }
 
-    @PostMapping("/{id}/works")
-    public User deleteWorks(@PathVariable long id, @RequestBody Set<Long> groupIds) {
-        return userService.deleteWorks(id, groupIds);
+    @PostMapping("/{userId}/works")
+    public User deleteWorks(@PathVariable long userId, @RequestBody Set<Long> groupIds) {
+        return userService.deleteWorks(userId, groupIds);
     }
 
     @GetMapping("/")
-    public Set<User> getAll() {
-        return userService.getAll();
+    public Set<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @GetMapping("/email")
@@ -123,53 +123,53 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/groups/{groupId}")
-    public UserGroupRole getGroup(@PathVariable long userId, @PathVariable long groupId) {
-        return userService.getGroup(userId, groupId);
+    public UserGroupRole getUserGroupRole(@PathVariable long userId, @PathVariable long groupId) {
+        return userService.getUserGroupRole(userId, groupId);
     }
 
     @GetMapping("/{userId}/groups")
-    public Set<UserGroupRole> getAllGroups(@PathVariable long userId) {
-        return userService.getAllGroups(userId);
+    public Set<UserGroupRole> getAllUserGroupRoles(@PathVariable long userId) {
+        return userService.getAllUserGroupRoles(userId);
     }
 
     @GetMapping("/{userId}/partitions/{partitionId}")
-    public UserToPartition getPartition(@PathVariable long userId, @PathVariable long partitionId) {
-        return userService.getPartition(userId, partitionId);
+    public UserToPartition getUserToPartition(@PathVariable long userId, @PathVariable long partitionId) {
+        return userService.getUserToPartition(userId, partitionId);
     }
 
     @GetMapping("/{userId}/partitions")
-    public Set<UserToPartition> getAllPartitions(@PathVariable long userId) {
-        return userService.getAllPartitions(userId);
+    public Set<UserToPartition> getAllUserToPartitions(@PathVariable long userId) {
+        return userService.getAllUserToPartitions(userId);
     }
 
     @GetMapping("/{userId}/courses/{courseId}")
-    public UserCourseRole getCourse(@PathVariable long userId, @PathVariable long courseId) {
-        return userService.getCourse(userId, courseId);
+    public UserCourseRole getUserCourseRole(@PathVariable long userId, @PathVariable long courseId) {
+        return userService.getUserCourseRole(userId, courseId);
     }
 
     @GetMapping("/{userId}/courses")
-    public Set<UserCourseRole> getAllCourses(@PathVariable long userId) {
-        return userService.getAllCourses(userId);
+    public Set<UserCourseRole> getAllUserCourseRoles(@PathVariable long userId) {
+        return userService.getAllUserCourseRoles(userId);
     }
 
     @GetMapping("/{userId}/course-parts/{coursePartId}")
-    public UserCoursePartRole getCoursePart(@PathVariable long userId, @PathVariable long coursePartId) {
-        return userService.getCoursePart(userId, coursePartId);
+    public UserCoursePartRole getUserCoursePartRole(@PathVariable long userId, @PathVariable long coursePartId) {
+        return userService.getUserCoursePartRole(userId, coursePartId);
     }
 
     @GetMapping("/{userId}/course-parts")
-    public Set<UserCoursePartRole> getAllCourseParts(@PathVariable long userId) {
-        return userService.getAllCourseParts(userId);
+    public Set<UserCoursePartRole> getAllUserCoursePartRoles(@PathVariable long userId) {
+        return userService.getAllUserCoursePartRoles(userId);
     }
 
     @GetMapping("/{userId}/works/{workId}")
-    public UserWork getWork(@PathVariable long userId, @PathVariable long workId) {
-        return userService.getWork(userId, workId);
+    public UserWork getUserWork(@PathVariable long userId, @PathVariable long workId) {
+        return userService.getUserWork(userId, workId);
     }
 
     @GetMapping("/{userId}/works")
-    public Set<UserWork> getAllWorks(@PathVariable long userId) {
-        return userService.getAllWorks(userId);
+    public Set<UserWork> getAllUserWorks(@PathVariable long userId) {
+        return userService.getAllUserWorks(userId);
     }
 
     @PutMapping("/{userId}/works/{workId}")
@@ -188,9 +188,9 @@ public class UserController {
         return userService.deleteNotifications(userId, notificationIds);
     }
 
-    @GetMapping("/{id}/notifications")
-    public Set<Notification> getAllNotifications(@PathVariable long id) {
-        return userService.getAllNotifications(id);
+    @GetMapping("/{userId}/notifications")
+    public Set<Notification> getAllNotifications(@PathVariable long userId) {
+        return userService.getAllNotifications(userId);
     }
 
     @GetMapping("/{userId}/groups/{groupId}/works")

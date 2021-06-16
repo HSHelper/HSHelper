@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.hsHelper.api.entities.User;
 import ru.hsHelper.api.entities.UserWork;
 import ru.hsHelper.api.entities.Work;
 import ru.hsHelper.api.requests.add.ObjectsWithSolutionsAddRequest;
@@ -37,46 +36,46 @@ public class WorkController {
         return workService.createWork(workCreateRequest);
     }
 
-    @GetMapping("/{id}")
-    public Work getWork(@PathVariable long id) {
-        return workService.getWorkById(id);
+    @GetMapping("/{workId}")
+    public Work getWork(@PathVariable long workId) {
+        return workService.getWorkById(workId);
     }
 
-    @PutMapping("/{id}")
-    public Work updateWork(@PathVariable long id, @RequestBody @Valid WorkUpdateRequest workUpdateRequest) {
-        return workService.updateWork(id, workUpdateRequest);
+    @PutMapping("/{workId}")
+    public Work updateWork(@PathVariable long workId, @RequestBody @Valid WorkUpdateRequest workUpdateRequest) {
+        return workService.updateWork(workId, workUpdateRequest);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteWork(@PathVariable long id) {
-        workService.deleteWork(id);
+    @DeleteMapping("/{workId}")
+    public void deleteWork(@PathVariable long workId) {
+        workService.deleteWork(workId);
     }
 
-    @PutMapping("/{id}/users")
-    public Work addUsers(@PathVariable long id,
+    @PutMapping("/{workId}/users")
+    public Work addUsers(@PathVariable long workId,
                          @RequestBody @Valid ObjectsWithSolutionsAddRequest objectsWithSolutionsAddRequest) {
-        return workService.addUsers(id, objectsWithSolutionsAddRequest.getObjectsIds(),
+        return workService.addUsers(workId, objectsWithSolutionsAddRequest.getObjectsIds(),
                 objectsWithSolutionsAddRequest.getSolutions());
     }
 
-    @PostMapping("/{id}/users")
-    public Work deleteUsers(@PathVariable long id, @RequestBody Set<Long> userIds) {
-        return workService.deleteUsers(id, userIds);
+    @PostMapping("/{workId}/users")
+    public Work deleteUsers(@PathVariable long workId, @RequestBody Set<Long> userIds) {
+        return workService.deleteUsers(workId, userIds);
     }
 
     @GetMapping("/")
-    public Set<Work> getAll() {
-        return workService.getAll();
+    public Set<Work> getAllWorks() {
+        return workService.getAllWorks();
     }
 
     @GetMapping("/{workId}/users/{userId}")
-    public UserWork getUser(@PathVariable long workId, @PathVariable long userId) {
-        return workService.getUser(workId, userId);
+    public UserWork getUserWork(@PathVariable long workId, @PathVariable long userId) {
+        return workService.getUserWork(workId, userId);
     }
 
     @GetMapping("/{workId}/users")
-    public Set<UserWork> getAllUsers(@PathVariable long workId) {
-        return workService.getAllUsers(workId);
+    public Set<UserWork> getAllUserWorks(@PathVariable long workId) {
+        return workService.getAllUserWorks(workId);
     }
 
     @PutMapping("/{workId}/users/{userId}")

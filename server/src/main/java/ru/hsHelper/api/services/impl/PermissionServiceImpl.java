@@ -6,10 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.hsHelper.api.entities.Permissions;
 import ru.hsHelper.api.entities.Role;
 import ru.hsHelper.api.repositories.PermissionsRepository;
-import ru.hsHelper.api.repositories.RoleRepository;
 import ru.hsHelper.api.services.PermissionService;
 
-import javax.persistence.Access;
 import java.util.Set;
 
 @Service
@@ -30,14 +28,14 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Transactional
     @Override
-    public void deletePermission(long id) {
-        permissionsRepository.deleteById(id);
+    public void deletePermission(long permissionId) {
+        permissionsRepository.deleteById(permissionId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Permissions getPermissionById(long id) {
-        return permissionsRepository.findById(id).orElseThrow(
+    public Permissions getPermissionById(long permissionId) {
+        return permissionsRepository.findById(permissionId).orElseThrow(
                 () -> new IllegalArgumentException("No permission with such id")
         );
     }
@@ -58,7 +56,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<Role> getAllRoles(long id) {
-        return getPermissionById(id).getRoles();
+    public Set<Role> getAllRoles(long permissionId) {
+        return getPermissionById(permissionId).getRoles();
     }
 }

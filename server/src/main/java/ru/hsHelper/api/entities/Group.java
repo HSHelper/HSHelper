@@ -28,12 +28,6 @@ public class Group {
     @Column(nullable = false)
     private String name;
 
-    public Group() {}
-
-    public Group(String name) {
-        this.name = name;
-    }
-
     @JsonIgnore
     @OneToMany(mappedBy = "group", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
@@ -54,6 +48,12 @@ public class Group {
     @NotNull
     @Column(nullable = false)
     private Set<Course> courses = new HashSet<>();
+
+    public Group() {}
+
+    public Group(String name) {
+        this.name = name;
+    }
 
     public long getId() {
         return id;

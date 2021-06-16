@@ -29,9 +29,11 @@ public class CoursePart {
     private String name;
 
     @NotNull
+    @Column(nullable = false)
     private String gSheetId;
 
     @NotNull
+    @Column(nullable = false)
     private String gSheetPage;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})

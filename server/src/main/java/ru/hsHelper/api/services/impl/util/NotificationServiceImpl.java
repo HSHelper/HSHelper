@@ -15,13 +15,11 @@ import java.util.Set;
 @Service
 public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository notificationRepository;
-    private final UserRepository userRepository;
 
 
     @Autowired
-    public NotificationServiceImpl(NotificationRepository notificationRepository, UserRepository userRepository) {
+    public NotificationServiceImpl(NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
-        this.userRepository = userRepository;
     }
 
 
@@ -33,8 +31,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Transactional(readOnly = true)
     @Override
-    public Notification getNotificationById(long id) {
-        return notificationRepository.findById(id).orElseThrow(
+    public Notification getNotificationById(long notificationId) {
+        return notificationRepository.findById(notificationId).orElseThrow(
                 () -> new IllegalArgumentException("No notification with such id")
         );
     }
@@ -53,8 +51,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Transactional
     @Override
-    public void deleteNotification(long id) {
-        Notification notification = getNotificationById(id);
+    public void deleteNotification(long notificationId) {
+        Notification notification = getNotificationById(notificationId);
         for (User user : notification.getUsers()) {
             user.removeNotification(notification);
         }
@@ -63,7 +61,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Transactional
     @Override
-    public Set<User> getAllUsers(long id) {
-        return getNotificationById(id).getUsers();
+    public Set<User> getAllUsers(long notificationId) {
+        return getNotificationById(notificationId).getUsers();
     }
 }

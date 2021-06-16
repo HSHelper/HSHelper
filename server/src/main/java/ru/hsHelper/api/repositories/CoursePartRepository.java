@@ -1,5 +1,6 @@
 package ru.hsHelper.api.repositories;
 
+import org.jetbrains.annotations.NotNull;
 import ru.hsHelper.api.entities.Course;
 import ru.hsHelper.api.entities.CoursePart;
 import org.springframework.data.repository.CrudRepository;
@@ -14,5 +15,6 @@ public interface CoursePartRepository extends CrudRepository<CoursePart, Long> {
 
     Set<CoursePart> findAllByPartition(Partition partition);
 
+    @NotNull
     Set<CoursePart> findAll();
 }

@@ -29,7 +29,6 @@ public class GroupServiceImpl implements GroupService {
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
     private final UserGroupRoleRepository userGroupRoleRepository;
-    private final RoleRepository roleRepository;
     private final UserGroupService userGroupService;
     private final PartitionRepository partitionRepository;
     private final PartitionService partitionService;
@@ -45,7 +44,6 @@ public class GroupServiceImpl implements GroupService {
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
         this.userGroupRoleRepository = userGroupRoleRepository;
-        this.roleRepository = roleRepository;
         this.userGroupService = userGroupService;
         this.partitionRepository = partitionRepository;
         this.partitionService = partitionService;
@@ -61,16 +59,16 @@ public class GroupServiceImpl implements GroupService {
 
     @Transactional(readOnly = true)
     @Override
-    public Group getGroupById(long id) {
-        return groupRepository.findById(id).orElseThrow(
+    public Group getGroupById(long groupId) {
+        return groupRepository.findById(groupId).orElseThrow(
                 () -> new IllegalArgumentException("No group with such id")
         );
     }
 
     @Transactional
     @Override
-    public Group updateGroup(long id, GroupUpdateRequest groupUpdateRequest) {
-        Group group = groupRepository.findById(id).orElseThrow(
+    public Group updateGroup(long groupId, GroupUpdateRequest groupUpdateRequest) {
+        Group group = groupRepository.findById(groupId).orElseThrow(
                 () -> new IllegalArgumentException("No group with such id")
         );
         group.setName(groupUpdateRequest.getName());
@@ -79,8 +77,8 @@ public class GroupServiceImpl implements GroupService {
 
     @Transactional
     @Override
-    public void deleteGroup(long id) {
-        Group group = getGroupById(id);
+    public void deleteGroup(long groupId) {
+        Group group = getGroupById(groupId);
         Set<UserGroupRole> userGroupRoles = userGroupRoleRepository.findAllByGroup(group);
         for (UserGroupRole userGroupRole : userGroupRoles) {
             userGroupRole.removeUserGroupAndRoles();
@@ -125,19 +123,19 @@ public class GroupServiceImpl implements GroupService {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<Group> getAll() {
+    public Set<Group> getAllGroups() {
         return groupRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public UserGroupRole getUser(long groupId, long userId) {
+    public UserGroupRole getUserGroupRole(long groupId, long userId) {
         return userGroupService.getUserGroupRole(userId, groupId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Set<UserGroupRole> getAllUsers(long groupId) {
+    public Set<UserGroupRole> getAllUserGroupRoles(long groupId) {
         return userGroupRoleRepository.findAllByGroup(getGroupById(groupId));
     }
 

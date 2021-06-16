@@ -59,16 +59,16 @@ public class WorkServiceImpl implements WorkService {
 
     @Transactional(readOnly = true)
     @Override
-    public Work getWorkById(long id) {
-        return workRepository.findById(id).orElseThrow(
+    public Work getWorkById(long workId) {
+        return workRepository.findById(workId).orElseThrow(
             () -> new IllegalArgumentException("No work with such id")
         );
     }
 
     @Transactional
     @Override
-    public Work updateWork(long id, WorkUpdateRequest workUpdateRequest) {
-        Work work = getWorkById(id);
+    public Work updateWork(long workId, WorkUpdateRequest workUpdateRequest) {
+        Work work = getWorkById(workId);
         pushNotificationService.modifyWork(work, workUpdateRequest);
         work.setBlock(workUpdateRequest.getBlock());
         work.setDeadline(workUpdateRequest.getDate());
@@ -80,8 +80,8 @@ public class WorkServiceImpl implements WorkService {
 
     @Transactional
     @Override
-    public void deleteWork(long id) {
-        Work work = workRepository.findById(id).orElseThrow(
+    public void deleteWork(long workId) {
+        Work work = workRepository.findById(workId).orElseThrow(
             () -> new IllegalArgumentException("No work with such id")
         );
         preDeleteWork(work);
@@ -128,19 +128,19 @@ public class WorkServiceImpl implements WorkService {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<Work> getAll() {
+    public Set<Work> getAllWorks() {
         return workRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public UserWork getUser(long workId, long userId) {
+    public UserWork getUserWork(long workId, long userId) {
         return userWorkService.getUserWork(userId, workId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Set<UserWork> getAllUsers(long workId) {
+    public Set<UserWork> getAllUserWorks(long workId) {
         return userWorkRepository.findAllByWork(getWorkById(workId));
     }
 

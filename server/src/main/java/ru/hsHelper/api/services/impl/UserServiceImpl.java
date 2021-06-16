@@ -100,8 +100,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void deleteUser(long id) {
-        User user = getUserById(id);
+    public void deleteUser(long userId) {
+        User user = getUserById(userId);
         Set<UserGroupRole> userGroupRoles = userGroupRoleRepository.findAllByUser(user);
         for (UserGroupRole userGroupRole : userGroupRoles) {
             userGroupRole.removeUserGroupAndRoles();
@@ -135,8 +135,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User updateUser(long id, UserUpdateRequest updateRequest) {
-        User user = userRepository.findById(id).orElseThrow(() ->
+    public User updateUser(long userId, UserUpdateRequest updateRequest) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
                 new IllegalArgumentException("No user with such id"));
         user.setFirstName(updateRequest.getFirstName());
         user.setLastName(updateRequest.getLastName());
@@ -147,8 +147,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public User getUserById(long id) {
-        return userRepository.findById(id).orElseThrow(() ->
+    public User getUserById(long userId) {
+        return userRepository.findById(userId).orElseThrow(() ->
                 new IllegalArgumentException("No user with such id"));
     }
 
@@ -281,7 +281,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<User> getAll() {
+    public Set<User> getAllUsers() {
         return userRepository.findAll();
     }
 
@@ -295,61 +295,61 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public UserGroupRole getGroup(long userId, long groupId) {
+    public UserGroupRole getUserGroupRole(long userId, long groupId) {
         return userGroupService.getUserGroupRole(userId, groupId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Set<UserGroupRole> getAllGroups(long userId) {
+    public Set<UserGroupRole> getAllUserGroupRoles(long userId) {
         return userGroupRoleRepository.findAllByUser(getUserById(userId));
     }
 
     @Transactional(readOnly = true)
     @Override
-    public UserToPartition getPartition(long userId, long partitionId) {
+    public UserToPartition getUserToPartition(long userId, long partitionId) {
         return userPartitionService.getUserToPartition(userId, partitionId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Set<UserToPartition> getAllPartitions(long userId) {
+    public Set<UserToPartition> getAllUserToPartitions(long userId) {
         return userToPartitionRepository.findAllByUser(getUserById(userId));
     }
 
     @Transactional(readOnly = true)
     @Override
-    public UserCourseRole getCourse(long userId, long courseId) {
+    public UserCourseRole getUserCourseRole(long userId, long courseId) {
         return userCourseService.getUserCourseRole(userId, courseId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Set<UserCourseRole> getAllCourses(long userId) {
+    public Set<UserCourseRole> getAllUserCourseRoles(long userId) {
         return userCourseRoleRepository.findAllByUser(getUserById(userId));
     }
 
     @Transactional(readOnly = true)
     @Override
-    public UserCoursePartRole getCoursePart(long userId, long coursePartId) {
+    public UserCoursePartRole getUserCoursePartRole(long userId, long coursePartId) {
         return userCoursePartService.getUserCoursePartRole(userId, coursePartId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Set<UserCoursePartRole> getAllCourseParts(long userId) {
+    public Set<UserCoursePartRole> getAllUserCoursePartRoles(long userId) {
         return userCoursePartRoleRepository.findAllByUser(getUserById(userId));
     }
 
     @Transactional(readOnly = true)
     @Override
-    public UserWork getWork(long userId, long workId) {
+    public UserWork getUserWork(long userId, long workId) {
         return userWorkService.getUserWork(userId, workId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Set<UserWork> getAllWorks(long userId) {
+    public Set<UserWork> getAllUserWorks(long userId) {
         return userWorkRepository.findAllByUser(getUserById(userId));
     }
 
@@ -384,14 +384,14 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<Notification> getAllNotifications(long id) {
-        return getUserById(id).getNotifications();
+    public Set<Notification> getAllNotifications(long userId) {
+        return getUserById(userId).getNotifications();
     }
 
     @Transactional(readOnly = true)
     @Override
     public Set<UserWork> getAllUserWorksByGroup(long userId, long groupId) {
-        return getAllWorks(userId).stream().
+        return getAllUserWorks(userId).stream().
                 filter(userWork -> userWork.getWork().getCoursePart().getCourse().getGroup().getId() == groupId).
                 collect(Collectors.toSet());
     }
@@ -399,7 +399,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public Set<UserWork> getAllUserWorksByCourse(long userId, long courseId) {
-        return getAllWorks(userId).stream().
+        return getAllUserWorks(userId).stream().
                 filter(userWork -> userWork.getWork().getCoursePart().getCourse().getId() == courseId).
                 collect(Collectors.toSet());
     }
@@ -407,7 +407,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public Set<UserWork> getAllUserWorksByCoursePart(long userId, long coursePartId) {
-        return getAllWorks(userId).stream().
+        return getAllUserWorks(userId).stream().
                 filter(userWork -> userWork.getWork().getCoursePart().getId() == coursePartId).
                 collect(Collectors.toSet());
     }

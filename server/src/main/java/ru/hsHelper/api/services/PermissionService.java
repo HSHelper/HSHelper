@@ -7,9 +7,9 @@ import java.util.Set;
 
 public interface PermissionService {
     Permissions createPermission(Permissions permissions);
-    void deletePermission(long id);
-    Permissions getPermissionById(long id);
+    void deletePermission(long permissionId);
+    Permissions getPermissionById(long permissionId);
     Permissions getPermissionByPermissionType(Permissions.PermissionType permissionType);
     Set<Permissions> getAllPermissions();
-    Set<Role> getAllRoles(long id);
+    Set<Role> getAllRoles(long permissionId);
 }

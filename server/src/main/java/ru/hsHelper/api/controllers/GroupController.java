@@ -19,8 +19,6 @@ import ru.hsHelper.api.requests.update.GroupUpdateRequest;
 import ru.hsHelper.api.services.GroupService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @RestController
@@ -38,44 +36,44 @@ public class GroupController {
         return groupService.createGroup(new Group(groupCreateRequest.getName()));
     }
 
-    @GetMapping("/{id}")
-    public Group getGroup(@PathVariable long id) {
-        return groupService.getGroupById(id);
+    @GetMapping("/{groupId}")
+    public Group getGroup(@PathVariable long groupId) {
+        return groupService.getGroupById(groupId);
     }
 
-    @PutMapping("/{id}")
-    public Group updateGroup(@PathVariable long id, @RequestBody @Valid GroupUpdateRequest groupUpdateRequest) {
-        return groupService.updateGroup(id, groupUpdateRequest);
+    @PutMapping("/{groupId}")
+    public Group updateGroup(@PathVariable long groupId, @RequestBody @Valid GroupUpdateRequest groupUpdateRequest) {
+        return groupService.updateGroup(groupId, groupUpdateRequest);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteGroup(@PathVariable long id) {
-        groupService.deleteGroup(id);
+    @DeleteMapping("/{groupId}")
+    public void deleteGroup(@PathVariable long groupId) {
+        groupService.deleteGroup(groupId);
     }
 
-    @PutMapping("/{id}/users")
-    public Group addUsers(@PathVariable long id, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
-        return groupService.addUsers(id, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
+    @PutMapping("/{groupId}/users")
+    public Group addUsers(@PathVariable long groupId, @RequestBody @Valid ObjectsWithRoleAddRequest objectsWithRoleAddRequest) {
+        return groupService.addUsers(groupId, objectsWithRoleAddRequest.getObjectIds(), objectsWithRoleAddRequest.getRoleIds());
     }
 
-    @PostMapping("/{id}/users")
-    public Group deleteUsers(@PathVariable long id, @RequestBody Set<Long> userIds) {
-        return groupService.deleteUsers(id, userIds);
+    @PostMapping("/{groupId}/users")
+    public Group deleteUsers(@PathVariable long groupId, @RequestBody Set<Long> userIds) {
+        return groupService.deleteUsers(groupId, userIds);
     }
 
     @GetMapping("/")
-    public Set<Group> getAll() {
-        return groupService.getAll();
+    public Set<Group> getAllGroups() {
+        return groupService.getAllGroups();
     }
 
     @GetMapping("/{groupId}/users/{userId}")
-    public UserGroupRole getUser(@PathVariable long groupId, @PathVariable long userId) {
-        return groupService.getUser(groupId, userId);
+    public UserGroupRole getUserGroupRole(@PathVariable long groupId, @PathVariable long userId) {
+        return groupService.getUserGroupRole(groupId, userId);
     }
 
     @GetMapping("/{groupId}/users")
-    public Set<UserGroupRole> getAllUsers(@PathVariable long groupId) {
-        return groupService.getAllUsers(groupId);
+    public Set<UserGroupRole> getAllUserGroupRoles(@PathVariable long groupId) {
+        return groupService.getAllUserGroupRoles(groupId);
     }
 
     @GetMapping("/{groupId}/courses")
