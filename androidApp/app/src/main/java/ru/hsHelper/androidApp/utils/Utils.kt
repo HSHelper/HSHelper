@@ -5,8 +5,8 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
 fun getCurrentWindowWidth(activity: Activity) =
@@ -19,7 +19,7 @@ fun getCurrentWindowWidth(activity: Activity) =
         metrics.widthPixels
     }
 
-fun AppCompatActivity.withPermissions(permissions: Array<String>, action: () -> Unit) {
+fun ComponentActivity.withPermissions(permissions: Array<String>, action: () -> Unit) {
     val name = this.componentName.className
     val requestPermissionLauncher =
         registerForActivityResult(
