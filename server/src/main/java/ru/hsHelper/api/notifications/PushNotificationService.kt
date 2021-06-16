@@ -46,7 +46,7 @@ class PushNotificationService @Autowired constructor(
                 "${work.name} -> ${workUpdateRequest.name}",
                 data
             )
-            involvedUsers.forEach { notification.send(it) }
+            involvedUsers.forEach(notification::send)
         }
         if (work.description != workUpdateRequest.description) {
             val notification = PushNotification(
