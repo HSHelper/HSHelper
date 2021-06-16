@@ -44,4 +44,7 @@ public interface UserService {
     User addNotifications(long userId, Set<Long> notificationsIds);
     User deleteNotifications(long userId, Set<Long> notificationIds);
     Set<Notification> getAllNotifications(long id);
+    Set<UserWork> getAllUserWorksByGroup(long userId, long groupId);
+    Set<UserWork> getAllUserWorksByCourse(long userId, long courseId);
+    Set<UserWork> getAllUserWorksByCoursePart(long userId, long coursePartId);
 }

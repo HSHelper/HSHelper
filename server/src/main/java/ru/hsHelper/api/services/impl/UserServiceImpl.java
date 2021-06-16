@@ -39,6 +39,7 @@ import ru.hsHelper.api.services.impl.util.UserWorkService;
 import java.util.Date;
 import java.util.Set;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -385,5 +386,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<Notification> getAllNotifications(long id) {
         return getUserById(id).getNotifications();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<UserWork> getAllUserWorksByGroup(long userId, long groupId) {
+        return getAllWorks(userId).stream().
+                filter(userWork -> userWork.getWork().getCoursePart().getCourse().getGroup().getId() == groupId).
+                collect(Collectors.toSet());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<UserWork> getAllUserWorksByCourse(long userId, long courseId) {
+        return getAllWorks(userId).stream().
+                filter(userWork -> userWork.getWork().getCoursePart().getCourse().getId() == courseId).
+                collect(Collectors.toSet());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<UserWork> getAllUserWorksByCoursePart(long userId, long coursePartId) {
+        return getAllWorks(userId).stream().
+                filter(userWork -> userWork.getWork().getCoursePart().getId() == coursePartId).
+                collect(Collectors.toSet());
     }
 }
