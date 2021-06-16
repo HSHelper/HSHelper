@@ -192,4 +192,19 @@ public class UserController {
     public Set<Notification> getAllNotifications(@PathVariable long id) {
         return userService.getAllNotifications(id);
     }
+
+    @GetMapping("/{userId}/groups/{groupId}/works")
+    public Set<UserWork> getAllUserWorksByGroup(@PathVariable long userId, @PathVariable long groupId) {
+        return userService.getAllUserWorksByGroup(userId, groupId);
+    }
+
+    @GetMapping("/{userId}/courses/{courseId}/works")
+    public Set<UserWork> getAllUserWorksByCourse(@PathVariable long userId, @PathVariable long courseId) {
+        return userService.getAllUserWorksByCourse(userId, courseId);
+    }
+
+    @GetMapping("/{userId}/course-parts/{coursePartId}/works")
+    public Set<UserWork> getAllUserWorksByCoursePart(@PathVariable long userId, @PathVariable long coursePartId) {
+        return userService.getAllUserWorksByCoursePart(userId, coursePartId);
+    }
 }
