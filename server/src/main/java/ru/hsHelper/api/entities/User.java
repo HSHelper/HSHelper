@@ -38,8 +38,6 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotNull
-    @Column(nullable = false)
     private String firebaseMessagingToken;
 
     @JsonIgnore
@@ -89,7 +87,7 @@ public class User {
     private Set<UserWork> userWorks = new HashSet<>();
 
     public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email,
-                @NotNull String firebaseMessagingToken) {
+                String firebaseMessagingToken) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -98,7 +96,7 @@ public class User {
 
     // For internal usage only
     public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email) {
-        this(firstName, lastName, email, "empty");
+        this(firstName, lastName, email, null);
     }
 
     public User() {}

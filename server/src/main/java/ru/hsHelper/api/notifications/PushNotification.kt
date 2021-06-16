@@ -1,6 +1,7 @@
 package ru.hsHelper.api.notifications
 
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.FirebaseMessagingException
 import com.google.firebase.messaging.Message
 import com.google.firebase.messaging.Notification
 import ru.hsHelper.api.entities.User
@@ -18,12 +19,19 @@ class PushNotification(
         .build()
 
     fun send(user: User) {
-        val message = Message
-            .builder()
-            .setToken(user.firebaseMessagingToken)
-            .setNotification(notification)
-            .putAllData(data)
-            .build()
-        firebase.send(message)
+        val token = user.firebaseMessagingToken
+        if (token != null) {
+            val message = Message
+                .builder()
+                .setToken(token)
+                .setNotification(notification)
+                .putAllData(data)
+                .build()
+            try {
+                firebase.send(message)
+            } catch (e: FirebaseMessagingException) {
+                System.err.println(e.stackTrace)
+            }
+        }
     }
 }
