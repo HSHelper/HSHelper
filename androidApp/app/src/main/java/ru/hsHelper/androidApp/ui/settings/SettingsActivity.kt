@@ -4,24 +4,34 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import ru.hsHelper.R
 import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.calendar.Calendar
 import ru.hsHelper.androidApp.ui.initial.InitialActivity
+import ru.hsHelper.androidApp.ui.settings.observers.MarksNotificationObserver
+import ru.hsHelper.androidApp.ui.settings.observers.PersonalDataObserver
+import ru.hsHelper.androidApp.ui.settings.observers.SettingsObserver
+import ru.hsHelper.androidApp.ui.settings.observers.WorksNotificationObserver
 
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings, SettingsFragment())
-                .commit()
-        }
+        setToolbar()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.settings, SettingsFragment())
+            .commit()
+    }
+
+    private fun setToolbar() {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.title = "Settings"
+        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         //calendarAddDefaultEvent()
@@ -46,9 +56,29 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
+        private lateinit var observers: List<SettingsObserver>
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+            setObservers()
             setSignOut()
+        }
+
+        override fun onDestroy() {
+            closeObservers()
+            super.onDestroy()
+        }
+
+        private fun setObservers() {
+            observers = listOf(
+                PersonalDataObserver(this),
+                WorksNotificationObserver(this),
+                MarksNotificationObserver(this)
+            )
+        }
+
+        private fun closeObservers() {
+            observers.forEach(SettingsObserver::close)
         }
 
         private fun setSignOut() {

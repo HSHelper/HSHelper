@@ -1,7 +1,7 @@
 <resources>
-    <dimen name="navigation_activity_button_padding">8dp</dimen>
+    <dimen name="navigation_button_padding">8dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="activity_marks_row_size">48dp</dimen>
-    <dimen name="activity_marks_row_padding">4dp</dimen>
+    <dimen name="marks_row_size">48dp</dimen>
+    <dimen name="marks_row_padding">4dp</dimen>
 </resources>

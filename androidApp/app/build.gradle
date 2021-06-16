@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "ru.hsHelper.androidApp"
-        minSdkVersion 24
+        minSdkVersion 25
         targetSdkVersion 30
         versionCode 1
         versionName "0.0.0"
@@ -35,25 +35,27 @@ android {
     }
 }
 
-generateSwagger {
-    download {
-        src "http://127.0.0.1:8080/v2/api-docs"
-        dest "./swagger-doc.json"
-        onlyIfModified true
+task updateSwagger {
+    doFirst {
+        exec {
+            commandLine('wget', '--no-check-certificate', '-q', '--output-document=./swagger-doc.json', 'https://84.252.137.106:1337/v2/api-docs')
+        }
     }
-    platform = "kotlin-coroutines"
-    packageName = "ru.hsHelper.androidApp.rest.codegen"
-    specName = "server REST api"
-    inputFile = file("./swagger-doc.json")
-    outputDir = file("./src/main/java/")
+    generateSwagger {
+        platform = "kotlin-coroutines"
+        packageName = "ru.hsHelper.androidApp.rest.codegen"
+        specName = "server REST api"
+        inputFile = file("./swagger-doc.json")
+        outputDir = file("./src/main/java/")
+    }
 }
 
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.annotation:annotation:1.2.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'

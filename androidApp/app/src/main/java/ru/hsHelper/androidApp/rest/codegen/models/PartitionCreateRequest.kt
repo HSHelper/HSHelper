@@ -16,5 +16,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class PartitionCreateRequest(
     @Json(name = "groupId") @field:Json(name = "groupId") var groupId: Long,
-    @Json(name = "name") @field:Json(name = "name") var name: String? = null
+    @Json(name = "name") @field:Json(name = "name") var name: String
 )

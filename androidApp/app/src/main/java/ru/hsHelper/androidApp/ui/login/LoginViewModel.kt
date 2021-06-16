@@ -15,18 +15,22 @@ class LoginViewModel : ViewModel() {
     val loginResult: LiveData<LoginResult> = _loginResult
 
     fun login(email: String, password: String) {
-        AuthProvider.signIn(email, password).apply {
-            addOnSuccessListener {
-                val user = it?.user
-                if (user != null) {
-                    _loginResult.value = LoginResult.Success(user)
-                } else {
+        if (AuthProvider.isValid(email, password)) {
+            AuthProvider.signIn(email, password).apply {
+                addOnSuccessListener {
+                    val user = it?.user
+                    if (user != null) {
+                        _loginResult.value = LoginResult.Success(user)
+                    } else {
+                        _loginResult.value = LoginResult.Error(R.string.login_failed)
+                    }
+                }
+                addOnFailureListener {
                     _loginResult.value = LoginResult.Error(R.string.login_failed)
                 }
             }
-            addOnFailureListener {
-                _loginResult.value = LoginResult.Error(R.string.login_failed)
-            }
+        } else {
+            _loginResult.value = LoginResult.Error(R.string.incorrect_email_or_password)
         }
     }
 
@@ -69,7 +73,7 @@ class LoginViewModel : ViewModel() {
     }
 
     fun authWithGoogle(idToken: String) {
-        AuthProvider.authWithGoogleToken(idToken).addOnSuccessListener {
+        AuthProvider.signInWithGoogleToken(idToken).addOnSuccessListener {
             _loginResult.value = LoginResult.Success(AuthProvider.currentUser!!)
         }
     }

@@ -1,31 +1,29 @@
 package ru.hsHelper.androidApp.ui.navigation
 
-import android.content.Intent
-import androidx.core.net.toUri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.GlobalScope
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.auth.getRestId
 import ru.hsHelper.androidApp.data.ButtonData
+import ru.hsHelper.androidApp.data.Path
+import ru.hsHelper.androidApp.integrations.GoogleSheet
 import ru.hsHelper.androidApp.rest.RestProvider
 import ru.hsHelper.androidApp.ui.marks.MarksActivity
 
 
 class NavigationViewModel : ViewModel() {
     companion object {
-        private suspend fun getMainButtons(path: String): MutableList<ButtonData> =
-            when {
-                path.isEmpty() -> getMainButtonsGroups()
-                else -> when (path[0]) {
-                    'G' -> getMainButtonsCourses(path.substring(1).toLong())
-                    'C' -> getMainButtonsCourse(path.substring(1).toLong())
-                    'P' -> getMainButtonsCoursePart(path.substring(1).toLong())
-                    else -> TODO()
-                }
+        private suspend fun getMainButtons(path: Path): MutableList<ButtonData> =
+            when (path) {
+                is Path.Root -> getMainButtonsGroups()
+                is Path.Group -> getMainButtonsCourses(path.id)
+                is Path.Course -> getMainButtonsCourse(path.id)
+                is Path.CoursePart -> getMainButtonsCoursePart(path.id)
             }
 
         private suspend fun getMainButtonsGroups(): MutableList<ButtonData> {
@@ -36,7 +34,7 @@ class NavigationViewModel : ViewModel() {
                 .map { group ->
                     ButtonData(
                         group.name,
-                        NavigationActivity.launcher(group.name, "G${group.id}")
+                        NavigationActivity.launcher(group.name, Path.Group(group.id))
                     )
                 }
                 .toMutableList()
@@ -48,7 +46,7 @@ class NavigationViewModel : ViewModel() {
                 .map { course ->
                     ButtonData(
                         course.name,
-                        NavigationActivity.launcher(course.name, "C${course.id}")
+                        NavigationActivity.launcher(course.name, Path.Course(course.id))
                     )
                 }
                 .toMutableList()
@@ -60,7 +58,7 @@ class NavigationViewModel : ViewModel() {
                 .map { coursePart ->
                     ButtonData(
                         coursePart.name,
-                        NavigationActivity.launcher(coursePart.name, "P${coursePart.id}")
+                        NavigationActivity.launcher(coursePart.name, Path.CoursePart(coursePart.id))
                     )
                 }
                 .toMutableList()
@@ -69,38 +67,49 @@ class NavigationViewModel : ViewModel() {
         private suspend fun getMainButtonsCoursePart(coursePartId: Long): MutableList<ButtonData> {
             val coursePart = RestProvider.coursePartApi.getCoursePartUsingGET(coursePartId)
             return mutableListOf(
-                ButtonData("Spreadsheet") { view ->
-                    val browserIntent = Intent(Intent.ACTION_VIEW, coursePart.gsheetLink?.toUri())
-                    view.context.startActivity(browserIntent)
-                }
+                ButtonData(
+                    "Spreadsheet",
+                    GoogleSheet.sheetViewAction(coursePart.gsheetId!!, coursePart.gsheetPage!!)
+                )
             )
         }
+
+        private fun marksButton(activity: NavigationActivity) =
+            ButtonData("Marks", MarksActivity.launcher(activity.title, activity.path))
+
+        private fun returnButton(activity: NavigationActivity): MutableList<ButtonData> =
+            mutableListOf(
+                ButtonData("Unexpected error\n Return back") {
+                    activity.finish()
+                }
+            )
     }
 
     private val _mainButtons = MutableLiveData<List<ButtonData>>()
     val mainButtonsState: LiveData<List<ButtonData>> = _mainButtons
 
     private fun retryButton(
-        e: HttpException,
-        path: String,
-        title: String
+        e: HttpException, activity: NavigationActivity
     ): MutableList<ButtonData> =
         mutableListOf(
             ButtonData("Error ${e.code()}\n Retry") {
-                this.postData(path, title)
+                this.postData(activity)
             }
         )
 
 
-    fun postData(path: String, title: String) = GlobalScope.launch {
+    fun postData(activity: NavigationActivity) = viewModelScope.launch {
         val mainButtons = try {
-            val buttons = getMainButtons(path)
-            if (path.isNotEmpty()) {
-                buttons.add(ButtonData("Marks", MarksActivity.launcher(title, path)))
+            val buttons = getMainButtons(activity.path)
+            if (activity.path !is Path.Root) {
+                buttons.add(marksButton(activity))
             }
             buttons
         } catch (e: HttpException) {
-            retryButton(e, path, title)
+            retryButton(e, activity)
+        } catch (e: AssertionError) {
+            Log.e("Bad path", "NavigationViewModel: ${e.message}")
+            returnButton(activity)
         }
         _mainButtons.postValue(mainButtons)
     }

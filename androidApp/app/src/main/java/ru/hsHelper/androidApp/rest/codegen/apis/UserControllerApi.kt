@@ -11,6 +11,7 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import ru.hsHelper.androidApp.rest.codegen.models.Notification
 import ru.hsHelper.androidApp.rest.codegen.models.ObjectsWithRoleAddRequest
 import ru.hsHelper.androidApp.rest.codegen.models.ObjectsWithSolutionsAddRequest
 import ru.hsHelper.androidApp.rest.codegen.models.PartitionAddRequest
@@ -72,6 +73,21 @@ interface UserControllerApi {
         @retrofit2.http.Body objectsWithRoleAddRequest: ObjectsWithRoleAddRequest
     ): User
     /**
+     * addNotifications
+     * The endpoint is owned by server REST api service owner
+     * @param notificationIds notificationIds (required)
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: addNotificationsUsingPUT",
+      "Content-Type: application/json"
+    )
+    @PUT("users/{userId}/notifications")
+    suspend fun addNotificationsUsingPUT(
+        @retrofit2.http.Body notificationIds: List<Long>,
+        @retrofit2.http.Path("userId") userId: Long
+    ): User
+    /**
      * addToPartitions
      * The endpoint is owned by server REST api service owner
      * @param id id (required)
@@ -121,10 +137,11 @@ interface UserControllerApi {
      * @param id id (required)
      */
     @Headers(
-        "X-Operation-ID: deleteCoursePartsUsingDELETE"
+        "X-Operation-ID: deleteCoursePartsUsingPOST",
+      "Content-Type: application/json"
     )
-    @DELETE("users/{id}/course-parts")
-    suspend fun deleteCoursePartsUsingDELETE(
+    @POST("users/{id}/course-parts")
+    suspend fun deleteCoursePartsUsingPOST(
         @retrofit2.http.Body coursePartIds: List<Long>,
         @retrofit2.http.Path("id") id: Long
     ): User
@@ -135,10 +152,11 @@ interface UserControllerApi {
      * @param id id (required)
      */
     @Headers(
-        "X-Operation-ID: deleteCoursesUsingDELETE"
+        "X-Operation-ID: deleteCoursesUsingPOST",
+      "Content-Type: application/json"
     )
-    @DELETE("users/{id}/courses")
-    suspend fun deleteCoursesUsingDELETE(
+    @POST("users/{id}/courses")
+    suspend fun deleteCoursesUsingPOST(
         @retrofit2.http.Body courseIds: List<Long>,
         @retrofit2.http.Path("id") id: Long
     ): User
@@ -149,12 +167,28 @@ interface UserControllerApi {
      * @param id id (required)
      */
     @Headers(
-        "X-Operation-ID: deleteGroupsUsingDELETE"
+        "X-Operation-ID: deleteGroupsUsingPOST",
+      "Content-Type: application/json"
     )
-    @DELETE("users/{id}/groups")
-    suspend fun deleteGroupsUsingDELETE(
+    @POST("users/{id}/groups")
+    suspend fun deleteGroupsUsingPOST(
         @retrofit2.http.Body groupIds: List<Long>,
         @retrofit2.http.Path("id") id: Long
+    ): User
+    /**
+     * deleteNotifications
+     * The endpoint is owned by server REST api service owner
+     * @param notificationIds notificationIds (required)
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: deleteNotificationsUsingPOST",
+      "Content-Type: application/json"
+    )
+    @POST("users/{userId}/notifications")
+    suspend fun deleteNotificationsUsingPOST(
+        @retrofit2.http.Body notificationIds: List<Long>,
+        @retrofit2.http.Path("userId") userId: Long
     ): User
     /**
      * deletePartitions
@@ -163,10 +197,11 @@ interface UserControllerApi {
      * @param partitionIds partitionIds (required)
      */
     @Headers(
-        "X-Operation-ID: deletePartitionsUsingDELETE"
+        "X-Operation-ID: deletePartitionsUsingPOST",
+      "Content-Type: application/json"
     )
-    @DELETE("users/{id}/partitions")
-    suspend fun deletePartitionsUsingDELETE(
+    @POST("users/{id}/partitions")
+    suspend fun deletePartitionsUsingPOST(
         @retrofit2.http.Path("id") id: Long,
         @retrofit2.http.Body partitionIds: List<Long>
     ): User
@@ -189,10 +224,11 @@ interface UserControllerApi {
      * @param id id (required)
      */
     @Headers(
-        "X-Operation-ID: deleteWorksUsingDELETE"
+        "X-Operation-ID: deleteWorksUsingPOST",
+      "Content-Type: application/json"
     )
-    @DELETE("users/{id}/works")
-    suspend fun deleteWorksUsingDELETE(
+    @POST("users/{id}/works")
+    suspend fun deleteWorksUsingPOST(
         @retrofit2.http.Body groupIds: List<Long>,
         @retrofit2.http.Path("id") id: Long
     ): User
@@ -232,6 +268,18 @@ interface UserControllerApi {
     suspend fun getAllGroupsUsingGET(
         @retrofit2.http.Path("userId") userId: Long
     ): List<UserGroupRole>
+    /**
+     * getAllNotifications
+     * The endpoint is owned by server REST api service owner
+     * @param id id (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllNotificationsUsingGET_1"
+    )
+    @GET("users/{id}/notifications")
+    suspend fun getAllNotificationsUsingGET1(
+        @retrofit2.http.Path("id") id: Long
+    ): List<Notification>
     /**
      * getAllPartitions
      * The endpoint is owned by server REST api service owner

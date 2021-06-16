@@ -67,10 +67,11 @@ interface CoursePartControllerApi {
      * @param userIds userIds (required)
      */
     @Headers(
-        "X-Operation-ID: deleteUsersUsingDELETE_1"
+        "X-Operation-ID: deleteUsersUsingPOST_1",
+      "Content-Type: application/json"
     )
-    @DELETE("course-parts/{id}/users")
-    suspend fun deleteUsersUsingDELETE1(
+    @POST("course-parts/{id}/users")
+    suspend fun deleteUsersUsingPOST1(
         @retrofit2.http.Path("id") id: Long,
         @retrofit2.http.Body userIds: List<Long>
     ): CoursePart

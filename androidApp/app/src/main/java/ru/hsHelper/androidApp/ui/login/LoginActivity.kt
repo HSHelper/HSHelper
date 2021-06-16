@@ -10,11 +10,11 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import ru.hsHelper.R
-import ru.hsHelper.androidApp.auth.AuthUser
 
 class LoginActivity : AppCompatActivity() {
     companion object {
@@ -26,13 +26,14 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        setToolbar()
 
-        val email = findViewById<EditText>(R.id.email)
-        val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
-        val register = findViewById<Button>(R.id.register)
-        val loading = findViewById<ProgressBar>(R.id.loading)
-        val loginGoogle = findViewById<Button>(R.id.login_google)
+        val email = findViewById<EditText>(R.id.login_email)
+        val password = findViewById<EditText>(R.id.login_password)
+        val login = findViewById<Button>(R.id.login_login)
+        val register = findViewById<Button>(R.id.login_register)
+        val loading = findViewById<ProgressBar>(R.id.login_loading)
+        val loginGoogle = findViewById<Button>(R.id.login_google_login)
 
         setupViewModel(email, password, loading)
         setupLogin(email, password, login, register, loading)
@@ -70,7 +71,6 @@ class LoginActivity : AppCompatActivity() {
 
             when (loginResult) {
                 is LoginResult.Success -> {
-                    updateUiWithUser(loginResult.success)
                     setResult(RESULT_OK)
                     finish()
                 }
@@ -112,16 +112,22 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupGoogleLogin(loginGoogle: Button) {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
-        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+        val googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
 
         loginGoogle.setOnClickListener {
             startActivityForResult(googleSignInClient.signInIntent, RC_GOOGLE_SIGN_IN)
         }
+    }
+
+    private fun setToolbar() {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.title = "Login"
+        setSupportActionBar(toolbar)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -136,16 +142,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun updateUiWithUser(model: AuthUser) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
-        Toast.makeText(
-            applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {

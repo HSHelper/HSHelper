@@ -47,10 +47,10 @@ interface PermissionsControllerApi {
      * @param id id (required)
      */
     @Headers(
-        "X-Operation-ID: deletePermissionUsingDELETE"
+        "X-Operation-ID: deletePermissionUsingDELETE_1"
     )
     @DELETE("permissions/{id}")
-    suspend fun deletePermissionUsingDELETE(
+    suspend fun deletePermissionUsingDELETE1(
         @retrofit2.http.Path("id") id: Long
     ): Unit
     /**
