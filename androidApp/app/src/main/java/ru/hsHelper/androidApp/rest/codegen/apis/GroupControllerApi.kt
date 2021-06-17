@@ -24,16 +24,16 @@ interface GroupControllerApi {
     /**
      * addUsers
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param groupId groupId (required)
      * @param objectsWithRoleAddRequest objectsWithRoleAddRequest (required)
      */
     @Headers(
         "X-Operation-ID: addUsersUsingPUT_2",
       "Content-Type: application/json"
     )
-    @PUT("groups/{id}/users")
+    @PUT("groups/{groupId}/users")
     suspend fun addUsersUsingPUT2(
-        @retrofit2.http.Path("id") id: Long,
+        @retrofit2.http.Path("groupId") groupId: Long,
         @retrofit2.http.Body objectsWithRoleAddRequest: ObjectsWithRoleAddRequest
     ): Group
     /**
@@ -52,28 +52,28 @@ interface GroupControllerApi {
     /**
      * deleteGroup
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param groupId groupId (required)
      */
     @Headers(
         "X-Operation-ID: deleteGroupUsingDELETE"
     )
-    @DELETE("groups/{id}")
+    @DELETE("groups/{groupId}")
     suspend fun deleteGroupUsingDELETE(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("groupId") groupId: Long
     ): Unit
     /**
      * deleteUsers
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param groupId groupId (required)
      * @param userIds userIds (required)
      */
     @Headers(
         "X-Operation-ID: deleteUsersUsingPOST_2",
       "Content-Type: application/json"
     )
-    @POST("groups/{id}/users")
+    @POST("groups/{groupId}/users")
     suspend fun deleteUsersUsingPOST2(
-        @retrofit2.http.Path("id") id: Long,
+        @retrofit2.http.Path("groupId") groupId: Long,
         @retrofit2.http.Body userIds: List<Long>
     ): Group
     /**
@@ -82,12 +82,21 @@ interface GroupControllerApi {
      * @param groupId groupId (required)
      */
     @Headers(
-        "X-Operation-ID: getAllCoursesUsingGET"
+        "X-Operation-ID: getAllCoursesUsingGET_1"
     )
     @GET("groups/{groupId}/courses")
-    suspend fun getAllCoursesUsingGET(
+    suspend fun getAllCoursesUsingGET1(
         @retrofit2.http.Path("groupId") groupId: Long
     ): List<Course>
+    /**
+     * getAllGroups
+     * The endpoint is owned by server REST api service owner
+     */
+    @Headers(
+        "X-Operation-ID: getAllGroupsUsingGET"
+    )
+    @GET("groups/")
+    suspend fun getAllGroupsUsingGET(): List<Group>
     /**
      * getAllPartitions
      * The endpoint is owned by server REST api service owner
@@ -101,65 +110,56 @@ interface GroupControllerApi {
         @retrofit2.http.Path("groupId") groupId: Long
     ): List<Partition>
     /**
-     * getAllUsers
+     * getAllUserGroupRoles
      * The endpoint is owned by server REST api service owner
      * @param groupId groupId (required)
      */
     @Headers(
-        "X-Operation-ID: getAllUsersUsingGET_2"
+        "X-Operation-ID: getAllUserGroupRolesUsingGET"
     )
     @GET("groups/{groupId}/users")
-    suspend fun getAllUsersUsingGET2(
+    suspend fun getAllUserGroupRolesUsingGET(
         @retrofit2.http.Path("groupId") groupId: Long
     ): List<UserGroupRole>
     /**
-     * getAll
-     * The endpoint is owned by server REST api service owner
-     */
-    @Headers(
-        "X-Operation-ID: getAllUsingGET_2"
-    )
-    @GET("groups/")
-    suspend fun getAllUsingGET2(): List<Group>
-    /**
      * getGroup
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param groupId groupId (required)
      */
     @Headers(
         "X-Operation-ID: getGroupUsingGET"
     )
-    @GET("groups/{id}")
+    @GET("groups/{groupId}")
     suspend fun getGroupUsingGET(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("groupId") groupId: Long
     ): Group
     /**
-     * getUser
+     * getUserGroupRole
      * The endpoint is owned by server REST api service owner
      * @param groupId groupId (required)
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getUserUsingGET_2"
+        "X-Operation-ID: getUserGroupRoleUsingGET"
     )
     @GET("groups/{groupId}/users/{userId}")
-    suspend fun getUserUsingGET2(
+    suspend fun getUserGroupRoleUsingGET(
         @retrofit2.http.Path("groupId") groupId: Long,
         @retrofit2.http.Path("userId") userId: Long
     ): UserGroupRole
     /**
      * updateGroup
      * The endpoint is owned by server REST api service owner
+     * @param groupId groupId (required)
      * @param groupUpdateRequest groupUpdateRequest (required)
-     * @param id id (required)
      */
     @Headers(
         "X-Operation-ID: updateGroupUsingPUT",
       "Content-Type: application/json"
     )
-    @PUT("groups/{id}")
+    @PUT("groups/{groupId}")
     suspend fun updateGroupUsingPUT(
-        @retrofit2.http.Body groupUpdateRequest: GroupUpdateRequest,
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("groupId") groupId: Long,
+        @retrofit2.http.Body groupUpdateRequest: GroupUpdateRequest
     ): Group
 }

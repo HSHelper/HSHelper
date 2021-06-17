@@ -2,7 +2,6 @@ package ru.hsHelper.androidApp.calendar
 
 import android.Manifest
 import android.content.ContentValues
-import android.database.Cursor
 import android.net.Uri
 import android.provider.CalendarContract
 import android.util.Log

@@ -23,16 +23,16 @@ interface CourseControllerApi {
     /**
      * addUsers
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param courseId courseId (required)
      * @param objectsWithRoleAddRequest objectsWithRoleAddRequest (required)
      */
     @Headers(
         "X-Operation-ID: addUsersUsingPUT",
       "Content-Type: application/json"
     )
-    @PUT("courses/{id}/users")
+    @PUT("courses/{courseId}/users")
     suspend fun addUsersUsingPUT(
-        @retrofit2.http.Path("id") id: Long,
+        @retrofit2.http.Path("courseId") courseId: Long,
         @retrofit2.http.Body objectsWithRoleAddRequest: ObjectsWithRoleAddRequest
     ): Course
     /**
@@ -51,28 +51,28 @@ interface CourseControllerApi {
     /**
      * deleteCourse
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param courseId courseId (required)
      */
     @Headers(
         "X-Operation-ID: deleteCourseUsingDELETE"
     )
-    @DELETE("courses/{id}")
+    @DELETE("courses/{courseId}")
     suspend fun deleteCourseUsingDELETE(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("courseId") courseId: Long
     ): Unit
     /**
      * deleteUsers
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param courseId courseId (required)
      * @param userIds userIds (required)
      */
     @Headers(
         "X-Operation-ID: deleteUsersUsingPOST",
       "Content-Type: application/json"
     )
-    @POST("courses/{id}/users")
+    @POST("courses/{courseId}/users")
     suspend fun deleteUsersUsingPOST(
-        @retrofit2.http.Path("id") id: Long,
+        @retrofit2.http.Path("courseId") courseId: Long,
         @retrofit2.http.Body userIds: List<Long>
     ): Course
     /**
@@ -88,65 +88,65 @@ interface CourseControllerApi {
         @retrofit2.http.Path("courseId") courseId: Long
     ): List<CoursePart>
     /**
-     * getAllUsers
+     * getAllCourses
+     * The endpoint is owned by server REST api service owner
+     */
+    @Headers(
+        "X-Operation-ID: getAllCoursesUsingGET"
+    )
+    @GET("courses/")
+    suspend fun getAllCoursesUsingGET(): List<Course>
+    /**
+     * getAllUserCourseRoles
      * The endpoint is owned by server REST api service owner
      * @param courseId courseId (required)
      */
     @Headers(
-        "X-Operation-ID: getAllUsersUsingGET"
+        "X-Operation-ID: getAllUserCourseRolesUsingGET"
     )
     @GET("courses/{courseId}/users")
-    suspend fun getAllUsersUsingGET(
+    suspend fun getAllUserCourseRolesUsingGET(
         @retrofit2.http.Path("courseId") courseId: Long
     ): List<UserCourseRole>
     /**
-     * getAll
-     * The endpoint is owned by server REST api service owner
-     */
-    @Headers(
-        "X-Operation-ID: getAllUsingGET"
-    )
-    @GET("courses/")
-    suspend fun getAllUsingGET(): List<Course>
-    /**
      * getCourse
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param courseId courseId (required)
      */
     @Headers(
         "X-Operation-ID: getCourseUsingGET"
     )
-    @GET("courses/{id}")
+    @GET("courses/{courseId}")
     suspend fun getCourseUsingGET(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("courseId") courseId: Long
     ): Course
     /**
-     * getUser
+     * getUserCourseRole
      * The endpoint is owned by server REST api service owner
      * @param courseId courseId (required)
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getUserUsingGET"
+        "X-Operation-ID: getUserCourseRoleUsingGET"
     )
     @GET("courses/{courseId}/users/{userId}")
-    suspend fun getUserUsingGET(
+    suspend fun getUserCourseRoleUsingGET(
         @retrofit2.http.Path("courseId") courseId: Long,
         @retrofit2.http.Path("userId") userId: Long
     ): UserCourseRole
     /**
      * updateCourse
      * The endpoint is owned by server REST api service owner
+     * @param courseId courseId (required)
      * @param courseUpdateRequest courseUpdateRequest (required)
-     * @param id id (required)
      */
     @Headers(
         "X-Operation-ID: updateCourseUsingPUT",
       "Content-Type: application/json"
     )
-    @PUT("courses/{id}")
+    @PUT("courses/{courseId}")
     suspend fun updateCourseUsingPUT(
-        @retrofit2.http.Body courseUpdateRequest: CourseUpdateRequest,
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("courseId") courseId: Long,
+        @retrofit2.http.Body courseUpdateRequest: CourseUpdateRequest
     ): Course
 }

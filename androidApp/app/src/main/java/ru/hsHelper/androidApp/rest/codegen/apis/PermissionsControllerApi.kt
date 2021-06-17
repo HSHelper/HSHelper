@@ -54,16 +54,25 @@ interface PermissionsControllerApi {
         @retrofit2.http.Path("id") id: Long
     ): Unit
     /**
+     * getAllPermissions
+     * The endpoint is owned by server REST api service owner
+     */
+    @Headers(
+        "X-Operation-ID: getAllPermissionsUsingGET"
+    )
+    @GET("permissions/")
+    suspend fun getAllPermissionsUsingGET(): List<Permissions>
+    /**
      * getAllRoles
      * The endpoint is owned by server REST api service owner
-     * @param permissionId permissionId (required)
+     * @param id id (required)
      */
     @Headers(
         "X-Operation-ID: getAllRolesUsingGET"
     )
-    @GET("permissions/{permissionId}/roles")
+    @GET("permissions/{id}/roles")
     suspend fun getAllRolesUsingGET(
-        @retrofit2.http.Path("permissionId") permissionId: Long
+        @retrofit2.http.Path("id") id: Long
     ): List<Role>
     /**
      * getPermissionById
@@ -85,8 +94,8 @@ interface PermissionsControllerApi {
     @Headers(
         "X-Operation-ID: getPermissionByPermissionTypeUsingGET"
     )
-    @GET("permissions/")
+    @GET("permissions/{permissionType}")
     suspend fun getPermissionByPermissionTypeUsingGET(
-        @retrofit2.http.Body permissionType: String
+        @retrofit2.http.Path("permissionType") permissionType: String
     ): Permissions
 }

@@ -32,14 +32,14 @@ interface NotificationControllerApi {
     /**
      * deletePermission
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param notificationId notificationId (required)
      */
     @Headers(
         "X-Operation-ID: deletePermissionUsingDELETE"
     )
-    @DELETE("notifications/{id}")
+    @DELETE("notifications/{notificationId}")
     suspend fun deletePermissionUsingDELETE(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("notificationId") notificationId: Long
     ): Unit
     /**
      * getAllNotifications
@@ -51,16 +51,28 @@ interface NotificationControllerApi {
     @GET("notifications/")
     suspend fun getAllNotificationsUsingGET(): List<Notification>
     /**
+     * getAllUsers
+     * The endpoint is owned by server REST api service owner
+     * @param notificationId notificationId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllUsersUsingGET"
+    )
+    @GET("notifications/{notificationId}/users")
+    suspend fun getAllUsersUsingGET(
+        @retrofit2.http.Path("notificationId") notificationId: Long
+    ): List<User>
+    /**
      * getNotificationById
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param notificationId notificationId (required)
      */
     @Headers(
         "X-Operation-ID: getNotificationByIdUsingGET"
     )
-    @GET("notifications/{id}")
+    @GET("notifications/{notificationId}")
     suspend fun getNotificationByIdUsingGET(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("notificationId") notificationId: Long
     ): Notification
     /**
      * getNotificationByNotificationType
@@ -74,16 +86,4 @@ interface NotificationControllerApi {
     suspend fun getNotificationByNotificationTypeUsingGET(
         @retrofit2.http.Path("notificationType") notificationType: String
     ): Notification
-    /**
-     * getUsers
-     * The endpoint is owned by server REST api service owner
-     * @param id id (required)
-     */
-    @Headers(
-        "X-Operation-ID: getUsersUsingGET"
-    )
-    @GET("notifications/{id}/users")
-    suspend fun getUsersUsingGET(
-        @retrofit2.http.Path("id") id: Long
-    ): List<User>
 }

@@ -5,43 +5,29 @@ import ru.hsHelper.androidApp.data.Path
 import ru.hsHelper.androidApp.rest.codegen.models.UserWork
 
 object ContentBuilder {
-    fun groupTable(allWorks: List<UserWork>, id: Long): MarksTableContent.Group {
-        val courseRows = allWorks.asSequence()
-            .filter { it.work.coursePart.course.group.id == id }
+    fun groupTable(groupWorks: List<UserWork>): MarksTableContent.Group {
+        val courseRows = groupWorks
             .groupBy { it.work.coursePart.course.id }
             .values
             .map(::courseRow)
         return MarksTableContent.Group(courseRows)
     }
 
-    fun courseTable(allWorks: List<UserWork>, id: Long): MarksTableContent.Course {
-        val coursePartRows = allWorks.asSequence()
-            .filter { it.work.coursePart.course.id == id }
+    fun courseTable(courseWorks: List<UserWork>): MarksTableContent.Course {
+        val coursePartRows = courseWorks
             .groupBy { it.work.coursePart.id }
             .values
             .map(::coursePartRow)
         return MarksTableContent.Course(coursePartRows)
     }
 
-    fun coursePartTable(allWorks: List<UserWork>, id: Long): MarksTableContent.CoursePart {
-        val workRows = allWorks.asSequence()
-            .filter { it.work.coursePart.id == id }
+    fun coursePartTable(coursePartWorks: List<UserWork>): MarksTableContent.CoursePart {
+        val workRows = coursePartWorks.asSequence()
             .sortedBy { it.work.deadline }
             .map(::workRow)
             .toList()
         return MarksTableContent.CoursePart(workRows)
     }
-
-    fun courseMark(allWorks: List<UserWork>, id: Long): MarkInterval {
-        val works = allWorks.filter { it.work.coursePart.course.id == id }
-        return courseMark(works)
-    }
-
-    fun coursePartMark(allWorks: List<UserWork>, id: Long): MarkInterval {
-        val works = allWorks.filter { it.work.coursePart.id == id }
-        return coursePartMark(works)
-    }
-
 
     private fun workRow(userWork: UserWork): MarksRowContent.Work {
         return MarksRowContent.Work(
@@ -83,7 +69,7 @@ object ContentBuilder {
         }
     }
 
-    private fun coursePartMark(works: List<UserWork>): MarkInterval {
+    fun coursePartMark(works: List<UserWork>): MarkInterval {
         if (works.isEmpty()) {
             return MarkInterval(10.0, 10.0, 0.0)
         }
@@ -96,7 +82,7 @@ object ContentBuilder {
         return coursePartMark(works) * works[0].work.coursePart.weight
     }
 
-    private fun courseMark(works: List<UserWork>): MarkInterval {
+    fun courseMark(works: List<UserWork>): MarkInterval {
         if (works.isEmpty()) {
             return MarkInterval(10.0, 10.0, 0.0)
         }

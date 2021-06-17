@@ -20,5 +20,5 @@ data class UserCreateRequest(
     @Json(name = "email") @field:Json(name = "email") var email: String,
     @Json(name = "firstName") @field:Json(name = "firstName") var firstName: String,
     @Json(name = "lastName") @field:Json(name = "lastName") var lastName: String,
-    @Json(name = "token") @field:Json(name = "token") var token: String
+    @Json(name = "token") @field:Json(name = "token") var token: String? = null
 )

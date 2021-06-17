@@ -75,14 +75,14 @@ interface RoleControllerApi {
     /**
      * deleteRole
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param roleId roleId (required)
      */
     @Headers(
         "X-Operation-ID: deleteRoleUsingDELETE"
     )
-    @DELETE("roles/{id}")
+    @DELETE("roles/{roleId}")
     suspend fun deleteRoleUsingDELETE(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("roleId") roleId: Long
     ): Unit
     /**
      * getAllPermissions
@@ -90,23 +90,32 @@ interface RoleControllerApi {
      * @param roleId roleId (required)
      */
     @Headers(
-        "X-Operation-ID: getAllPermissionsUsingGET"
+        "X-Operation-ID: getAllPermissionsUsingGET_1"
     )
     @GET("roles/{roleId}/permissions")
-    suspend fun getAllPermissionsUsingGET(
+    suspend fun getAllPermissionsUsingGET1(
         @retrofit2.http.Path("roleId") roleId: Long
     ): List<Permissions>
     /**
+     * getAllRoles
+     * The endpoint is owned by server REST api service owner
+     */
+    @Headers(
+        "X-Operation-ID: getAllRolesUsingGET_1"
+    )
+    @GET("roles/")
+    suspend fun getAllRolesUsingGET1(): List<Role>
+    /**
      * getRoleById
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param roleId roleId (required)
      */
     @Headers(
         "X-Operation-ID: getRoleByIdUsingGET"
     )
-    @GET("roles/{id}")
+    @GET("roles/{roleId}")
     suspend fun getRoleByIdUsingGET(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("roleId") roleId: Long
     ): Role
     /**
      * getRoleByRoleType
@@ -116,8 +125,8 @@ interface RoleControllerApi {
     @Headers(
         "X-Operation-ID: getRoleByRoleTypeUsingGET"
     )
-    @GET("roles/")
+    @GET("roles/{roleType}")
     suspend fun getRoleByRoleTypeUsingGET(
-        @retrofit2.http.Body roleType: String
+        @retrofit2.http.Path("roleType") roleType: String
     ): List<Role>
 }

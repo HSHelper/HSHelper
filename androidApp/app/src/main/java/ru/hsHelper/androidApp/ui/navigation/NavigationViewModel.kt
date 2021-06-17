@@ -28,7 +28,7 @@ class NavigationViewModel : ViewModel() {
 
         private suspend fun getMainButtonsGroups(): MutableList<ButtonData> {
             val userId = AuthProvider.currentUser!!.getRestId()
-            val groupRoles = RestProvider.userApi.getAllGroupsUsingGET(userId)
+            val groupRoles = RestProvider.userApi.getAllUserGroupRolesUsingGET1(userId)
             return groupRoles.asSequence()
                 .map { groupRole -> groupRole.group }
                 .map { group ->
@@ -41,7 +41,7 @@ class NavigationViewModel : ViewModel() {
         }
 
         private suspend fun getMainButtonsCourses(groupId: Long): MutableList<ButtonData> {
-            val allCourses = RestProvider.groupApi.getAllCoursesUsingGET(groupId)
+            val allCourses = RestProvider.groupApi.getAllCoursesUsingGET1(groupId)
             return allCourses.asSequence()
                 .map { course ->
                     ButtonData(

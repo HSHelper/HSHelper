@@ -24,17 +24,17 @@ interface PartitionControllerApi {
     /**
      * addUsers
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
      * @param partitionAddRequest partitionAddRequest (required)
+     * @param partitionId partitionId (required)
      */
     @Headers(
         "X-Operation-ID: addUsersUsingPUT_3",
       "Content-Type: application/json"
     )
-    @PUT("partitions/{id}/users")
+    @PUT("partitions/{partitionId}/users")
     suspend fun addUsersUsingPUT3(
-        @retrofit2.http.Path("id") id: Long,
-        @retrofit2.http.Body partitionAddRequest: PartitionAddRequest
+        @retrofit2.http.Body partitionAddRequest: PartitionAddRequest,
+        @retrofit2.http.Path("partitionId") partitionId: Long
     ): Partition
     /**
      * createPartition
@@ -52,28 +52,28 @@ interface PartitionControllerApi {
     /**
      * deletePartition
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param partitionId partitionId (required)
      */
     @Headers(
         "X-Operation-ID: deletePartitionUsingDELETE"
     )
-    @DELETE("partitions/{id}")
+    @DELETE("partitions/{partitionId}")
     suspend fun deletePartitionUsingDELETE(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("partitionId") partitionId: Long
     ): Unit
     /**
      * deleteUsers
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param partitionId partitionId (required)
      * @param userIds userIds (required)
      */
     @Headers(
         "X-Operation-ID: deleteUsersUsingPOST_3",
       "Content-Type: application/json"
     )
-    @POST("partitions/{id}/users")
+    @POST("partitions/{partitionId}/users")
     suspend fun deleteUsersUsingPOST3(
-        @retrofit2.http.Path("id") id: Long,
+        @retrofit2.http.Path("partitionId") partitionId: Long,
         @retrofit2.http.Body userIds: List<Long>
     ): Partition
     /**
@@ -82,10 +82,10 @@ interface PartitionControllerApi {
      * @param partitionId partitionId (required)
      */
     @Headers(
-        "X-Operation-ID: getAllCoursePartsUsingGET_1"
+        "X-Operation-ID: getAllCoursePartsUsingGET_2"
     )
     @GET("partitions/{partitionId}/course-parts")
-    suspend fun getAllCoursePartsUsingGET1(
+    suspend fun getAllCoursePartsUsingGET2(
         @retrofit2.http.Path("partitionId") partitionId: Long
     ): List<CoursePart>
     /**
@@ -101,65 +101,65 @@ interface PartitionControllerApi {
         @retrofit2.http.Path("partitionId") partitionId: Long
     ): List<Course>
     /**
-     * getAllUsers
+     * getAllPartitions
+     * The endpoint is owned by server REST api service owner
+     */
+    @Headers(
+        "X-Operation-ID: getAllPartitionsUsingGET_1"
+    )
+    @GET("partitions/")
+    suspend fun getAllPartitionsUsingGET1(): List<Partition>
+    /**
+     * getAllUserToPartitions
      * The endpoint is owned by server REST api service owner
      * @param partitionId partitionId (required)
      */
     @Headers(
-        "X-Operation-ID: getAllUsersUsingGET_3"
+        "X-Operation-ID: getAllUserToPartitionsUsingGET"
     )
     @GET("partitions/{partitionId}/users")
-    suspend fun getAllUsersUsingGET3(
+    suspend fun getAllUserToPartitionsUsingGET(
         @retrofit2.http.Path("partitionId") partitionId: Long
     ): List<UserToPartition>
     /**
-     * getAll
-     * The endpoint is owned by server REST api service owner
-     */
-    @Headers(
-        "X-Operation-ID: getAllUsingGET_3"
-    )
-    @GET("partitions/")
-    suspend fun getAllUsingGET3(): List<Partition>
-    /**
      * getPartition
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param partitionId partitionId (required)
      */
     @Headers(
         "X-Operation-ID: getPartitionUsingGET"
     )
-    @GET("partitions/{id}")
+    @GET("partitions/{partitionId}")
     suspend fun getPartitionUsingGET(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("partitionId") partitionId: Long
     ): Partition
     /**
-     * getUser
+     * getUserToPartition
      * The endpoint is owned by server REST api service owner
      * @param partitionId partitionId (required)
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getUserUsingGET_3"
+        "X-Operation-ID: getUserToPartitionUsingGET"
     )
     @GET("partitions/{partitionId}/users/{userId}")
-    suspend fun getUserUsingGET3(
+    suspend fun getUserToPartitionUsingGET(
         @retrofit2.http.Path("partitionId") partitionId: Long,
         @retrofit2.http.Path("userId") userId: Long
     ): UserToPartition
     /**
      * updatePartition
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param partitionId partitionId (required)
      * @param partitionUpdateRequest partitionUpdateRequest (required)
      */
     @Headers(
         "X-Operation-ID: updatePartitionUsingPUT",
       "Content-Type: application/json"
     )
-    @PUT("partitions/{id}")
+    @PUT("partitions/{partitionId}")
     suspend fun updatePartitionUsingPUT(
-        @retrofit2.http.Path("id") id: Long,
+        @retrofit2.http.Path("partitionId") partitionId: Long,
         @retrofit2.http.Body partitionUpdateRequest: PartitionUpdateRequest
     ): Partition
 }

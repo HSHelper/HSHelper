@@ -23,17 +23,17 @@ interface WorkControllerApi {
     /**
      * addUsers
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
      * @param objectsWithSolutionsAddRequest objectsWithSolutionsAddRequest (required)
+     * @param workId workId (required)
      */
     @Headers(
         "X-Operation-ID: addUsersUsingPUT_4",
       "Content-Type: application/json"
     )
-    @PUT("works/{id}/users")
+    @PUT("works/{workId}/users")
     suspend fun addUsersUsingPUT4(
-        @retrofit2.http.Path("id") id: Long,
-        @retrofit2.http.Body objectsWithSolutionsAddRequest: ObjectsWithSolutionsAddRequest
+        @retrofit2.http.Body objectsWithSolutionsAddRequest: ObjectsWithSolutionsAddRequest,
+        @retrofit2.http.Path("workId") workId: Long
     ): Work
     /**
      * createWork
@@ -51,76 +51,76 @@ interface WorkControllerApi {
     /**
      * deleteUsers
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
      * @param userIds userIds (required)
+     * @param workId workId (required)
      */
     @Headers(
         "X-Operation-ID: deleteUsersUsingPOST_4",
       "Content-Type: application/json"
     )
-    @POST("works/{id}/users")
+    @POST("works/{workId}/users")
     suspend fun deleteUsersUsingPOST4(
-        @retrofit2.http.Path("id") id: Long,
-        @retrofit2.http.Body userIds: List<Long>
+        @retrofit2.http.Body userIds: List<Long>,
+        @retrofit2.http.Path("workId") workId: Long
     ): Work
     /**
      * deleteWork
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param workId workId (required)
      */
     @Headers(
         "X-Operation-ID: deleteWorkUsingDELETE"
     )
-    @DELETE("works/{id}")
+    @DELETE("works/{workId}")
     suspend fun deleteWorkUsingDELETE(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("workId") workId: Long
     ): Unit
     /**
-     * getAllUsers
+     * getAllUserWorks
      * The endpoint is owned by server REST api service owner
      * @param workId workId (required)
      */
     @Headers(
-        "X-Operation-ID: getAllUsersUsingGET_4"
+        "X-Operation-ID: getAllUserWorksUsingGET_1"
     )
     @GET("works/{workId}/users")
-    suspend fun getAllUsersUsingGET4(
+    suspend fun getAllUserWorksUsingGET1(
         @retrofit2.http.Path("workId") workId: Long
     ): List<UserWork>
     /**
-     * getAll
+     * getAllWorks
      * The endpoint is owned by server REST api service owner
      */
     @Headers(
-        "X-Operation-ID: getAllUsingGET_5"
+        "X-Operation-ID: getAllWorksUsingGET_1"
     )
     @GET("works/")
-    suspend fun getAllUsingGET5(): List<Work>
+    suspend fun getAllWorksUsingGET1(): List<Work>
     /**
-     * getUser
+     * getUserWork
      * The endpoint is owned by server REST api service owner
      * @param userId userId (required)
      * @param workId workId (required)
      */
     @Headers(
-        "X-Operation-ID: getUserUsingGET_5"
+        "X-Operation-ID: getUserWorkUsingGET_1"
     )
     @GET("works/{workId}/users/{userId}")
-    suspend fun getUserUsingGET5(
+    suspend fun getUserWorkUsingGET1(
         @retrofit2.http.Path("userId") userId: Long,
         @retrofit2.http.Path("workId") workId: Long
     ): UserWork
     /**
      * getWork
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param workId workId (required)
      */
     @Headers(
-        "X-Operation-ID: getWorkUsingGET_1"
+        "X-Operation-ID: getWorkUsingGET"
     )
-    @GET("works/{id}")
-    suspend fun getWorkUsingGET1(
-        @retrofit2.http.Path("id") id: Long
+    @GET("works/{workId}")
+    suspend fun getWorkUsingGET(
+        @retrofit2.http.Path("workId") workId: Long
     ): Work
     /**
      * updateUserWork
@@ -142,16 +142,16 @@ interface WorkControllerApi {
     /**
      * updateWork
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param workId workId (required)
      * @param workUpdateRequest workUpdateRequest (required)
      */
     @Headers(
         "X-Operation-ID: updateWorkUsingPUT",
       "Content-Type: application/json"
     )
-    @PUT("works/{id}")
+    @PUT("works/{workId}")
     suspend fun updateWorkUsingPUT(
-        @retrofit2.http.Path("id") id: Long,
+        @retrofit2.http.Path("workId") workId: Long,
         @retrofit2.http.Body workUpdateRequest: WorkUpdateRequest
     ): Work
 }

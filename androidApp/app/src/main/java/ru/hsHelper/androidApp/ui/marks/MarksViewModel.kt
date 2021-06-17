@@ -20,19 +20,22 @@ class MarksViewModel : ViewModel() {
 
     fun postData(path: Path) = viewModelScope.launch {
         val userId = AuthProvider.currentUser!!.getRestId()
-        val allWorks = RestProvider.userApi.getAllWorksUsingGET1(userId)
         when (path) {
             is Path.Group -> {
+                val allWorks = RestProvider.userApi.getAllUserWorksByGroupUsingGET(path.id, userId)
                 _summary.postValue(null)
-                _tableContent.postValue(ContentBuilder.groupTable(allWorks, path.id))
+                _tableContent.postValue(ContentBuilder.groupTable(allWorks))
             }
             is Path.Course -> {
-                _summary.postValue(ContentBuilder.courseMark(allWorks, path.id))
-                _tableContent.postValue(ContentBuilder.courseTable(allWorks, path.id))
+                val allWorks = RestProvider.userApi.getAllUserWorksByCourseUsingGET(path.id, userId)
+                _summary.postValue(ContentBuilder.courseMark(allWorks))
+                _tableContent.postValue(ContentBuilder.courseTable(allWorks))
             }
             is Path.CoursePart -> {
-                _summary.postValue(ContentBuilder.coursePartMark(allWorks, path.id))
-                _tableContent.postValue(ContentBuilder.coursePartTable(allWorks, path.id))
+                val allWorks =
+                    RestProvider.userApi.getAllUserWorksByCoursePartUsingGET(path.id, userId)
+                _summary.postValue(ContentBuilder.coursePartMark(allWorks))
+                _tableContent.postValue(ContentBuilder.coursePartTable(allWorks))
             }
             is Path.Root -> {
                 Log.e("Bad path", "MarksViewModel: Root path")

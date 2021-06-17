@@ -30,47 +30,47 @@ interface UserControllerApi {
     /**
      * addCourseParts
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
      * @param objectsWithRoleAddRequest objectsWithRoleAddRequest (required)
+     * @param userId userId (required)
      */
     @Headers(
         "X-Operation-ID: addCoursePartsUsingPUT",
       "Content-Type: application/json"
     )
-    @PUT("users/{id}/course-parts")
+    @PUT("users/{userId}/course-parts")
     suspend fun addCoursePartsUsingPUT(
-        @retrofit2.http.Path("id") id: Long,
-        @retrofit2.http.Body objectsWithRoleAddRequest: ObjectsWithRoleAddRequest
+        @retrofit2.http.Body objectsWithRoleAddRequest: ObjectsWithRoleAddRequest,
+        @retrofit2.http.Path("userId") userId: Long
     ): User
     /**
      * addCourses
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
      * @param objectsWithRoleAddRequest objectsWithRoleAddRequest (required)
+     * @param userId userId (required)
      */
     @Headers(
         "X-Operation-ID: addCoursesUsingPUT",
       "Content-Type: application/json"
     )
-    @PUT("users/{id}/courses")
+    @PUT("users/{userId}/courses")
     suspend fun addCoursesUsingPUT(
-        @retrofit2.http.Path("id") id: Long,
-        @retrofit2.http.Body objectsWithRoleAddRequest: ObjectsWithRoleAddRequest
+        @retrofit2.http.Body objectsWithRoleAddRequest: ObjectsWithRoleAddRequest,
+        @retrofit2.http.Path("userId") userId: Long
     ): User
     /**
      * addGroups
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
      * @param objectsWithRoleAddRequest objectsWithRoleAddRequest (required)
+     * @param userId userId (required)
      */
     @Headers(
         "X-Operation-ID: addGroupsUsingPUT",
       "Content-Type: application/json"
     )
-    @PUT("users/{id}/groups")
+    @PUT("users/{userId}/groups")
     suspend fun addGroupsUsingPUT(
-        @retrofit2.http.Path("id") id: Long,
-        @retrofit2.http.Body objectsWithRoleAddRequest: ObjectsWithRoleAddRequest
+        @retrofit2.http.Body objectsWithRoleAddRequest: ObjectsWithRoleAddRequest,
+        @retrofit2.http.Path("userId") userId: Long
     ): User
     /**
      * addNotifications
@@ -90,32 +90,32 @@ interface UserControllerApi {
     /**
      * addToPartitions
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
      * @param partitionAddRequest partitionAddRequest (required)
+     * @param userId userId (required)
      */
     @Headers(
         "X-Operation-ID: addToPartitionsUsingPUT",
       "Content-Type: application/json"
     )
-    @PUT("users/{id}/partitions")
+    @PUT("users/{userId}/partitions")
     suspend fun addToPartitionsUsingPUT(
-        @retrofit2.http.Path("id") id: Long,
-        @retrofit2.http.Body partitionAddRequest: PartitionAddRequest
+        @retrofit2.http.Body partitionAddRequest: PartitionAddRequest,
+        @retrofit2.http.Path("userId") userId: Long
     ): User
     /**
      * addWorks
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
      * @param objectsWithSolutionsAddRequest objectsWithSolutionsAddRequest (required)
+     * @param userId userId (required)
      */
     @Headers(
         "X-Operation-ID: addWorksUsingPUT",
       "Content-Type: application/json"
     )
-    @PUT("users/{id}/works")
+    @PUT("users/{userId}/works")
     suspend fun addWorksUsingPUT(
-        @retrofit2.http.Path("id") id: Long,
-        @retrofit2.http.Body objectsWithSolutionsAddRequest: ObjectsWithSolutionsAddRequest
+        @retrofit2.http.Body objectsWithSolutionsAddRequest: ObjectsWithSolutionsAddRequest,
+        @retrofit2.http.Path("userId") userId: Long
     ): User
     /**
      * createUser
@@ -134,46 +134,46 @@ interface UserControllerApi {
      * deleteCourseParts
      * The endpoint is owned by server REST api service owner
      * @param coursePartIds coursePartIds (required)
-     * @param id id (required)
+     * @param userId userId (required)
      */
     @Headers(
         "X-Operation-ID: deleteCoursePartsUsingPOST",
       "Content-Type: application/json"
     )
-    @POST("users/{id}/course-parts")
+    @POST("users/{userId}/course-parts")
     suspend fun deleteCoursePartsUsingPOST(
         @retrofit2.http.Body coursePartIds: List<Long>,
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("userId") userId: Long
     ): User
     /**
      * deleteCourses
      * The endpoint is owned by server REST api service owner
      * @param courseIds courseIds (required)
-     * @param id id (required)
+     * @param userId userId (required)
      */
     @Headers(
         "X-Operation-ID: deleteCoursesUsingPOST",
       "Content-Type: application/json"
     )
-    @POST("users/{id}/courses")
+    @POST("users/{userId}/courses")
     suspend fun deleteCoursesUsingPOST(
         @retrofit2.http.Body courseIds: List<Long>,
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("userId") userId: Long
     ): User
     /**
      * deleteGroups
      * The endpoint is owned by server REST api service owner
      * @param groupIds groupIds (required)
-     * @param id id (required)
+     * @param userId userId (required)
      */
     @Headers(
         "X-Operation-ID: deleteGroupsUsingPOST",
       "Content-Type: application/json"
     )
-    @POST("users/{id}/groups")
+    @POST("users/{userId}/groups")
     suspend fun deleteGroupsUsingPOST(
         @retrofit2.http.Body groupIds: List<Long>,
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("userId") userId: Long
     ): User
     /**
      * deleteNotifications
@@ -193,182 +193,168 @@ interface UserControllerApi {
     /**
      * deletePartitions
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
      * @param partitionIds partitionIds (required)
+     * @param userId userId (required)
      */
     @Headers(
         "X-Operation-ID: deletePartitionsUsingPOST",
       "Content-Type: application/json"
     )
-    @POST("users/{id}/partitions")
+    @POST("users/{userId}/partitions")
     suspend fun deletePartitionsUsingPOST(
-        @retrofit2.http.Path("id") id: Long,
-        @retrofit2.http.Body partitionIds: List<Long>
+        @retrofit2.http.Body partitionIds: List<Long>,
+        @retrofit2.http.Path("userId") userId: Long
     ): User
     /**
      * deleteUser
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param userId userId (required)
      */
     @Headers(
         "X-Operation-ID: deleteUserUsingDELETE"
     )
-    @DELETE("users/{id}")
+    @DELETE("users/{userId}")
     suspend fun deleteUserUsingDELETE(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("userId") userId: Long
     ): Unit
     /**
      * deleteWorks
      * The endpoint is owned by server REST api service owner
      * @param groupIds groupIds (required)
-     * @param id id (required)
+     * @param userId userId (required)
      */
     @Headers(
         "X-Operation-ID: deleteWorksUsingPOST",
       "Content-Type: application/json"
     )
-    @POST("users/{id}/works")
+    @POST("users/{userId}/works")
     suspend fun deleteWorksUsingPOST(
         @retrofit2.http.Body groupIds: List<Long>,
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("userId") userId: Long
     ): User
-    /**
-     * getAllCourseParts
-     * The endpoint is owned by server REST api service owner
-     * @param userId userId (required)
-     */
-    @Headers(
-        "X-Operation-ID: getAllCoursePartsUsingGET_2"
-    )
-    @GET("users/{userId}/course-parts")
-    suspend fun getAllCoursePartsUsingGET2(
-        @retrofit2.http.Path("userId") userId: Long
-    ): List<UserCoursePartRole>
-    /**
-     * getAllCourses
-     * The endpoint is owned by server REST api service owner
-     * @param userId userId (required)
-     */
-    @Headers(
-        "X-Operation-ID: getAllCoursesUsingGET_1"
-    )
-    @GET("users/{userId}/courses")
-    suspend fun getAllCoursesUsingGET1(
-        @retrofit2.http.Path("userId") userId: Long
-    ): List<UserCourseRole>
-    /**
-     * getAllGroups
-     * The endpoint is owned by server REST api service owner
-     * @param userId userId (required)
-     */
-    @Headers(
-        "X-Operation-ID: getAllGroupsUsingGET"
-    )
-    @GET("users/{userId}/groups")
-    suspend fun getAllGroupsUsingGET(
-        @retrofit2.http.Path("userId") userId: Long
-    ): List<UserGroupRole>
     /**
      * getAllNotifications
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param userId userId (required)
      */
     @Headers(
         "X-Operation-ID: getAllNotificationsUsingGET_1"
     )
-    @GET("users/{id}/notifications")
+    @GET("users/{userId}/notifications")
     suspend fun getAllNotificationsUsingGET1(
-        @retrofit2.http.Path("id") id: Long
+        @retrofit2.http.Path("userId") userId: Long
     ): List<Notification>
     /**
-     * getAllPartitions
+     * getAllUserCoursePartRoles
      * The endpoint is owned by server REST api service owner
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getAllPartitionsUsingGET_1"
+        "X-Operation-ID: getAllUserCoursePartRolesUsingGET_1"
+    )
+    @GET("users/{userId}/course-parts")
+    suspend fun getAllUserCoursePartRolesUsingGET1(
+        @retrofit2.http.Path("userId") userId: Long
+    ): List<UserCoursePartRole>
+    /**
+     * getAllUserCourseRoles
+     * The endpoint is owned by server REST api service owner
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllUserCourseRolesUsingGET_1"
+    )
+    @GET("users/{userId}/courses")
+    suspend fun getAllUserCourseRolesUsingGET1(
+        @retrofit2.http.Path("userId") userId: Long
+    ): List<UserCourseRole>
+    /**
+     * getAllUserGroupRoles
+     * The endpoint is owned by server REST api service owner
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllUserGroupRolesUsingGET_1"
+    )
+    @GET("users/{userId}/groups")
+    suspend fun getAllUserGroupRolesUsingGET1(
+        @retrofit2.http.Path("userId") userId: Long
+    ): List<UserGroupRole>
+    /**
+     * getAllUserToPartitions
+     * The endpoint is owned by server REST api service owner
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getAllUserToPartitionsUsingGET_1"
     )
     @GET("users/{userId}/partitions")
-    suspend fun getAllPartitionsUsingGET1(
+    suspend fun getAllUserToPartitionsUsingGET1(
         @retrofit2.http.Path("userId") userId: Long
     ): List<UserToPartition>
     /**
-     * getAll
-     * The endpoint is owned by server REST api service owner
-     */
-    @Headers(
-        "X-Operation-ID: getAllUsingGET_4"
-    )
-    @GET("users/")
-    suspend fun getAllUsingGET4(): List<User>
-    /**
-     * getAllWorks
-     * The endpoint is owned by server REST api service owner
-     * @param userId userId (required)
-     */
-    @Headers(
-        "X-Operation-ID: getAllWorksUsingGET_1"
-    )
-    @GET("users/{userId}/works")
-    suspend fun getAllWorksUsingGET1(
-        @retrofit2.http.Path("userId") userId: Long
-    ): List<UserWork>
-    /**
-     * getCoursePart
+     * getAllUserWorksByCoursePart
      * The endpoint is owned by server REST api service owner
      * @param coursePartId coursePartId (required)
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getCoursePartUsingGET_1"
+        "X-Operation-ID: getAllUserWorksByCoursePartUsingGET"
     )
-    @GET("users/{userId}/course-parts/{coursePartId}")
-    suspend fun getCoursePartUsingGET1(
+    @GET("users/{userId}/course-parts/{coursePartId}/works")
+    suspend fun getAllUserWorksByCoursePartUsingGET(
         @retrofit2.http.Path("coursePartId") coursePartId: Long,
         @retrofit2.http.Path("userId") userId: Long
-    ): UserCoursePartRole
+    ): List<UserWork>
     /**
-     * getCourse
+     * getAllUserWorksByCourse
      * The endpoint is owned by server REST api service owner
      * @param courseId courseId (required)
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getCourseUsingGET_1"
+        "X-Operation-ID: getAllUserWorksByCourseUsingGET"
     )
-    @GET("users/{userId}/courses/{courseId}")
-    suspend fun getCourseUsingGET1(
+    @GET("users/{userId}/courses/{courseId}/works")
+    suspend fun getAllUserWorksByCourseUsingGET(
         @retrofit2.http.Path("courseId") courseId: Long,
         @retrofit2.http.Path("userId") userId: Long
-    ): UserCourseRole
+    ): List<UserWork>
     /**
-     * getGroup
+     * getAllUserWorksByGroup
      * The endpoint is owned by server REST api service owner
      * @param groupId groupId (required)
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getGroupUsingGET_1"
+        "X-Operation-ID: getAllUserWorksByGroupUsingGET"
     )
-    @GET("users/{userId}/groups/{groupId}")
-    suspend fun getGroupUsingGET1(
+    @GET("users/{userId}/groups/{groupId}/works")
+    suspend fun getAllUserWorksByGroupUsingGET(
         @retrofit2.http.Path("groupId") groupId: Long,
         @retrofit2.http.Path("userId") userId: Long
-    ): UserGroupRole
+    ): List<UserWork>
     /**
-     * getPartition
+     * getAllUserWorks
      * The endpoint is owned by server REST api service owner
-     * @param partitionId partitionId (required)
      * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getPartitionUsingGET_1"
+        "X-Operation-ID: getAllUserWorksUsingGET"
     )
-    @GET("users/{userId}/partitions/{partitionId}")
-    suspend fun getPartitionUsingGET1(
-        @retrofit2.http.Path("partitionId") partitionId: Long,
+    @GET("users/{userId}/works")
+    suspend fun getAllUserWorksUsingGET(
         @retrofit2.http.Path("userId") userId: Long
-    ): UserToPartition
+    ): List<UserWork>
+    /**
+     * getAllUsers
+     * The endpoint is owned by server REST api service owner
+     */
+    @Headers(
+        "X-Operation-ID: getAllUsersUsingGET_1"
+    )
+    @GET("users/")
+    suspend fun getAllUsersUsingGET1(): List<User>
     /**
      * getUserByEmail
      * The endpoint is owned by server REST api service owner
@@ -382,44 +368,100 @@ interface UserControllerApi {
         @retrofit2.http.Query("email") email: String
     ): User
     /**
-     * getUser
+     * getUserCoursePartRole
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param coursePartId coursePartId (required)
+     * @param userId userId (required)
      */
     @Headers(
-        "X-Operation-ID: getUserUsingGET_4"
+        "X-Operation-ID: getUserCoursePartRoleUsingGET_1"
     )
-    @GET("users/{id}")
-    suspend fun getUserUsingGET4(
-        @retrofit2.http.Path("id") id: Long
+    @GET("users/{userId}/course-parts/{coursePartId}")
+    suspend fun getUserCoursePartRoleUsingGET1(
+        @retrofit2.http.Path("coursePartId") coursePartId: Long,
+        @retrofit2.http.Path("userId") userId: Long
+    ): UserCoursePartRole
+    /**
+     * getUserCourseRole
+     * The endpoint is owned by server REST api service owner
+     * @param courseId courseId (required)
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getUserCourseRoleUsingGET_1"
+    )
+    @GET("users/{userId}/courses/{courseId}")
+    suspend fun getUserCourseRoleUsingGET1(
+        @retrofit2.http.Path("courseId") courseId: Long,
+        @retrofit2.http.Path("userId") userId: Long
+    ): UserCourseRole
+    /**
+     * getUserGroupRole
+     * The endpoint is owned by server REST api service owner
+     * @param groupId groupId (required)
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getUserGroupRoleUsingGET_1"
+    )
+    @GET("users/{userId}/groups/{groupId}")
+    suspend fun getUserGroupRoleUsingGET1(
+        @retrofit2.http.Path("groupId") groupId: Long,
+        @retrofit2.http.Path("userId") userId: Long
+    ): UserGroupRole
+    /**
+     * getUserToPartition
+     * The endpoint is owned by server REST api service owner
+     * @param partitionId partitionId (required)
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getUserToPartitionUsingGET_1"
+    )
+    @GET("users/{userId}/partitions/{partitionId}")
+    suspend fun getUserToPartitionUsingGET1(
+        @retrofit2.http.Path("partitionId") partitionId: Long,
+        @retrofit2.http.Path("userId") userId: Long
+    ): UserToPartition
+    /**
+     * getUser
+     * The endpoint is owned by server REST api service owner
+     * @param userId userId (required)
+     */
+    @Headers(
+        "X-Operation-ID: getUserUsingGET"
+    )
+    @GET("users/{userId}")
+    suspend fun getUserUsingGET(
+        @retrofit2.http.Path("userId") userId: Long
     ): User
     /**
-     * getWork
+     * getUserWork
      * The endpoint is owned by server REST api service owner
      * @param userId userId (required)
      * @param workId workId (required)
      */
     @Headers(
-        "X-Operation-ID: getWorkUsingGET"
+        "X-Operation-ID: getUserWorkUsingGET"
     )
     @GET("users/{userId}/works/{workId}")
-    suspend fun getWorkUsingGET(
+    suspend fun getUserWorkUsingGET(
         @retrofit2.http.Path("userId") userId: Long,
         @retrofit2.http.Path("workId") workId: Long
     ): UserWork
     /**
      * updateUser
      * The endpoint is owned by server REST api service owner
-     * @param id id (required)
+     * @param userId userId (required)
      * @param userUpdateRequest userUpdateRequest (required)
      */
     @Headers(
         "X-Operation-ID: updateUserUsingPUT",
       "Content-Type: application/json"
     )
-    @PUT("users/{id}")
+    @PUT("users/{userId}")
     suspend fun updateUserUsingPUT(
-        @retrofit2.http.Path("id") id: Long,
+        @retrofit2.http.Path("userId") userId: Long,
         @retrofit2.http.Body userUpdateRequest: UserUpdateRequest
     ): User
     /**
