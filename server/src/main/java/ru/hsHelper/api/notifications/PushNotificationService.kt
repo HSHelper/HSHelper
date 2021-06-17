@@ -27,7 +27,7 @@ class PushNotificationService @Autowired constructor(
             firebase,
             "New work",
             "Created new work: ${work.name}",
-            mapOf(Pair("workId", work.id.toString()))
+            mapOf(Pair("workId", work.id.toString()), Pair("newWork", ""))
         )
         students(work.coursePart)
             .filter { user: User -> user.notifications.contains(workUpdate) }
