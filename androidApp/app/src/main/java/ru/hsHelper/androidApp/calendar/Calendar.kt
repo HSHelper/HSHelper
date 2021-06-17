@@ -87,48 +87,4 @@ object Calendar {
         }
         return null
     }
-
-    object DEBUG {
-        fun showAllCalendars(activity: ComponentActivity) {
-            activity.withPermissions(
-                arrayOf(
-                    Manifest.permission.READ_CALENDAR,
-                    Manifest.permission.WRITE_CALENDAR
-                )
-            ) {
-                val EVENT_PROJECTION: Array<String> = arrayOf(
-                    CalendarContract.Calendars._ID,                     // 0
-                    CalendarContract.Calendars.NAME,                    // 1
-                    CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,   // 2
-                    CalendarContract.Calendars.OWNER_ACCOUNT            // 3
-                )
-
-                val PROJECTION_ID_INDEX: Int = 0
-                val PROJECTION_ACCOUNT_NAME_INDEX: Int = 1
-                val PROJECTION_DISPLAY_NAME_INDEX: Int = 2
-                val PROJECTION_OWNER_ACCOUNT_INDEX: Int = 3
-
-                // Run query
-                val uri: Uri = CalendarContract.Calendars.CONTENT_URI
-                val cur: Cursor? =
-                    activity.contentResolver.query(uri, EVENT_PROJECTION, null, null, null)
-
-                if (cur != null) {
-                    Log.i("Calendar", "iterating:")
-                    while (cur.moveToNext()) {
-                        val calID: Long = cur.getLong(PROJECTION_ID_INDEX)
-                        val displayName: String = cur.getString(PROJECTION_DISPLAY_NAME_INDEX)
-                        val accountName: String = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX)
-                        val ownerName: String = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX)
-                        println("$calID | $displayName | $accountName | $ownerName")
-                    }
-                } else {
-                    Log.i("Calendar", "Cursor == null")
-                }
-                cur?.close()
-
-                println("ID = ${getCalendarDefaultId(activity)}")
-            }
-        }
-    }
 }
