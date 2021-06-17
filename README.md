@@ -11,9 +11,9 @@ LMS для очного формата обучения
 Скриншоты Android-приложения:
 
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/34661376/122398139-411c3d80-cf82-11eb-859d-8fa2ae3d7452.jpg" width="220" /> 
-  <img src="https://user-images.githubusercontent.com/34661376/122398132-3feb1080-cf82-11eb-87f4-2a1693b5a5d4.jpg" width="220" />
-  <img src="https://user-images.githubusercontent.com/34661376/122398046-2ba71380-cf82-11eb-9b87-7537b835f54b.jpg" width="220" />
-  <img src="https://user-images.githubusercontent.com/34661376/122398123-3d88b680-cf82-11eb-9b41-d7ea76cafbc9.jpg" width="220" />
+  <img src="https://user-images.githubusercontent.com/34661376/122398139-411c3d80-cf82-11eb-859d-8fa2ae3d7452.jpg" width="390" /> 
+  <img src="https://user-images.githubusercontent.com/34661376/122398132-3feb1080-cf82-11eb-87f4-2a1693b5a5d4.jpg" width="390" />
+  <img src="https://user-images.githubusercontent.com/34661376/122398046-2ba71380-cf82-11eb-9b87-7537b835f54b.jpg" width="390" />
+  <img src="https://user-images.githubusercontent.com/34661376/122398123-3d88b680-cf82-11eb-9b41-d7ea76cafbc9.jpg" width="390" />
 </p>
 
