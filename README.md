@@ -17,3 +17,10 @@ LMS для очного формата обучения
   <img src="https://user-images.githubusercontent.com/34661376/122398123-3d88b680-cf82-11eb-9b41-d7ea76cafbc9.jpg" width="390" />
 </p>
 
+## p.s.
+
+Так как в клиенте отсутствуют функции администратора, то чтобы увидеть какие-то курсы, заходите под: 
+
+login: roma@gmail.com
+
+password: password
