@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.google.firebase.auth.FirebaseAuth
 import ru.hsHelper.R
+import ru.hsHelper.androidApp.auth.AuthProvider
 import ru.hsHelper.androidApp.ui.initial.InitialActivity
 import ru.hsHelper.androidApp.ui.settings.observers.MarksNotificationObserver
 import ru.hsHelper.androidApp.ui.settings.observers.PersonalDataObserver
@@ -74,7 +74,7 @@ class SettingsActivity : AppCompatActivity() {
                 .setOnPreferenceClickListener {
                     try {
                         this.activity?.finishAffinity()
-                        FirebaseAuth.getInstance().signOut()
+                        AuthProvider.signOut()
                         startActivity(Intent(this.activity, InitialActivity::class.java))
                         true
                     } catch (e: Exception) {
