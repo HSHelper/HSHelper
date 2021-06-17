@@ -72,7 +72,7 @@ object AuthProvider {
                     email,
                     firstName ?: "First name",
                     lastName ?: "Last name",
-                    "empty"
+                    null
                 )
             )
         }
