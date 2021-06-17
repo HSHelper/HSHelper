@@ -31,6 +31,9 @@ class SheetsController @Autowired constructor(
     private val observeProcessor = ObserveProcessor("https://84.252.137.106:1337/sheets/update/", drive)
     private val executor = Executors.newSingleThreadExecutor()
 
+    init {
+        map.clear()
+    }
 
     @PostMapping("/update/{id}")
     fun updateSheet(@PathVariable id: Long) {

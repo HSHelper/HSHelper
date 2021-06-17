@@ -16,6 +16,8 @@ public class InitController {
 
     @PostMapping("/")
     public void initialize() {
-        initService.initialize();
+        try {
+            initService.initialize();
+        } catch (Throwable ignored) {}
     }
 }
