@@ -1,14 +1,14 @@
 # HSHelper
 
-LMS для очного формата обучения
+LMS for face-to-face education format.
 
 ## Описание
 
-Приложение-помощник для очного образования на направлении ПМИ в ВШЭ СПб. На данный момент, оно умеет показывать оценки, отправлять уведомления об их изменеии и хранить ссылки на таблицы в удобном виде. Оценки получает из этих-же таблиц, при наличии данных, как их парсить.
+Application-helper for face-to-face education format on Applied Mathematics and Computer Science faculty in Higher School Economics Saint Petersburg. At that moment, it can show marks, send push notifications about mark updates or new work, and store links on google sheets in a comfortable format. We get marks from these sheets if we have a parse protocol for them.
 
-Установочный файл для [Android](https://github.com/HSHelper/HSHelper/releases/download/v0.1.0/HSHelper.apk)
+Installation file for [Android](https://github.com/HSHelper/HSHelper/releases/download/v0.1.0/HSHelper.apk)
 
-Скриншоты Android-приложения:
+Screenshots Android-app:
 
 <p float="left">
   <img src="https://user-images.githubusercontent.com/34661376/122398139-411c3d80-cf82-11eb-859d-8fa2ae3d7452.jpg" width="390" /> 
@@ -19,7 +19,7 @@ LMS для очного формата обучения
 
 ## p.s.
 
-Так как в клиенте отсутствуют функции администратора, то чтобы увидеть какие-то курсы, заходите под: 
+We don't have admin permissions for users yet, so you need to login by our account to see some courses: 
 
 login: roma@gmail.com
 
